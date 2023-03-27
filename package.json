@@ -14,7 +14,7 @@
     "test": "jest"
   },
   "lint-staged": {
-    "*.{ts,js,vue}": "lint"
+    "*.{ts,js,vue}": "yarn lint"
   },
   "dependencies": {
     "core-js": "^3.25.3",
@@ -48,5 +48,8 @@
     "prettier": "^2.8.7",
     "ts-jest": "^29.0.3",
     "vue-jest": "^3.0.4"
+  },
+  "prettier": {
+
   }
 }
