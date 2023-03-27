@@ -16,6 +16,17 @@ export default {
     ]
   },
 
+  // All options for tailwindcss - https://tailwindcss.nuxtjs.org/options
+  tailwindcss: {
+    cssPath: '~/assets/css/tailwind.css',
+    configPath: 'tailwind.config',
+    exposeConfig: false,
+    exposeLevel: 2,
+    config: {},
+    injectPosition: 'first',
+    viewer: true,
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
