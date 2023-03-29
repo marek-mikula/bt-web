@@ -1,4 +1,7 @@
 export default {
+  // change source root directory
+  srcDir: 'src/',
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'bt-web',
@@ -40,7 +43,7 @@ export default {
 
   // All options for tailwindcss - https://tailwindcss.nuxtjs.org/options
   tailwindcss: {
-    cssPath: '~/assets/css/tailwind.css',
+    cssPath: '~~/assets/css/tailwind.css',
     configPath: 'tailwind.config',
     exposeConfig: false,
     exposeLevel: 2,

@@ -7,15 +7,12 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
+    "lint:js": "eslint --max-warnings=0 --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
     "lint:fix": "yarn lint:js --fix",
     "prepare": "husky install",
     "test": "jest --no-coverage",
     "test:coverge": "jest"
-  },
-  "lint-staged": {
-    "*.{ts,js,vue}": "lint"
   },
   "dependencies": {
     "core-js": "^3.25.3",
@@ -41,7 +38,7 @@
     "eslint-plugin-jest": "^27.0.4",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-vue": "^9.5.1",
-    "husky": "^8.0.1",
+    "husky": "^8.0.3",
     "jest": "^29.1.2",
     "jest-environment-jsdom": "^29.1.2",
     "lint-staged": "^13.2.0",
