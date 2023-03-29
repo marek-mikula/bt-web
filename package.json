@@ -9,9 +9,10 @@
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
-    "lintfix": "yarn lint:js --fix",
+    "lint:fix": "yarn lint:js --fix",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest --no-coverage",
+    "test:coverge": "jest"
   },
   "lint-staged": {
     "*.{ts,js,vue}": "lint"
