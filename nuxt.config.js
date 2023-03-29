@@ -49,7 +49,7 @@ export default {
     exposeLevel: 2,
     config: {},
     injectPosition: 'first',
-    viewer: true,
+    viewer: true
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -70,7 +70,7 @@ export default {
     '@nuxtjs/tailwindcss',
 
     // https://github.com/nuxt-modules/eslint
-    '@nuxtjs/eslint-module',
+    '@nuxtjs/eslint-module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

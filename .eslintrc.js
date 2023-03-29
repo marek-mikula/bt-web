@@ -11,9 +11,7 @@ module.exports = {
     'plugin:vue/recommended',
     'prettier'
   ],
-  plugins: [
-    'jest'
-  ],
+  plugins: ['jest'],
   // add your custom rules here
   rules: {}
 }
