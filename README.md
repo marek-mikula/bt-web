@@ -22,6 +22,12 @@ $ yarn generate
 ## Commands
 
 ```bash
+# validates the code format
+$ yarn prettier
+
+# validates the code format and fixes it if possible
+$ yarn prettier:fix
+
 # validates the code and code style
 $ yarn lint
 
@@ -42,16 +48,32 @@ $ yarn test:coverage
 
 Nuxt folders were moved to `src/` folder along with the `README.md` file.
 
-## Files
+## Important files
 
-### `.eslintrc.js`
+### [`.eslintrc.js`](./.eslintrc.js)
 
-### `commitlint.config.js`
+Configuration file for eslint linter.
 
-### `jest.config.js`
+### [`.prettierrc.json`](./.prettierrc.json)
 
-### `lint-stagged.config.js`
+Configuration file for prettier code formatter.
 
-### `tailwind.config.ts`
+### [`commitlint.config.js`](./commitlint.config.js)
 
-### `tsconfig.json`
+Configuration file commit messages linting before commit.
+
+### [`jest.config.js`](./jest.config.js)
+
+Configuration file for jest testing package.
+
+### [`lint-staged.config.js`](./lint-staged.config.js)
+
+Configuration file for lint-staged package, which performs set of task before commit.
+
+### [`tailwind.config.ts`](./tailwind.config.ts)
+
+Configuration file tailwind css styles.
+
+### [`tsconfig.json`](./tsconfig.json)
+
+Configuration file for typescript.
