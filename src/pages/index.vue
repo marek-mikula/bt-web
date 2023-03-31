@@ -6,12 +6,6 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'IndexPage',
-
-  methods: {
-    lmao() {
-      return 'lmao'
-    }
-  }
+  name: 'IndexPage'
 })
 </script>

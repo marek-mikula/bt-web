@@ -1,3 +1,5 @@
+const isLocalhost = process.env.APP_ENV === 'local'
+
 export default {
   // change source root directory
   srcDir: 'src/',
@@ -56,7 +58,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/axios.ts'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -74,7 +76,63 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: [
+    // https://axios.nuxtjs.org/
+    '@nuxtjs/axios',
+
+    // https://www.npmjs.com/package/@nuxtjs/dotenv
+    '@nuxtjs/dotenv',
+
+    // https://www.npmjs.com/package/@nuxtjs/proxy
+    '@nuxtjs/proxy'
+  ],
+
+  // Axios config
+  axios: {
+    debug: isLocalhost, // additional log of requests
+    https: !isLocalhost,
+    progress: true, // show progress bar
+    retry: false, // retrying of requests
+    proxy: true, // use proxy
+    baseURL: '/',
+    headers: {
+      common: {
+        'Application-Name': 'BT-WEB/1.0',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      delete: {},
+      get: {},
+      head: {},
+      post: {},
+      put: {},
+      patch: {}
+    }
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: '/'
+    }
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.API_RESOURCE
+    }
+  },
+
+  proxy: {
+    '/api': {
+      target: process.env.API_RESOURCE + process.env.API_PREFIX,
+      pathRewrite: {
+        '^/api': ''
+      },
+      changeOrigin: true,
+      secure: !isLocalhost
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
