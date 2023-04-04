@@ -3,7 +3,7 @@
     <label
       v-if="label"
       for="password"
-      class="mb-1 block text-sm font-medium leading-6 text-gray-900"
+      class="block text-sm font-medium leading-6 text-gray-900"
       >{{ label }}</label
     >
     <div class="mt-2">
@@ -21,6 +21,9 @@
         class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
       />
     </div>
+    <p v-if="hint" :id="hintId" class="mt-2 text-sm text-gray-500">
+      {{ hint }}
+    </p>
   </div>
 </template>
 
@@ -54,6 +57,7 @@ interface Props {
   maxlength?: number | null
   min?: number | null
   max?: number | null
+  hint?: string | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -65,10 +69,12 @@ const props = withDefaults(defineProps<Props>(), {
   autocomplete: 'off',
   maxlength: null,
   min: null,
-  max: null
+  max: null,
+  hint: null
 })
 
 const id = computed<string>((): string => props.id ?? props.name)
+const hintId = computed<string>((): string => `${id.value}-hint`)
 </script>
 
 <script lang="ts">
