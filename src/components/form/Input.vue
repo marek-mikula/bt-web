@@ -18,6 +18,7 @@
         :maxlength="maxlength"
         :min="min"
         :max="max"
+        :placeholder="placeholder"
         class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
       />
     </div>
@@ -58,6 +59,7 @@ interface Props {
   min?: number | null
   max?: number | null
   hint?: string | null
+  placeholder?: string | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -70,7 +72,8 @@ const props = withDefaults(defineProps<Props>(), {
   maxlength: null,
   min: null,
   max: null,
-  hint: null
+  hint: null,
+  placeholder: null
 })
 
 const id = computed<string>((): string => props.id ?? props.name)
