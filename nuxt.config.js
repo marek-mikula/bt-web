@@ -8,7 +8,11 @@ export default {
   head: {
     title: 'bt-web',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'en',
+      class: 'h-full bg-gray-50'
+    },
+    bodyAttrs: {
+      class: 'h-full'
     },
     meta: [
       {
@@ -72,7 +76,10 @@ export default {
     '@nuxtjs/tailwindcss',
 
     // https://github.com/nuxt-modules/eslint
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+
+    // https://composition-api.nuxtjs.org/
+    '@nuxtjs/composition-api/module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -84,8 +91,16 @@ export default {
     '@nuxtjs/dotenv',
 
     // https://www.npmjs.com/package/@nuxtjs/proxy
-    '@nuxtjs/proxy'
+    '@nuxtjs/proxy',
+
+    // https://image.nuxtjs.org/
+    '@nuxt/image'
   ],
+
+  // Image optimizer config
+  image: {
+    provider: 'static'
+  },
 
   // Axios config
   axios: {
