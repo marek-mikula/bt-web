@@ -10,6 +10,7 @@
       <input
         :id="id"
         :name="name"
+        :value="value"
         :type="type"
         :autocomplete="autocomplete"
         :required="required"
@@ -20,6 +21,7 @@
         :max="max"
         :placeholder="placeholder"
         class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6"
+        @input="handleInput"
       />
     </div>
     <p v-if="hint" :id="hintId" class="mt-2 text-sm text-gray-500">
@@ -49,6 +51,7 @@ interface Props {
     | 'url'
     | 'week'
   name: string
+  value?: string | number | null // value bind using v-model
   id?: string | null
   label?: string | null
   required?: boolean
@@ -63,6 +66,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  value: null,
   id: null,
   label: null,
   required: false,
@@ -76,8 +80,22 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: null
 })
 
+// Emits
+
+const emit = defineEmits<{
+  (e: 'input', value: string | number | null): void
+}>()
+
+// Computed
+
 const id = computed<string>((): string => props.id ?? props.name)
 const hintId = computed<string>((): string => `${id.value}-hint`)
+
+// Methods
+
+function handleInput(event: Event): void {
+  emit('input', (event.target as HTMLInputElement).value)
+}
 </script>
 
 <script lang="ts">
