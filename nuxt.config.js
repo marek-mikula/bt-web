@@ -94,7 +94,10 @@ export default {
     '@nuxtjs/proxy',
 
     // https://image.nuxtjs.org/
-    '@nuxt/image'
+    '@nuxt/image',
+
+    // https://auth.nuxtjs.org/
+    '@nuxtjs/auth-next'
   ],
 
   // Image optimizer config
@@ -123,6 +126,49 @@ export default {
       post: {},
       put: {},
       patch: {}
+    }
+  },
+
+  // Auth module config
+  auth: {
+    strategies: {
+      laravelJWT: {
+        provider: 'laravel/jwt',
+        url: '/api',
+        endpoints: {
+          login: {
+            url: '/auth/login',
+            method: 'post'
+          },
+          refresh: {
+            url: '/auth/refresh',
+            method: 'get'
+          },
+          logout: {
+            url: '/auth/logout',
+            method: 'post'
+          },
+          user: {
+            url: '/auth/me',
+            method: 'get'
+          }
+        },
+        token: {
+          type: 'Bearer',
+          global: true,
+          name: 'Authorization',
+          property: 'data.accessToken',
+          maxAge: 30 * 60 // 30 min
+        },
+        refreshToken: {
+          property: 'data.accessToken',
+          maxAge: 43200 * 60 // 1 month
+        },
+        user: {
+          property: 'data.user'
+        },
+        autoLogout: false
+      }
     }
   },
 

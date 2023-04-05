@@ -27,8 +27,9 @@
 
         <div class="mt-8">
           <div class="mt-6">
-            <form action="#" method="POST" class="space-y-6">
+            <form action="#" method="POST" class="space-y-6" @submit="login">
               <FormInput
+                v-model="form.email"
                 :name="'email'"
                 :type="'email'"
                 :label="'Email Address'"
@@ -37,6 +38,7 @@
               />
 
               <FormInput
+                v-model="form.password"
                 :name="'password'"
                 :type="'password'"
                 :label="'Password'"
@@ -45,7 +47,11 @@
               />
 
               <div class="flex items-center justify-between">
-                <FormCheckbox :name="'remember-me'" :label="'Remember me'" />
+                <FormCheckbox
+                  v-model="form.rememberMe"
+                  :name="'remember-me'"
+                  :label="'Remember me'"
+                />
 
                 <div class="text-sm">
                   <a
@@ -72,11 +78,37 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+<script setup lang="ts">
+import { reactive } from '@nuxtjs/composition-api'
 
-export default defineComponent({
+interface FormData {
+  email: string | null
+  password: string | null
+  rememberMe: boolean
+}
+
+const form: FormData = reactive({
+  email: null,
+  password: null,
+  rememberMe: false
+})
+
+async function login(): Promise<void> {
+  // try {
+  //   const response = await $auth.loginWith('laravelJWT', {
+  //     data: form
+  //   })
+  //
+  //   console.log(response)
+  // } catch (e: any) {
+  //   console.log(e)
+  // }
+}
+</script>
+
+<script lang="ts">
+export default {
   name: 'LoginPage',
   layout: 'auth'
-})
+}
 </script>
