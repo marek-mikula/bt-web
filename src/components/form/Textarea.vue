@@ -7,22 +7,19 @@
       v-html="renderLabel(label, required)"
     ></label>
     <div class="mt-2">
-      <input
+      <textarea
         :id="id"
         :name="name"
-        :value="value"
-        :type="type"
-        :autocomplete="autocomplete"
         :required="required"
-        :disabled="disabled"
         :readonly="readonly"
+        :disabled="disabled"
         :maxlength="maxlength"
-        :min="min"
-        :max="max"
+        :autocomplete="autocomplete"
         :placeholder="placeholder"
-        class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6"
+        :rows="rows"
+        class="block w-full resize-none rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"
         @input="handleInput"
-      />
+      ></textarea>
     </div>
     <p v-if="hint" :id="hintId" class="mt-2 text-sm text-gray-500">
       {{ hint }}
@@ -37,22 +34,6 @@ import { useField } from '~/composables/forms/field'
 const { renderLabel } = useField()
 
 interface Props {
-  type:
-    | 'color'
-    | 'date'
-    | 'datetime'
-    | 'email'
-    | 'file'
-    | 'image'
-    | 'month'
-    | 'number'
-    | 'password'
-    | 'search'
-    | 'tel'
-    | 'text'
-    | 'time'
-    | 'url'
-    | 'week'
   name: string
   value?: string | number | null // value bind using v-model
   id?: string | null
@@ -62,10 +43,9 @@ interface Props {
   readonly?: boolean
   autocomplete?: string
   maxlength?: number | null
-  min?: number | string | null
-  max?: number | string | null
   hint?: string | null
   placeholder?: string | null
+  rows?: number | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -77,10 +57,9 @@ const props = withDefaults(defineProps<Props>(), {
   readonly: false,
   autocomplete: 'off',
   maxlength: null,
-  min: null,
-  max: null,
   hint: null,
-  placeholder: null
+  placeholder: null,
+  rows: 5
 })
 
 const emit = defineEmits<{
@@ -97,6 +76,6 @@ function handleInput(event: Event): void {
 
 <script lang="ts">
 export default {
-  name: 'FormInput'
+  name: 'FormTextarea'
 }
 </script>

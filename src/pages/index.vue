@@ -25,11 +25,12 @@
           </h2>
           <p class="mt-2 text-gray-600">
             Or
-            <a
-              href="#"
+            <NuxtLink
+              to="/register"
               class="font-medium text-indigo-600 hover:text-indigo-500"
-              >create a new account</a
             >
+              create a new account
+            </NuxtLink>
           </p>
         </div>
 
@@ -56,8 +57,9 @@
 
               <div class="flex items-center justify-between">
                 <FormCheckbox
+                  :id="'remember-me'"
                   v-model="form.rememberMe"
-                  :name="'remember-me'"
+                  :name="'rememberMe'"
                   :label="'Remember me'"
                 />
 

@@ -11,14 +11,19 @@
       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
       @change="handleInput"
     />
-    <label :for="id" class="ml-2 block text-sm text-gray-900">{{
-      label
-    }}</label>
+    <label
+      :for="id"
+      class="ml-2 block text-sm text-gray-900"
+      v-html="renderLabel(label, required)"
+    ></label>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from '@nuxtjs/composition-api'
+import { useField } from '~/composables/forms/field'
+
+const { renderLabel } = useField()
 
 interface Props {
   name: string
@@ -38,17 +43,11 @@ const props = withDefaults(defineProps<Props>(), {
   readonly: false
 })
 
-// Emits
-
 const emits = defineEmits<{
   (e: 'input', value: boolean): void
 }>()
 
-// Computed
-
 const id = computed<string>((): string => props.id ?? props.name)
-
-// Methods
 
 function handleInput(event: Event): void {
   emits('input', (event.target as HTMLInputElement).checked)
