@@ -41,8 +41,8 @@
                 class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
               >
                 <FormInput
-                  :id="'first-name'"
-                  :name="'firstName'"
+                  v-model="form.firstname"
+                  :name="'firstname'"
                   :type="'text'"
                   :label="'First name'"
                   :autocomplete="'given-name'"
@@ -51,8 +51,8 @@
                 />
 
                 <FormInput
-                  :id="'last-name'"
-                  :name="'lastName'"
+                  v-model="form.lastname"
+                  :name="'lastname'"
                   :type="'text'"
                   :label="'Last name'"
                   :autocomplete="'family-name'"
@@ -61,6 +61,7 @@
                 />
 
                 <FormInput
+                  v-model="form.email"
                   :name="'email'"
                   :type="'email'"
                   :label="'Email address'"
@@ -71,10 +72,51 @@
 
                 <FormInput
                   :id="'birth-date'"
+                  v-model="form.birthDate"
                   :name="'birthDate'"
                   :type="'date'"
                   :label="'Birth date'"
                   :autocomplete="'bday'"
+                  class="col-span-full"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pt-10 md:grid-cols-3">
+          <div class="px-4 sm:px-0">
+            <h2 class="text-base font-semibold leading-7 text-gray-900">
+              Passwords
+            </h2>
+          </div>
+
+          <div
+            class="rounded-md bg-white shadow-sm shadow-sm ring-1 ring-gray-900/5 md:col-span-2"
+          >
+            <div class="px-4 py-6 sm:p-8">
+              <div
+                class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
+              >
+                <FormInput
+                  v-model="form.password"
+                  :name="'password'"
+                  :type="'password'"
+                  :label="'Password'"
+                  :autocomplete="'new-password'"
+                  :hint="'Min. 8 characters. Must contain at least one symbol, number and mixed case letters.'"
+                  class="col-span-full"
+                  required
+                />
+
+                <FormInput
+                  :id="'password-confirm'"
+                  v-model="form.passwordConfirm"
+                  :name="'passwordConfirm'"
+                  :type="'password'"
+                  :label="'Password confirmation'"
+                  :autocomplete="'new-password'"
                   class="col-span-full"
                   required
                 />
@@ -104,6 +146,7 @@
               >
                 <FormTextarea
                   :id="'public-key'"
+                  v-model="form.publicKey"
                   :name="'publicKey'"
                   :label="'Public key'"
                   :placeholder="'mpX28HOXXSzKVKAc4zI6xHfC1Wp9rTTInPgxTdphmsDNTL3rVouMpJnI8VfdXy0x'"
@@ -113,6 +156,7 @@
 
                 <FormTextarea
                   :id="'secret-key'"
+                  v-model="form.secretKey"
                   :name="'secretKey'"
                   :label="'Secret key'"
                   :placeholder="'oB8yyGiCwyL3qRbEfI0hy7l9e8m1mnJtbLMEEkH5LK8K1M18XbKqD5YfKCmUiNIw'"
@@ -134,6 +178,20 @@
 </template>
 
 <script setup lang="ts">
+import { reactive } from '@nuxtjs/composition-api'
+import RegisterForm from '~/types/forms/Auth/RegisterForm'
+
+const form: RegisterForm = reactive({
+  firstname: null,
+  lastname: null,
+  email: null,
+  birthDate: null,
+  password: null,
+  passwordConfirm: null,
+  publicKey: null,
+  secretKey: null
+})
+
 function register() {}
 </script>
 

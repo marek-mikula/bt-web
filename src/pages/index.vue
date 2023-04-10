@@ -87,14 +87,9 @@
 
 <script setup lang="ts">
 import { reactive } from '@nuxtjs/composition-api'
+import LoginForm from '~/types/forms/Auth/LoginForm'
 
-interface FormData {
-  email: string | null
-  password: string | null
-  rememberMe: boolean
-}
-
-const form: FormData = reactive({
+const form: LoginForm = reactive({
   email: null,
   password: null,
   rememberMe: false
