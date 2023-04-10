@@ -1,19 +1,32 @@
 <template>
-  <button :type="type" :class="classList" @click="handleClick">
-    <slot />
+  <button
+    :type="type"
+    :class="classList"
+    :disabled="isLoading || disabled"
+    @click="handleClick"
+  >
+    <span v-if="isLoading">
+      {{ 'Loading' + loadingText }}
+    </span>
+    <span v-else>
+      {{ label }}
+    </span>
   </button>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from '@nuxtjs/composition-api'
 
 interface Props {
+  label: string
   size?: 1 | 2 | 3 | 4 | 5 // 1 - smallest, 5 - biggest,
   color?: 'primary' | 'secondary'
   rounded?: boolean
   soft?: boolean
   block?: boolean
   type?: 'button' | 'submit'
+  disabled?: boolean
+  isLoading?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -22,11 +35,22 @@ const props = withDefaults(defineProps<Props>(), {
   rounded: false,
   soft: false,
   block: false,
-  type: 'button'
+  type: 'button',
+  disabled: false,
+  isLoading: false
 })
 
+const loadingInterval = ref<number | null>(null)
+const loadingText = ref<string>('')
+
 const classList = computed<string[]>((): string[] => {
-  const list = ['font-semibold', 'shadow-sm']
+  const list = [
+    'font-semibold',
+    'shadow-sm',
+    'disabled:cursor-not-allowed',
+    'disabled:bg-gray-50',
+    'disabled:text-gray-500'
+  ]
 
   // add size classes
   switch (props.size) {
@@ -95,6 +119,31 @@ const classList = computed<string[]>((): string[] => {
 
   return list
 })
+
+if (process.browser) {
+  watch<boolean, boolean>(
+    (): boolean => props.isLoading,
+    (current: boolean) => {
+      if (current) {
+        loadingInterval.value = window.setInterval(() => {
+          loadingText.value =
+            loadingText.value.length >= 3 ? '' : loadingText.value + '.'
+        }, 500)
+      } else if (loadingInterval.value) {
+        window.clearInterval(loadingInterval.value)
+      }
+    },
+    {
+      immediate: true
+    }
+  )
+
+  onBeforeUnmount((): void => {
+    if (loadingInterval.value) {
+      window.clearInterval(loadingInterval.value)
+    }
+  })
+}
 
 const emit = defineEmits<{
   (e: 'click'): void

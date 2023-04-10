@@ -73,9 +73,12 @@
               </div>
 
               <div>
-                <CommonButton :type="'submit'" :size="4" block>
-                  Sign in
-                </CommonButton>
+                <CommonButton
+                  :label="'Sign in'"
+                  :type="'submit'"
+                  :size="4"
+                  block
+                />
               </div>
             </form>
           </div>

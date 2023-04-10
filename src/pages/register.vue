@@ -24,7 +24,7 @@
       <form
         class="space-y-10 divide-y divide-gray-900/10"
         method="POST"
-        @submit="register"
+        @submit.prevent="register"
       >
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-3">
           <div class="px-4 sm:px-0">
@@ -46,6 +46,7 @@
                   :type="'text'"
                   :label="'First name'"
                   :autocomplete="'given-name'"
+                  :error="fieldError('firstname')"
                   class="sm:col-span-3"
                   required
                 />
@@ -56,6 +57,7 @@
                   :type="'text'"
                   :label="'Last name'"
                   :autocomplete="'family-name'"
+                  :error="fieldError('lastname')"
                   class="sm:col-span-3"
                   required
                 />
@@ -66,6 +68,7 @@
                   :type="'email'"
                   :label="'Email address'"
                   :autocomplete="'email'"
+                  :error="fieldError('email')"
                   class="col-span-full"
                   required
                 />
@@ -77,6 +80,7 @@
                   :type="'date'"
                   :label="'Birth date'"
                   :autocomplete="'bday'"
+                  :error="fieldError('birthDate')"
                   class="col-span-full"
                   required
                 />
@@ -106,6 +110,7 @@
                   :label="'Password'"
                   :autocomplete="'new-password'"
                   :hint="'Min. 8 characters. Must contain at least one symbol, number and mixed case letters.'"
+                  :error="fieldError('password')"
                   class="col-span-full"
                   required
                 />
@@ -117,6 +122,7 @@
                   :type="'password'"
                   :label="'Password confirmation'"
                   :autocomplete="'new-password'"
+                  :error="fieldError('passwordConfirm')"
                   class="col-span-full"
                   required
                 />
@@ -150,6 +156,7 @@
                   :name="'publicKey'"
                   :label="'Public key'"
                   :placeholder="'mpX28HOXXSzKVKAc4zI6xHfC1Wp9rTTInPgxTdphmsDNTL3rVouMpJnI8VfdXy0x'"
+                  :error="fieldError('publicKey')"
                   class="col-span-full"
                   required
                 />
@@ -160,6 +167,7 @@
                   :name="'secretKey'"
                   :label="'Secret key'"
                   :placeholder="'oB8yyGiCwyL3qRbEfI0hy7l9e8m1mnJtbLMEEkH5LK8K1M18XbKqD5YfKCmUiNIw'"
+                  :error="fieldError('secretKey')"
                   class="col-span-full"
                   required
                 />
@@ -168,7 +176,12 @@
             <div
               class="flex items-center justify-end gap-x-2 border-t border-gray-900/10 px-4 py-4 sm:px-8"
             >
-              <CommonButton :type="'submit'" :size="4"> Register </CommonButton>
+              <CommonButton
+                :label="'Register'"
+                :type="'submit'"
+                :size="4"
+                :is-loading="isLoading"
+              />
             </div>
           </div>
         </div>
@@ -178,8 +191,17 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from '@nuxtjs/composition-api'
+import { reactive, useContext } from '@nuxtjs/composition-api'
+import { AxiosResponse } from 'axios'
 import RegisterForm from '~/types/forms/Auth/RegisterForm'
+import JsonResponse from '~/types/http/responses/JsonResponse'
+import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
+import { useForm } from '~/composables/forms/form'
+import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
+
+const { $repositories } = useContext()
+const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
+  useForm()
 
 const form: RegisterForm = reactive({
   firstname: null,
@@ -192,7 +214,29 @@ const form: RegisterForm = reactive({
   secretKey: null
 })
 
-function register() {}
+async function register(): Promise<void> {
+  setIsLoading(true)
+
+  try {
+    const response = await $repositories.auth.register(form)
+
+    clearErrors()
+  } catch (e: any) {
+    const response: AxiosResponse<JsonResponse> = e.response
+
+    if (response.data.code === RESPONSE_CODE.INVALID_CONTENT) {
+      parseErrors(response.data as InvalidContentResponse)
+
+      return
+    }
+
+    // show common error
+
+    clearErrors()
+  } finally {
+    setIsLoading(false)
+  }
+}
 </script>
 
 <script lang="ts">

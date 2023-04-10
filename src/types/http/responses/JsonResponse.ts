@@ -1,4 +1,4 @@
-import { RESPONSE_CODE } from '~/enums/http/ResponseCode'
+import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 
 export default interface JsonResponse<T = {}> {
   message: string
