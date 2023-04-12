@@ -135,6 +135,12 @@ export default {
 
   // Auth module config
   auth: {
+    redirect: {
+      login: '/',
+      logout: '/',
+      callback: '/app',
+      home: '/app'
+    },
     strategies: {
       laravelJWT: {
         provider: 'laravel/jwt',

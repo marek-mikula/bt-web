@@ -191,7 +191,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, useContext } from '@nuxtjs/composition-api'
+import { reactive, useContext, useRouter } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import RegisterForm from '~/types/forms/Auth/RegisterForm'
 import JsonResponse from '~/types/http/responses/JsonResponse'
@@ -202,6 +202,8 @@ import InvalidContentResponse from '~/types/http/responses/InvalidContentRespons
 const { $repositories } = useContext()
 const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
   useForm()
+
+const router = useRouter()
 
 const form: RegisterForm = reactive({
   firstname: null,
@@ -221,6 +223,11 @@ async function register(): Promise<void> {
     const response = await $repositories.auth.register(form)
 
     clearErrors()
+
+    await router.push({
+      path: '/mfa/verify-email',
+      query: { token: response.data.data.token.token }
+    })
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 
@@ -242,6 +249,6 @@ async function register(): Promise<void> {
 <script lang="ts">
 export default {
   name: 'RegisterPage',
-  layout: 'auth'
+  layout: 'none'
 }
 </script>
