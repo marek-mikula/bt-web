@@ -29,6 +29,7 @@
             :type="'email'"
             :label="'Email Address'"
             :autocomplete="'email'"
+            :error="fieldError('email')"
             required
           />
 
@@ -38,6 +39,7 @@
             :type="'password'"
             :label="'Password'"
             :autocomplete="'current-password'"
+            :error="fieldError('password')"
             required
           />
 
@@ -47,6 +49,7 @@
               v-model="form.rememberMe"
               :name="'rememberMe'"
               :label="'Remember me'"
+              :error="fieldError('rememberMe')"
             />
 
             <div class="text-sm">
@@ -59,7 +62,13 @@
           </div>
 
           <div>
-            <CommonButton :label="'Sign in'" :type="'submit'" :size="4" block />
+            <CommonButton
+              :label="'Sign in'"
+              :type="'submit'"
+              :is-loading="isLoading"
+              :size="4"
+              block
+            />
           </div>
         </form>
       </div>
@@ -68,8 +77,20 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from '@nuxtjs/composition-api'
+import { reactive, useContext, useRouter } from '@nuxtjs/composition-api'
+import { AxiosResponse } from 'axios'
 import LoginForm from '~/types/forms/Auth/LoginForm'
+import JsonResponse from '~/types/http/responses/JsonResponse'
+import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
+import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
+import { useForm } from '~/composables/forms/form'
+import MfaTokenResponse from '~/types/http/responses/MfaTokenResponse'
+import { MFA_TOKEN_TYPE } from '~/enums/MfaTokenType'
+
+const { $repositories, $auth } = useContext()
+const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
+  useForm()
+const router = useRouter()
 
 const form: LoginForm = reactive({
   email: null,
@@ -78,21 +99,67 @@ const form: LoginForm = reactive({
 })
 
 async function login(): Promise<void> {
-  // try {
-  //   const response = await $auth.loginWith('laravelJWT', {
-  //     data: form
-  //   })
-  //
-  //   console.log(response)
-  // } catch (e: any) {
-  //   console.log(e)
-  // }
+  setIsLoading(true)
+
+  try {
+    const response = await $repositories.auth.login(form)
+
+    clearErrors()
+
+    if (response.data.code === RESPONSE_CODE.MFA_TOKEN) {
+      await redirectToMfa(response.data as MfaTokenResponse)
+
+      return
+    }
+
+    await $auth.setStrategy('laravelJWT')
+
+    await $auth.setUserToken(
+      response.data.data.token.accessToken,
+      response.data.data.token.refreshToken
+    )
+
+    await router.push({ path: '/app' })
+  } catch (e: any) {
+    const response: AxiosResponse<JsonResponse> = e.response
+
+    if (response.data.code === RESPONSE_CODE.INVALID_CONTENT) {
+      parseErrors(response.data as InvalidContentResponse)
+
+      return
+    }
+
+    clearErrors()
+
+    if (response.data.code === RESPONSE_CODE.INVALID_CREDENTIALS) {
+      // show invalid credentials error
+
+      return
+    }
+
+    // show common error
+  } finally {
+    setIsLoading(false)
+  }
+}
+
+async function redirectToMfa(data: MfaTokenResponse): Promise<void> {
+  const route =
+    data.data.token.type === MFA_TOKEN_TYPE.VERIFY_DEVICE
+      ? '/mfa/verify-device'
+      : '/mfa/verify-email'
+
+  await router.push({
+    path: route,
+    query: { token: data.data.token.token }
+  })
 }
 </script>
 
 <script lang="ts">
 export default {
   name: 'LoginPage',
-  layout: 'auth'
+  layout: 'auth',
+  auth: 'guest'
 }
 </script>

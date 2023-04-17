@@ -2,11 +2,11 @@
   <div class="mx-auto w-full max-w-sm lg:w-96">
     <div>
       <h2 class="mt-6 text-4xl font-bold tracking-tight text-gray-900">
-        Verify your email address
+        Verify your new device
       </h2>
       <p class="mt-2 text-gray-600">
         We have sent you a code to your email address. Please enter the code and
-        verify your email.
+        verify your new device.
       </p>
     </div>
 
@@ -67,12 +67,10 @@ async function verify(): Promise<void> {
   setIsLoading(true)
 
   try {
-    const response = await $repositories.mfa.verifyEmail(
+    const response = await $repositories.mfa.verifyDevice(
       route.value.query.token as string,
       form
     )
-
-    clearErrors()
 
     await $auth.setStrategy('laravelJWT')
 
@@ -106,7 +104,7 @@ async function verify(): Promise<void> {
 
 <script lang="ts">
 export default {
-  name: 'MfaVerifyEmailPage',
+  name: 'MfaVerifyDevicePage',
   layout: 'auth',
   auth: 'guest',
   middleware: ['mfa']
