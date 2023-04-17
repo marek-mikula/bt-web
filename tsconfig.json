@@ -17,16 +17,19 @@
     "baseUrl": ".",
     "paths": {
       "~/*": [
-        "./*"
+        "./src/*"
       ],
       "@/*": [
-        "./*"
+        "./src/*"
       ]
     },
     "types": [
       "@nuxt/types",
       "@types/node",
-      "@nuxtjs/axios"
+      "@nuxtjs/axios",
+      "@nuxt/image",
+      "@nuxtjs/auth-next",
+      "axios"
     ]
   },
   "exclude": [

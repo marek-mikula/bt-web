@@ -8,7 +8,11 @@ export default {
   head: {
     title: 'bt-web',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'en',
+      class: 'h-full bg-gray-50'
+    },
+    bodyAttrs: {
+      class: 'h-full'
     },
     meta: [
       {
@@ -58,7 +62,11 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/axios.ts'],
+  plugins: [
+    '~/plugins/axios.ts',
+    '~/plugins/repositories.ts',
+    '~/plugins/lodash.ts'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -72,7 +80,10 @@ export default {
     '@nuxtjs/tailwindcss',
 
     // https://github.com/nuxt-modules/eslint
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+
+    // https://composition-api.nuxtjs.org/
+    '@nuxtjs/composition-api/module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -84,8 +95,19 @@ export default {
     '@nuxtjs/dotenv',
 
     // https://www.npmjs.com/package/@nuxtjs/proxy
-    '@nuxtjs/proxy'
+    '@nuxtjs/proxy',
+
+    // https://image.nuxtjs.org/
+    '@nuxt/image',
+
+    // https://auth.nuxtjs.org/
+    '@nuxtjs/auth-next'
   ],
+
+  // Image optimizer config
+  image: {
+    provider: 'static'
+  },
 
   // Axios config
   axios: {
@@ -108,6 +130,55 @@ export default {
       post: {},
       put: {},
       patch: {}
+    }
+  },
+
+  // Auth module config
+  auth: {
+    redirect: {
+      login: '/',
+      logout: '/',
+      callback: '/app',
+      home: '/app'
+    },
+    strategies: {
+      laravelJWT: {
+        provider: 'laravel/jwt',
+        url: '/api',
+        endpoints: {
+          login: {
+            url: '/auth/login',
+            method: 'post'
+          },
+          refresh: {
+            url: '/auth/refresh',
+            method: 'get'
+          },
+          logout: {
+            url: '/auth/logout',
+            method: 'post'
+          },
+          user: {
+            url: '/auth/me',
+            method: 'get'
+          }
+        },
+        token: {
+          type: 'Bearer',
+          global: true,
+          name: 'Authorization',
+          property: 'data.accessToken',
+          maxAge: 30 * 60 // 30 min
+        },
+        refreshToken: {
+          property: 'data.accessToken',
+          maxAge: 43200 * 60 // 1 month
+        },
+        user: {
+          property: 'data.user'
+        },
+        autoLogout: false
+      }
     }
   },
 

@@ -1,30 +1,30 @@
-import { Plugin } from '@nuxt/types'
+import { Context } from '@nuxt/types'
 
-const axios: Plugin = ({ $axios }) => {
+const axiosPlugin: any = (ctx: Context) => {
   // eslint-disable-next-line
-  $axios.onRequest((config) => {
+  ctx.$axios.onRequest((config) => {
     // todo
   })
 
   // eslint-disable-next-line
-  $axios.onResponse((response) => {
+  ctx.$axios.onResponse((response) => {
     // todo
   })
 
   // eslint-disable-next-line
-  $axios.onError((err) => {
+  ctx.$axios.onError((err) => {
     // todo
   })
 
   // eslint-disable-next-line
-  $axios.onRequestError((err) => {
+  ctx.$axios.onRequestError((err) => {
     // todo
   })
 
   // eslint-disable-next-line
-  $axios.onResponseError((err) => {
+  ctx.$axios.onResponseError((err) => {
     // todo
   })
 }
 
-export default axios
+export default axiosPlugin

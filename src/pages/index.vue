@@ -1,11 +1,98 @@
 <template>
-  <Tutorial />
+  <div class="mx-auto w-full max-w-sm lg:w-96">
+    <div>
+      <h2 class="mt-6 text-4xl font-bold tracking-tight text-gray-900">
+        Sign in to your account
+      </h2>
+      <p class="mt-2 text-gray-600">
+        Or
+        <NuxtLink
+          to="/register"
+          class="font-medium text-indigo-600 hover:text-indigo-500"
+        >
+          create a new account
+        </NuxtLink>
+      </p>
+    </div>
+
+    <div class="mt-8">
+      <div class="mt-6">
+        <form
+          action="#"
+          method="POST"
+          class="space-y-6"
+          @submit.prevent="login"
+        >
+          <FormInput
+            v-model="form.email"
+            :name="'email'"
+            :type="'email'"
+            :label="'Email Address'"
+            :autocomplete="'email'"
+            required
+          />
+
+          <FormInput
+            v-model="form.password"
+            :name="'password'"
+            :type="'password'"
+            :label="'Password'"
+            :autocomplete="'current-password'"
+            required
+          />
+
+          <div class="flex items-center justify-between">
+            <FormCheckbox
+              :id="'remember-me'"
+              v-model="form.rememberMe"
+              :name="'rememberMe'"
+              :label="'Remember me'"
+            />
+
+            <div class="text-sm">
+              <a
+                href="#"
+                class="font-medium text-indigo-600 hover:text-indigo-500"
+                >Forgot your password?</a
+              >
+            </div>
+          </div>
+
+          <div>
+            <CommonButton :label="'Sign in'" :type="'submit'" :size="4" block />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script setup lang="ts">
+import { reactive } from '@nuxtjs/composition-api'
+import LoginForm from '~/types/forms/Auth/LoginForm'
 
-export default Vue.extend({
-  name: 'IndexPage'
+const form: LoginForm = reactive({
+  email: null,
+  password: null,
+  rememberMe: false
 })
+
+async function login(): Promise<void> {
+  // try {
+  //   const response = await $auth.loginWith('laravelJWT', {
+  //     data: form
+  //   })
+  //
+  //   console.log(response)
+  // } catch (e: any) {
+  //   console.log(e)
+  // }
+}
+</script>
+
+<script lang="ts">
+export default {
+  name: 'LoginPage',
+  layout: 'auth'
+}
 </script>
