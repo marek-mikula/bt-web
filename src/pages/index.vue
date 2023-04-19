@@ -112,8 +112,6 @@ async function login(): Promise<void> {
       return
     }
 
-    await $auth.setStrategy('laravelJWT')
-
     await $auth.setUserToken(
       response.data.data.token.accessToken,
       response.data.data.token.refreshToken

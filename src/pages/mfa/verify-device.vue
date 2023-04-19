@@ -46,7 +46,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, useContext, useRoute } from '@nuxtjs/composition-api'
+import {
+  reactive,
+  useContext,
+  useRoute,
+  useRouter
+} from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import VerifyForm from '~/types/forms/Mfa/VerifyForm'
 import JsonResponse from '~/types/http/responses/JsonResponse'
@@ -54,10 +59,11 @@ import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { useForm } from '~/composables/forms/form'
 
+const route = useRoute()
+const router = useRouter()
 const { $repositories, $auth } = useContext()
 const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
   useForm()
-const route = useRoute()
 
 const form: VerifyForm = reactive({
   code: null
@@ -72,12 +78,12 @@ async function verify(): Promise<void> {
       form
     )
 
-    await $auth.setStrategy('laravelJWT')
-
     await $auth.setUserToken(
       response.data.data.token.accessToken,
       response.data.data.token.refreshToken
     )
+
+    await router.push({ path: '/app' })
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 
@@ -106,7 +112,6 @@ async function verify(): Promise<void> {
 export default {
   name: 'MfaVerifyDevicePage',
   layout: 'auth',
-  auth: 'guest',
-  middleware: ['mfa']
+  auth: 'guest'
 }
 </script>

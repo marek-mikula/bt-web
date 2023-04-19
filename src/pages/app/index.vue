@@ -7,7 +7,6 @@
 <script lang="ts">
 export default {
   name: 'AppHomePage',
-  layout: 'none',
-  middleware: ['auth']
+  layout: 'none'
 }
 </script>
