@@ -237,9 +237,9 @@ async function register(): Promise<void> {
       return
     }
 
-    // show common error
-
     clearErrors()
+
+    // show common error
   } finally {
     setIsLoading(false)
   }
@@ -249,6 +249,7 @@ async function register(): Promise<void> {
 <script lang="ts">
 export default {
   name: 'RegisterPage',
-  layout: 'none'
+  layout: 'none',
+  auth: 'guest'
 }
 </script>

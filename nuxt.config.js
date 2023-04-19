@@ -133,14 +133,20 @@ export default {
     }
   },
 
+  router: {
+    middleware: ['auth']
+  },
+
   // Auth module config
   auth: {
+    defaultStrategy: 'laravelJWT',
     redirect: {
       login: '/',
       logout: '/',
-      callback: '/app',
+      callback: '/',
       home: '/app'
     },
+    watchLoggedIn: false,
     strategies: {
       laravelJWT: {
         provider: 'laravel/jwt',
@@ -167,12 +173,12 @@ export default {
           type: 'Bearer',
           global: true,
           name: 'Authorization',
-          property: 'data.accessToken',
-          maxAge: 30 * 60 // 30 min
+          property: 'data.token.accessToken',
+          maxAge: process.env.JWT_ACCESS_TOKEN_LIFETIME * 60
         },
         refreshToken: {
-          property: 'data.accessToken',
-          maxAge: 43200 * 60 // 1 month
+          property: 'data.token.refreshToken',
+          maxAge: process.env.JWT_REFRESH_TOKEN_LIFETIME * 60
         },
         user: {
           property: 'data.user'
