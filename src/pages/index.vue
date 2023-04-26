@@ -53,11 +53,12 @@
             />
 
             <div class="text-sm">
-              <a
-                href="#"
+              <NuxtLink
+                to="/password-reset"
                 class="font-medium text-indigo-600 hover:text-indigo-500"
-                >Forgot your password?</a
               >
+                Forgot your password?
+              </NuxtLink>
             </div>
           </div>
 
