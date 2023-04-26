@@ -2,11 +2,11 @@
   <div class="mx-auto w-full max-w-sm lg:w-96">
     <div>
       <h2 class="mt-6 text-4xl font-bold tracking-tight text-gray-900">
-        Verify your new device
+        Reset password
       </h2>
       <p class="mt-2 text-gray-600">
-        We have sent you a code to your email address. Please enter the code and
-        verify your new device.
+        Please enter your new password and secret code from the email we sent
+        you.
       </p>
     </div>
 
@@ -16,7 +16,7 @@
           action="#"
           method="POST"
           class="space-y-6"
-          @submit.prevent="verify"
+          @submit.prevent="resetPassword"
         >
           <FormInput
             v-model="form.code"
@@ -30,9 +30,31 @@
             required
           />
 
+          <FormInput
+            v-model="form.password"
+            :name="'password'"
+            :type="'password'"
+            :label="'Password'"
+            :autocomplete="'new-password'"
+            :hint="'Min. 8 characters. Must contain at least one symbol, number and mixed case letters.'"
+            :error="fieldError('password')"
+            required
+          />
+
+          <FormInput
+            :id="'password-confirm'"
+            v-model="form.passwordConfirm"
+            :name="'passwordConfirm'"
+            :type="'password'"
+            :label="'Password confirmation'"
+            :autocomplete="'new-password'"
+            :error="fieldError('passwordConfirm')"
+            required
+          />
+
           <div>
             <CommonButton
-              :label="'Verify'"
+              :label="'Reset password'"
               :type="'submit'"
               :size="4"
               :is-loading="isLoading"
@@ -60,37 +82,34 @@ import {
   useRouter
 } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
-import VerifyForm from '~/types/forms/Mfa/VerifyForm'
 import JsonResponse from '~/types/http/responses/JsonResponse'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { useForm } from '~/composables/forms/form'
+import ResetPasswordForm from '~/types/forms/Mfa/ResetPasswordForm'
 
 const route = useRoute()
 const router = useRouter()
-const { $repositories, $auth } = useContext()
+const { $repositories } = useContext()
 const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
   useForm()
 
-const form: VerifyForm = reactive({
-  code: null
+const form: ResetPasswordForm = reactive({
+  code: null,
+  password: null,
+  passwordConfirm: null
 })
 
-async function verify(): Promise<void> {
+async function resetPassword(): Promise<void> {
   setIsLoading(true)
 
   try {
-    const response = await $repositories.mfa.verifyDevice(
+    await $repositories.mfa.resetPassword(
       route.value.query.token as string,
       form
     )
 
-    await $auth.setUserToken(
-      response.data.data.token.accessToken,
-      response.data.data.token.refreshToken
-    )
-
-    await router.push({ path: '/app' })
+    await router.push({ path: '/' })
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 
@@ -117,7 +136,7 @@ async function verify(): Promise<void> {
 
 <script lang="ts">
 export default {
-  name: 'MfaVerifyDevicePage',
+  name: 'MfaPasswordResetPage',
   layout: 'auth',
   auth: 'guest'
 }
