@@ -102,12 +102,44 @@ export default {
     '@nuxt/image',
 
     // https://auth.nuxtjs.org/
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+
+    // https://i18n.nuxtjs.org/setup
+    '@nuxtjs/i18n'
   ],
 
   // Image optimizer config
   image: {
     provider: 'static'
+  },
+
+  // i18n config
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en.json'
+      }
+    ],
+    lazy: true,
+    langDir: '~/assets/locales',
+    defaultLocale: 'en',
+    detectBrowserLanguage: {
+      alwaysRedirect: false,
+      fallbackLocale: 'en',
+      redirectOn: 'root',
+      useCookie: true,
+      cookieCrossOrigin: false,
+      cookieKey: 'language',
+      cookieDomain: process.env.APP_DOMAIN,
+      cookieSecure: !isLocalhost
+    },
+    strategy: 'no_prefix',
+    vueI18n: {
+      fallbackLocale: 'en',
+      silentFallbackWarn: !isLocalhost,
+      silentTranslationWarn: !isLocalhost
+    }
   },
 
   // Axios config
