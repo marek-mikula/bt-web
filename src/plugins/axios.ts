@@ -1,6 +1,6 @@
 import { Context } from '@nuxt/types'
 
-const axiosPlugin: any = (ctx: Context) => {
+const axiosPlugin: any = (ctx: Context): void => {
   // eslint-disable-next-line
   ctx.$axios.onRequest((config) => {
     // todo

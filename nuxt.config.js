@@ -65,7 +65,8 @@ export default {
   plugins: [
     '~/plugins/axios.ts',
     '~/plugins/repositories.ts',
-    '~/plugins/lodash.ts'
+    '~/plugins/lodash.ts',
+    { src: '~/plugins/toast.ts', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
