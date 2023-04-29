@@ -30,6 +30,10 @@
       "publicKey": "Public key",
       "secretKey": "Secret key",
       "submit": "Register"
+    },
+    "passwordReset": {
+      "email": "Email address",
+      "submit": "Reset password"
     }
   },
   "pages": {
@@ -51,6 +55,10 @@
           "hint": "Paste your Binance API keys here. They will be encrypted and kept in safety. We will use the to communicate with Binance API."
         }
       }
+    },
+    "passwordReset": {
+      "title": "Password reset",
+      "subtitle": "Please enter the email associated with your account bellow. If the account with this email address exists, we will send you a link to reset your password."
     }
   },
   "toasts": {
@@ -63,6 +71,12 @@
       "verifyDevice": "You need to verify your new device.",
       "verifyEmail": "You need to verify your email address.",
       "invalidCredentials": "Invalid credentials!"
+    },
+    "register": {
+      "verifyEmail": "Registration successful. Now you need to verify your email address."
+    },
+    "passwordReset": {
+      "emailSent": "If the email exists, we have sent you an email with link to reset your password."
     }
   }
 }

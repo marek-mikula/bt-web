@@ -223,7 +223,7 @@ async function register(): Promise<void> {
     clearErrors()
 
     $toast.info({
-      title: i18n.t('toasts.login.verifyEmail').toString()
+      title: i18n.t('toasts.register.verifyEmail').toString()
     })
 
     await router.push({
