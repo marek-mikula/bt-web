@@ -2,11 +2,10 @@
   <div class="mx-auto w-full max-w-sm lg:w-96">
     <div>
       <h2 class="mt-6 text-4xl font-bold tracking-tight text-gray-900">
-        Reset password
+        {{ $t('pages.mfa.passwordReset.title') }}
       </h2>
       <p class="mt-2 text-gray-600">
-        Please enter your new password and secret code from the email we sent
-        you.
+        {{ $t('pages.mfa.passwordReset.subtitle') }}
       </p>
     </div>
 
@@ -22,11 +21,11 @@
             v-model="form.code"
             :name="'code'"
             :type="'text'"
-            :label="'Verification code'"
+            :label="$t('forms.mfa.verificationCode.label').toString()"
             :placeholder="'l8s21k'"
             :error="fieldError('code')"
             :maxlength="6"
-            :hint="'Enter 6-characters long verification code.'"
+            :hint="$t('forms.mfa.verificationCode.hint').toString()"
             required
           />
 
@@ -34,9 +33,9 @@
             v-model="form.password"
             :name="'password'"
             :type="'password'"
-            :label="'Password'"
+            :label="$t('forms.mfa.passwordReset.password.label').toString()"
             :autocomplete="'new-password'"
-            :hint="'Min. 8 characters. Must contain at least one symbol, number and mixed case letters.'"
+            :hint="$t('forms.mfa.passwordReset.password.hint').toString()"
             :error="fieldError('password')"
             required
           />
@@ -46,7 +45,7 @@
             v-model="form.passwordConfirm"
             :name="'passwordConfirm'"
             :type="'password'"
-            :label="'Password confirmation'"
+            :label="$t('forms.mfa.passwordReset.passwordConfirm').toString()"
             :autocomplete="'new-password'"
             :error="fieldError('passwordConfirm')"
             required
@@ -54,7 +53,7 @@
 
           <div>
             <CommonButton
-              :label="'Reset password'"
+              :label="$t('forms.mfa.passwordReset.submit').toString()"
               :type="'submit'"
               :size="4"
               :is-loading="isLoading"
@@ -65,7 +64,7 @@
               to="/"
               class="mt-3 flex inline-flex w-full items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
             >
-              Back to login
+              {{ $t('common.buttons.backToLogin') }}
             </NuxtLink>
           </div>
         </form>
@@ -90,7 +89,7 @@ import ResetPasswordForm from '~/types/forms/Mfa/ResetPasswordForm'
 
 const route = useRoute()
 const router = useRouter()
-const { $repositories } = useContext()
+const { $repositories, $toast, i18n } = useContext()
 const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
   useForm()
 
@@ -109,6 +108,12 @@ async function resetPassword(): Promise<void> {
       form
     )
 
+    clearErrors()
+
+    $toast.success({
+      title: i18n.t('toasts.mfa.passwordReset.success').toString()
+    })
+
     await router.push({ path: '/' })
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
@@ -116,18 +121,34 @@ async function resetPassword(): Promise<void> {
     if (response.data.code === RESPONSE_CODE.INVALID_CONTENT) {
       parseErrors(response.data as InvalidContentResponse)
 
+      $toast.error({
+        title: i18n.t('toasts.common.formErrors').toString()
+      })
+
       return
     }
 
     clearErrors()
 
-    if (response.data.code === RESPONSE_CODE.INVALID_MFA_CODE) {
-      // show invalid MFA code error
+    if (response.data.code === RESPONSE_CODE.INVALID_OR_MISSING_MFA_TOKEN) {
+      $toast.error({
+        title: i18n.t('toasts.mfa.invalidToken').toString()
+      })
 
       return
     }
 
-    // show common error
+    if (response.data.code === RESPONSE_CODE.INVALID_MFA_CODE) {
+      $toast.error({
+        title: i18n.t('toasts.mfa.invalidCode').toString()
+      })
+
+      return
+    }
+
+    $toast.error({
+      title: i18n.t('toasts.common.somethingWentWrong').toString()
+    })
   } finally {
     setIsLoading(false)
   }

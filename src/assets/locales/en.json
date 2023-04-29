@@ -34,9 +34,32 @@
     "passwordReset": {
       "email": "Email address",
       "submit": "Reset password"
+    },
+    "mfa": {
+      "verificationCode": {
+        "label": "Verification code",
+        "hint": "Enter 6-characters long verification code."
+      },
+      "passwordReset": {
+        "password": {
+          "label": "Password",
+          "hint": "Min. 8 characters. Must contain at least one symbol, number and mixed case letters."
+        },
+        "passwordConfirm": "Password confirmation",
+        "submit": "Reset password"
+      },
+      "verifyDevice": {
+        "submit": "Verify device"
+      },
+      "verifyEmail": {
+        "submit": "Verify email"
+      }
     }
   },
   "pages": {
+    "auth": {
+      "imageByMidJourney": "Image by Midjourney"
+    },
     "login": {
       "title": "Sign in to your account",
       "subtitle": {
@@ -59,6 +82,20 @@
     "passwordReset": {
       "title": "Password reset",
       "subtitle": "Please enter the email associated with your account bellow. If the account with this email address exists, we will send you a link to reset your password."
+    },
+    "mfa": {
+      "passwordReset": {
+        "title": "Reset password",
+        "subtitle": "Please enter your new password and secret code from the email we have sent you."
+      },
+      "verifyDevice": {
+        "title": "Verify your new device",
+        "subtitle": "We have sent you a code to your email address. Please enter the code and verify your new device."
+      },
+      "verifyEmail": {
+        "title": "Verify your email address",
+        "subtitle": "We have sent you a code to your email address. Please enter the code and verify your email."
+      }
     }
   },
   "toasts": {
@@ -77,6 +114,19 @@
     },
     "passwordReset": {
       "emailSent": "If the email exists, we have sent you an email with link to reset your password."
+    },
+    "mfa": {
+      "invalidCode": "The verification code is invalid.",
+      "invalidToken": "The link with given token is no longer valid.",
+      "passwordReset": {
+        "success": "The password has been successfully reset."
+      },
+      "verifyDevice": {
+        "success": "Your new device has been successfully verified."
+      },
+      "verifyEmail": {
+        "success": "Your email address has been successfully verified."
+      }
     }
   }
 }
