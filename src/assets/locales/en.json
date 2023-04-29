@@ -1,1 +1,42 @@
-{}
+{
+  "common": {
+    "buttons": {
+      "save": "Save",
+      "create": "Create",
+      "update": "Update",
+      "delete": "Delete",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
+  },
+  "forms": {
+    "login": {
+      "email": "Email address",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "signIn": "Sign in"
+    }
+  },
+  "pages": {
+    "login": {
+      "title": "Sign in to your account",
+      "subtitle": {
+        "or": "Or",
+        "createNewAccount": "create a new account"
+      },
+      "forgottenPassword": "Forgot your password?"
+    }
+  },
+  "toasts": {
+    "common": {
+      "formErrors": "There are some errors in the form.",
+      "somethingWentWrong": "Oops! Something went wrong. Please contact support for more information."
+    },
+    "login": {
+      "loggedIn": "Successfully logged in!",
+      "verifyDevice": "You need to verify your new device.",
+      "verifyEmail": "You need to verify your email address.",
+      "invalidCredentials": "Invalid credentials!"
+    }
+  }
+}
