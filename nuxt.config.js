@@ -6,7 +6,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'bt-web',
+    title: 'BT-WEB',
     htmlAttrs: {
       lang: 'en',
       class: 'h-full bg-gray-50'
@@ -25,7 +25,8 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: ''
+        content:
+          'Simple application interface for newcomers to the crypto-world to buy cryptocurrency with ease!'
       },
       {
         name: 'format-detection',

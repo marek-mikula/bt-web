@@ -6,7 +6,8 @@
       "update": "Update",
       "delete": "Delete",
       "confirm": "Confirm",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "backToLogin": "Back to login"
     }
   },
   "forms": {
@@ -14,7 +15,21 @@
       "email": "Email address",
       "password": "Password",
       "rememberMe": "Remember me",
-      "signIn": "Sign in"
+      "submit": "Sign in"
+    },
+    "register": {
+      "firstname": "First name",
+      "lastname": "Last name",
+      "email": "Email address",
+      "birthdate": "Birth date",
+      "password": {
+        "label": "Password",
+        "hint": "Min. 8 characters. Must contain at least one symbol, number and mixed case letters."
+      },
+      "passwordConfirm": "Password confirmation",
+      "publicKey": "Public key",
+      "secretKey": "Secret key",
+      "submit": "Register"
     }
   },
   "pages": {
@@ -25,6 +40,17 @@
         "createNewAccount": "create a new account"
       },
       "forgottenPassword": "Forgot your password?"
+    },
+    "register": {
+      "title": "Create new account",
+      "sections": {
+        "personal": "Personal information",
+        "passwords": "Passwords",
+        "keys": {
+          "label": "Keys",
+          "hint": "Paste your Binance API keys here. They will be encrypted and kept in safety. We will use the to communicate with Binance API."
+        }
+      }
     }
   },
   "toasts": {

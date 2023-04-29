@@ -64,7 +64,7 @@
 
           <div>
             <CommonButton
-              :label="$t('forms.login.signIn').toString()"
+              :label="$t('forms.login.submit').toString()"
               :type="'submit'"
               :is-loading="isLoading"
               :size="4"

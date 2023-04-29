@@ -8,7 +8,7 @@
           <h2
             class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight"
           >
-            Create new account
+            {{ $t('pages.register.title') }}
           </h2>
         </div>
         <div class="mt-4 flex md:ml-4 md:mt-0">
@@ -16,7 +16,7 @@
             to="/"
             class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
           >
-            Back to login
+            {{ $t('common.buttons.backToLogin') }}
           </NuxtLink>
         </div>
       </div>
@@ -29,7 +29,7 @@
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-3">
           <div class="px-4 sm:px-0">
             <h2 class="text-base font-semibold leading-7 text-gray-900">
-              Personal Information
+              {{ $t('pages.register.sections.personal') }}
             </h2>
           </div>
 
@@ -44,7 +44,7 @@
                   v-model="form.firstname"
                   :name="'firstname'"
                   :type="'text'"
-                  :label="'First name'"
+                  :label="$t('forms.register.firstname').toString()"
                   :autocomplete="'given-name'"
                   :error="fieldError('firstname')"
                   class="sm:col-span-3"
@@ -55,7 +55,7 @@
                   v-model="form.lastname"
                   :name="'lastname'"
                   :type="'text'"
-                  :label="'Last name'"
+                  :label="$t('forms.register.lastname').toString()"
                   :autocomplete="'family-name'"
                   :error="fieldError('lastname')"
                   class="sm:col-span-3"
@@ -66,7 +66,7 @@
                   v-model="form.email"
                   :name="'email'"
                   :type="'email'"
-                  :label="'Email address'"
+                  :label="$t('forms.register.email').toString()"
                   :autocomplete="'email'"
                   :error="fieldError('email')"
                   class="col-span-full"
@@ -78,7 +78,7 @@
                   v-model="form.birthDate"
                   :name="'birthDate'"
                   :type="'date'"
-                  :label="'Birth date'"
+                  :label="$t('forms.register.birthdate').toString()"
                   :autocomplete="'bday'"
                   :error="fieldError('birthDate')"
                   class="col-span-full"
@@ -92,7 +92,7 @@
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pt-10 md:grid-cols-3">
           <div class="px-4 sm:px-0">
             <h2 class="text-base font-semibold leading-7 text-gray-900">
-              Passwords
+              {{ $t('pages.register.sections.passwords') }}
             </h2>
           </div>
 
@@ -107,9 +107,9 @@
                   v-model="form.password"
                   :name="'password'"
                   :type="'password'"
-                  :label="'Password'"
+                  :label="$t('forms.register.password.label').toString()"
                   :autocomplete="'new-password'"
-                  :hint="'Min. 8 characters. Must contain at least one symbol, number and mixed case letters.'"
+                  :hint="$t('forms.register.password.hint').toString()"
                   :error="fieldError('password')"
                   class="col-span-full"
                   required
@@ -120,7 +120,7 @@
                   v-model="form.passwordConfirm"
                   :name="'passwordConfirm'"
                   :type="'password'"
-                  :label="'Password confirmation'"
+                  :label="$t('forms.register.passwordConfirm').toString()"
                   :autocomplete="'new-password'"
                   :error="fieldError('passwordConfirm')"
                   class="col-span-full"
@@ -134,12 +134,10 @@
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pt-10 md:grid-cols-3">
           <div class="px-4 sm:px-0">
             <h2 class="text-base font-semibold leading-7 text-gray-900">
-              Keys
+              {{ $t('pages.register.sections.keys.label') }}
             </h2>
             <p class="mt-1 text-sm leading-6 text-gray-600">
-              Paste your <strong>Binance API</strong> keys here. They will be
-              encrypted and kept in safety. We will use the to communicate with
-              Binance API.
+              {{ $t('pages.register.sections.keys.hint') }}
             </p>
           </div>
 
@@ -154,7 +152,7 @@
                   :id="'public-key'"
                   v-model="form.publicKey"
                   :name="'publicKey'"
-                  :label="'Public key'"
+                  :label="$t('forms.register.publicKey').toString()"
                   :placeholder="'mpX28HOXXSzKVKAc4zI6xHfC1Wp9rTTInPgxTdphmsDNTL3rVouMpJnI8VfdXy0x'"
                   :error="fieldError('publicKey')"
                   class="col-span-full"
@@ -165,7 +163,7 @@
                   :id="'secret-key'"
                   v-model="form.secretKey"
                   :name="'secretKey'"
-                  :label="'Secret key'"
+                  :label="$t('forms.register.secretKey').toString()"
                   :placeholder="'oB8yyGiCwyL3qRbEfI0hy7l9e8m1mnJtbLMEEkH5LK8K1M18XbKqD5YfKCmUiNIw'"
                   :error="fieldError('secretKey')"
                   class="col-span-full"
@@ -177,7 +175,7 @@
               class="flex items-center justify-end gap-x-2 border-t border-gray-900/10 px-4 py-4 sm:px-8"
             >
               <CommonButton
-                :label="'Register'"
+                :label="$t('forms.register.submit').toString()"
                 :type="'submit'"
                 :size="4"
                 :is-loading="isLoading"
@@ -199,7 +197,7 @@ import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import { useForm } from '~/composables/forms/form'
 import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 
-const { $repositories } = useContext()
+const { $repositories, $toast, i18n } = useContext()
 const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
   useForm()
 
@@ -224,6 +222,10 @@ async function register(): Promise<void> {
 
     clearErrors()
 
+    $toast.info({
+      title: i18n.t('toasts.login.verifyEmail').toString()
+    })
+
     await router.push({
       path: '/mfa/verify-email',
       query: { token: response.data.data.token.token }
@@ -234,12 +236,18 @@ async function register(): Promise<void> {
     if (response.data.code === RESPONSE_CODE.INVALID_CONTENT) {
       parseErrors(response.data as InvalidContentResponse)
 
+      $toast.error({
+        title: i18n.t('toasts.common.formErrors').toString()
+      })
+
       return
     }
 
     clearErrors()
 
-    // show common error
+    $toast.error({
+      title: i18n.t('toasts.common.somethingWentWrong').toString()
+    })
   } finally {
     setIsLoading(false)
   }
