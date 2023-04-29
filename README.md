@@ -77,3 +77,7 @@ Configuration file tailwind css styles.
 ### [`tsconfig.json`](./tsconfig.json)
 
 Configuration file for typescript.
+
+## Icons
+
+All icons used in this project were taken from Heroicons. For more information, go to https://heroicons.com/.
