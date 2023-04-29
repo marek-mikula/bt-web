@@ -2,12 +2,10 @@
   <div class="mx-auto w-full max-w-sm lg:w-96">
     <div>
       <h2 class="mt-6 text-4xl font-bold tracking-tight text-gray-900">
-        Password reset
+        {{ $t('pages.passwordReset.title') }}
       </h2>
       <p class="mt-2 text-gray-600">
-        Please enter the email associated with your account bellow. If the
-        account with this email address exists, we will send you a link to reset
-        your password.
+        {{ $t('pages.passwordReset.subtitle') }}
       </p>
     </div>
 
@@ -23,7 +21,7 @@
             v-model="form.email"
             :name="'email'"
             :type="'email'"
-            :label="'Email address'"
+            :label="$t('forms.passwordReset.email').toString()"
             :autocomplete="'email'"
             :error="fieldError('email')"
             required
@@ -31,7 +29,7 @@
 
           <div>
             <CommonButton
-              :label="'Reset password'"
+              :label="$t('forms.passwordReset.submit').toString()"
               :type="'submit'"
               :size="4"
               :is-loading="isLoading"
@@ -42,7 +40,7 @@
               to="/"
               class="mt-3 flex inline-flex w-full items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
             >
-              Back to login
+              {{ $t('common.buttons.backToLogin') }}
             </NuxtLink>
           </div>
         </form>
@@ -60,7 +58,7 @@ import InvalidContentResponse from '~/types/http/responses/InvalidContentRespons
 import { useForm } from '~/composables/forms/form'
 import SendEmailForm from '~/types/forms/PasswordReset/SendEmailForm'
 
-const { $repositories } = useContext()
+const { $repositories, $toast, i18n } = useContext()
 const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
   useForm()
 
@@ -73,18 +71,30 @@ async function sendEmail(): Promise<void> {
 
   try {
     await $repositories.passwordReset.sendEmail(form)
+
+    clearErrors()
+
+    $toast.success({
+      title: i18n.t('toasts.passwordReset.emailSent').toString()
+    })
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 
     if (response.data.code === RESPONSE_CODE.INVALID_CONTENT) {
       parseErrors(response.data as InvalidContentResponse)
 
+      $toast.error({
+        title: i18n.t('toasts.common.formErrors').toString()
+      })
+
       return
     }
 
     clearErrors()
 
-    // show common error
+    $toast.error({
+      title: i18n.t('toasts.common.somethingWentWrong').toString()
+    })
   } finally {
     setIsLoading(false)
   }

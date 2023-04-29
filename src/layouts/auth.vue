@@ -6,13 +6,12 @@
         src="/img/auth-bg.png"
         alt="Cryptocurrency abstract background"
       />
-
       <a
         href="https://www.midjourney.com/"
         target="_blank"
-        class="absolute left-4 bottom-4 inline-flex cursor-pointer items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-sm font-medium text-indigo-800 opacity-80 hover:bg-indigo-200"
+        class="absolute left-4 bottom-4 inline-flex cursor-pointer items-center rounded-md text-sm font-medium opacity-80 hover:text-gray-800"
       >
-        Image by Midjourney
+        {{ $t('pages.auth.imageByMidJourney') }}
       </a>
     </div>
     <div

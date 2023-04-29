@@ -2,15 +2,15 @@
   <div class="mx-auto w-full max-w-sm lg:w-96">
     <div>
       <h2 class="mt-6 text-4xl font-bold tracking-tight text-gray-900">
-        Sign in to your account
+        {{ $t('pages.login.title') }}
       </h2>
       <p class="mt-2 text-gray-600">
-        Or
+        {{ $t('pages.login.subtitle.or') }}
         <NuxtLink
           to="/register"
           class="font-medium text-indigo-600 hover:text-indigo-500"
         >
-          create a new account
+          {{ $t('pages.login.subtitle.createNewAccount') }}
         </NuxtLink>
       </p>
     </div>
@@ -27,7 +27,7 @@
             v-model="form.email"
             :name="'email'"
             :type="'email'"
-            :label="'Email Address'"
+            :label="$t('forms.login.email').toString()"
             :autocomplete="'email'"
             :error="fieldError('email')"
             required
@@ -37,7 +37,7 @@
             v-model="form.password"
             :name="'password'"
             :type="'password'"
-            :label="'Password'"
+            :label="$t('forms.login.password').toString()"
             :autocomplete="'current-password'"
             :error="fieldError('password')"
             required
@@ -48,7 +48,7 @@
               :id="'remember-me'"
               v-model="form.rememberMe"
               :name="'rememberMe'"
-              :label="'Remember me'"
+              :label="$t('forms.login.rememberMe').toString()"
               :error="fieldError('rememberMe')"
             />
 
@@ -57,14 +57,14 @@
                 to="/password-reset"
                 class="font-medium text-indigo-600 hover:text-indigo-500"
               >
-                Forgot your password?
+                {{ $t('pages.login.forgottenPassword') }}
               </NuxtLink>
             </div>
           </div>
 
           <div>
             <CommonButton
-              :label="'Sign in'"
+              :label="$t('forms.login.submit').toString()"
               :type="'submit'"
               :is-loading="isLoading"
               :size="4"
@@ -88,7 +88,7 @@ import { useForm } from '~/composables/forms/form'
 import MfaTokenResponse from '~/types/http/responses/MfaTokenResponse'
 import { MFA_TOKEN_TYPE } from '~/enums/MfaTokenType'
 
-const { $repositories, $auth } = useContext()
+const { $repositories, $auth, $toast, i18n } = useContext()
 const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
   useForm()
 const router = useRouter()
@@ -118,6 +118,10 @@ async function login(): Promise<void> {
       response.data.data.token.refreshToken
     )
 
+    $toast.success({
+      title: i18n.t('toasts.login.loggedIn').toString()
+    })
+
     await router.push({ path: '/app' })
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
@@ -125,18 +129,26 @@ async function login(): Promise<void> {
     if (response.data.code === RESPONSE_CODE.INVALID_CONTENT) {
       parseErrors(response.data as InvalidContentResponse)
 
+      $toast.error({
+        title: i18n.t('toasts.common.formErrors').toString()
+      })
+
       return
     }
 
     clearErrors()
 
     if (response.data.code === RESPONSE_CODE.INVALID_CREDENTIALS) {
-      // show invalid credentials error
+      $toast.error({
+        title: i18n.t('toasts.login.invalidCredentials').toString()
+      })
 
       return
     }
 
-    // show common error
+    $toast.error({
+      title: i18n.t('toasts.common.somethingWentWrong').toString()
+    })
   } finally {
     setIsLoading(false)
   }
@@ -147,6 +159,15 @@ async function redirectToMfa(data: MfaTokenResponse): Promise<void> {
     data.data.token.type === MFA_TOKEN_TYPE.VERIFY_DEVICE
       ? '/mfa/verify-device'
       : '/mfa/verify-email'
+
+  const toastMessage =
+    data.data.token.type === MFA_TOKEN_TYPE.VERIFY_DEVICE
+      ? 'toasts.login.verifyDevice'
+      : 'toasts.login.verifyEmail'
+
+  $toast.info({
+    title: i18n.t(toastMessage).toString()
+  })
 
   await router.push({
     path: route,
