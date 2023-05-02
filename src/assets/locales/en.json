@@ -62,11 +62,8 @@
     },
     "login": {
       "title": "Sign in to your account",
-      "subtitle": {
-        "or": "Or",
-        "createNewAccount": "create a new account"
-      },
-      "forgottenPassword": "Forgot your password?"
+      "forgottenPassword": "Forgot your password?",
+      "createNewAccount": "Create a new account"
     },
     "register": {
       "title": "Create new account",

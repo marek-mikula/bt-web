@@ -4,15 +4,6 @@
       <h2 class="mt-6 text-4xl font-bold tracking-tight text-gray-900">
         {{ $t('pages.login.title') }}
       </h2>
-      <p class="mt-2 text-gray-600">
-        {{ $t('pages.login.subtitle.or') }}
-        <NuxtLink
-          to="/register"
-          class="font-medium text-indigo-600 hover:text-indigo-500"
-        >
-          {{ $t('pages.login.subtitle.createNewAccount') }}
-        </NuxtLink>
-      </p>
     </div>
 
     <div class="mt-8">
@@ -70,6 +61,13 @@
               :size="4"
               block
             />
+
+            <NuxtLink
+              to="/register"
+              class="mt-3 flex inline-flex w-full items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            >
+              {{ $t('pages.login.createNewAccount') }}
+            </NuxtLink>
           </div>
         </form>
       </div>
