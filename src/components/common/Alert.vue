@@ -60,9 +60,10 @@
           {{ label }}
         </h3>
         <div :class="['text-sm', messageClass]">
-          <p>
+          <p v-if="message">
             {{ message }}
           </p>
+          <slot v-else>Empty message</slot>
         </div>
       </div>
       <div v-if="closable" class="ml-auto pl-3">
@@ -101,16 +102,17 @@ const element = ref<HTMLElement | null>(null)
 const active = ref<boolean>(false)
 
 interface Props {
-  message: string
+  message?: string | null
   type?: 'success' | 'danger' | 'warning' | 'info'
   label?: string | null
   closable?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  message: null,
   type: 'success',
   label: null,
-  closable: true
+  closable: false
 })
 
 const containerClass = computed<string>((): string => {
