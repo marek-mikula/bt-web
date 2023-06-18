@@ -3,6 +3,8 @@ export default interface UserEntity {
   firstname: string
   lastname: string
   email: string
+  quizTaken: boolean
+  quizFinishedAt: string
   createdAt: string
   updatedAt: string
 }
