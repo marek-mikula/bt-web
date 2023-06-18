@@ -82,6 +82,7 @@ export default {
   plugins: [
     '~/plugins/axios.ts',
     '~/plugins/repositories.ts',
+    '~/plugins/configs.ts',
     '~/plugins/lodash.ts',
     { src: '~/plugins/toast.ts', mode: 'client' }
   ],
@@ -184,7 +185,10 @@ export default {
   },
 
   router: {
-    middleware: ['auth']
+    middleware: [
+      'auth', // middleware for authentication
+      'quiz' // middleware to check if user passed the entry quiz
+    ]
   },
 
   // Auth module config

@@ -126,6 +126,7 @@ import {
   ref
 } from '@nuxtjs/composition-api'
 import { TOAST_TYPE } from '~/enums/common/ToastType'
+import { removeElement } from '~/helpers'
 
 const element = ref<HTMLElement | null>(null)
 const active = ref<boolean>(false)
@@ -200,14 +201,6 @@ function updateTime(): void {
 function stopInterval(): void {
   if (interval.value) {
     window.clearInterval(interval.value)
-  }
-}
-
-function removeElement(element: HTMLElement): void {
-  if (typeof element.remove !== 'undefined') {
-    element.remove()
-  } else {
-    element?.parentNode?.removeChild(element)
   }
 }
 
