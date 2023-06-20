@@ -29,6 +29,10 @@ export default class QuizConfig extends BaseConfig {
         ],
         hint: '“Hot wallet” je připojena k internetu a je vhodná pro časté obchodování, zatímco “cold wallet” je offline, nabízí vylepšené zabezpečení pro dlouhodobé skladování a má podobu fyzického zařízení.'
       }
-    ]
+    ].map((question: QuizQuestion): QuizQuestion => {
+      // shuffle answers
+      question.answers = this.context.$_.shuffle(question.answers)
+      return question
+    })
   }
 }

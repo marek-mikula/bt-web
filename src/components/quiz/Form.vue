@@ -2,7 +2,7 @@
   <div class="mx-auto max-w-lg overflow-hidden rounded-lg bg-white shadow">
     <!-- List of answers and question texts -->
     <template v-if="currentQuestion">
-      <div class="space-y-5 px-4 py-5 sm:px-6">
+      <div class="relative space-y-5 px-4 py-5 sm:px-6">
         <div class="flex rounded-lg bg-gray-50 p-4">
           <div class="flex-shrink-0">
             <svg
@@ -64,33 +64,44 @@
           <CommonButton color="secondary" label="Back" @click="stepBack" />
           <CommonButton
             label="Next"
-            :disabled="!currentAnswer"
+            :disabled="!currentAnswer || !!interval"
             @click="stepNext"
           />
         </div>
+
+        <div
+          v-if="interval"
+          class="absolute left-0 bottom-0 right-0 h-1 rounded bg-blue-400"
+          :style="timerProgressStyle"
+        ></div>
       </div>
     </template>
 
     <!-- Starting informational text -->
     <template v-else>
-      <div class="px-4 py-5 sm:px-6">Informational quiz</div>
-      <div class="px-4 py-5 sm:p-6">
-        <p class="mb-3 text-justify">
-          Welcome to our crypto investment application for beginners! To ensure
-          that you have the necessary knowledge to make informed investment
-          decisions, we kindly request you to complete our mandatory entry quiz.
-        </p>
-        <p class="text-justify">
-          This quiz is designed specifically for beginners like you, covering
-          essential concepts and strategies related to crypto investments. By
-          completing the quiz, you'll gain the foundation needed to navigate the
-          exciting world of cryptocurrencies with confidence. Start your
-          educational journey today and unlock the full potential of our
-          application. Happy learning and successful investing!
-        </p>
-      </div>
-      <div class="px-4 py-4 text-right sm:px-6">
-        <CommonButton label="Start quiz" @click="startQuiz" />
+      <div class="space-y-5 px-4 py-5 sm:px-6">
+        <h1 class="text-2xl">Informational quiz</h1>
+
+        <div>
+          <p class="mb-3 text-justify">
+            Welcome to our crypto investment application for beginners! To
+            ensure that you have the necessary knowledge to make informed
+            investment decisions, we kindly request you to complete our
+            mandatory entry quiz.
+          </p>
+          <p class="text-justify">
+            This quiz is designed specifically for beginners like you, covering
+            essential concepts and strategies related to crypto investments. By
+            completing the quiz, you'll gain the foundation needed to navigate
+            the exciting world of cryptocurrencies with confidence. Start your
+            educational journey today and unlock the full potential of our
+            application. Happy learning and successful investing!
+          </p>
+        </div>
+
+        <div class="flex justify-end">
+          <CommonButton label="Start quiz" @click="startQuiz" />
+        </div>
       </div>
     </template>
   </div>
@@ -110,6 +121,12 @@ const { $configs } = useContext()
 
 const questions = $configs.quiz.getQuestions()
 const answers = ref<Answer[]>([])
+
+// timer vars
+const timeout = ref<number>(3)
+const interval = ref<number | null>(null)
+const timeLeft = ref<number | null>(null)
+const speed = ref<number>(100)
 
 // hold the information about current question
 const currentQuestionId = ref<number | null>(null)
@@ -140,6 +157,16 @@ const currentAnswer = computed<Answer | null>((): Answer | null => {
   )
 })
 
+const timerLeftPercent = computed<number>((): number =>
+  Math.round(
+    ((((timeLeft.value ?? 0) * 100) / (timeout.value * 1000)) * 100) / 100
+  )
+)
+const timerProgressStyle = computed<string>(
+  (): string =>
+    `width: ${timerLeftPercent.value}%; transition: width 0.1s linear;`
+)
+
 function startQuiz(): void {
   currentQuestionId.value = questions[0].id
 }
@@ -154,6 +181,26 @@ function selectAnswer(answerId: number, correct: boolean): void {
     answer: answerId,
     correct
   })
+
+  timeLeft.value = timeout.value * 1000
+  interval.value = window.setInterval((): void => updateTimer(), speed.value)
+}
+
+function resetTimer(): void {
+  if (interval.value) {
+    window.clearInterval(interval.value)
+    interval.value = null
+  }
+
+  timeLeft.value = null
+}
+
+function updateTimer(): void {
+  timeLeft.value = (timeLeft.value ?? 0) - speed.value
+
+  if (timeLeft.value <= 0) {
+    resetTimer()
+  }
 }
 
 function stepNext(): void {}
@@ -168,6 +215,16 @@ function stepBack(): void {
 
     previousQuestion = question
   }
+
+  // remove current answer if any when going back
+  if (currentQuestionId.value) {
+    answers.value = answers.value.filter(
+      (answer) => answer.id !== currentQuestionId.value
+    )
+  }
+
+  // reset timer
+  resetTimer()
 
   currentQuestionId.value = previousQuestion?.id || null
 }
