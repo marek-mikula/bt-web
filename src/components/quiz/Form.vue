@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto max-w-lg overflow-hidden rounded-lg bg-white shadow">
     <!-- List of answers and question texts -->
-    <template v-if="currentQuestion">
+    <template v-if="isInProgressState">
       <div class="relative space-y-5 px-4 py-5 sm:px-6">
         <div class="flex rounded-lg bg-gray-50 p-4">
           <div class="flex-shrink-0">
@@ -11,7 +11,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="h-6 w-6"
+              class="h-5 w-5"
             >
               <path
                 stroke-linecap="round"
@@ -35,7 +35,7 @@
               {
                 'border-green-200 bg-green-50 text-green-700': answer.correct,
                 'border-red-200 bg-red-50 text-red-700':
-                  currentAnswer.answer === answer.id && !answer.correct
+                  currentAnswer === answer.id && !answer.correct
               }
             ]"
           >
@@ -49,7 +49,7 @@
             v-for="answer in currentQuestion.answers"
             :key="answer.id"
             class="cursor-pointer rounded-lg border-2 border-gray-200 p-3 hover:bg-gray-200"
-            @click="selectAnswer(answer.id, !!answer.correct)"
+            @click="selectAnswer(answer)"
           >
             <p>{{ answer.answer }}</p>
           </div>
@@ -60,20 +60,69 @@
           <CommonAlert type="info" :message="currentQuestion.hint" />
         </div>
 
-        <div class="flex justify-between">
-          <CommonButton color="secondary" label="Back" @click="stepBack" />
+        <div class="flex items-center justify-between">
+          <!-- back button -->
+          <CommonButton color="secondary" @click="stepBack">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-5 w-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 19.5L8.25 12l7.5-7.5"
+              />
+            </svg>
+          </CommonButton>
+
+          <span class="text-gray-500">
+            {{ currentQuestionId }} / {{ questions.length }}
+          </span>
+
+          <!-- finish/next button -->
           <CommonButton
-            label="Next"
             :disabled="!currentAnswer || !!interval"
             @click="stepNext"
-          />
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-5 w-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          </CommonButton>
         </div>
 
+        <!-- interval block -->
         <div
-          v-if="interval"
-          class="absolute left-0 bottom-0 right-0 h-1 rounded bg-blue-400"
+          v-if="interval && currentAnswer"
+          :class="[
+            'absolute left-0 bottom-0 right-0 h-1 rounded',
+            {
+              'bg-red-400': !isCurrentAnswerCorrect,
+              'bg-green-400': isCurrentAnswerCorrect
+            }
+          ]"
           :style="timerProgressStyle"
         ></div>
+      </div>
+    </template>
+
+    <template v-else-if="isInFinishedState">
+      <div class="relative space-y-5 px-4 py-5 sm:px-6">
+        <p>Finito bráško!</p>
       </div>
     </template>
 
@@ -99,8 +148,8 @@
           </p>
         </div>
 
-        <div class="flex justify-end">
-          <CommonButton label="Start quiz" @click="startQuiz" />
+        <div>
+          <CommonButton label="Start quiz" block @click="stepNext" />
         </div>
       </div>
     </template>
@@ -108,28 +157,41 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useContext } from '@nuxtjs/composition-api'
-import QuizQuestion from '~/types/configs/QuizQuestion'
+import { computed, onMounted, ref, useContext } from '@nuxtjs/composition-api'
+import Vue from 'vue'
+import { QuizAnswer, QuizQuestion } from '~/types/configs/Quiz'
 
-type Answer = {
-  id: number
-  answer: number
-  correct: boolean
+const LOCAL_STORAGE_KEY = 'quiz-answers'
+
+enum State {
+  DEFAULT = 1,
+  IN_PROGRESS = 2,
+  FINISHED = 3
 }
 
 const { $configs } = useContext()
 
 const questions = $configs.quiz.getQuestions()
-const answers = ref<Answer[]>([])
+const answers = ref<{ [key: number]: number }>({})
+
+// quiz state
+const state = ref<State>(State.DEFAULT)
 
 // timer vars
-const timeout = ref<number>(3)
+const timeout = ref<number>(2)
 const interval = ref<number | null>(null)
 const timeLeft = ref<number | null>(null)
 const speed = ref<number>(100)
 
 // hold the information about current question
 const currentQuestionId = ref<number | null>(null)
+
+const isInProgressState = computed<boolean>(
+  (): boolean => state.value === State.IN_PROGRESS
+)
+const isInFinishedState = computed<boolean>(
+  (): boolean => state.value === State.FINISHED
+)
 
 // current question object
 const currentQuestion = computed<QuizQuestion | null>(
@@ -146,41 +208,38 @@ const currentQuestion = computed<QuizQuestion | null>(
 )
 
 // current user's answer object
-const currentAnswer = computed<Answer | null>((): Answer | null => {
+const currentAnswer = computed<number | null>((): number | null => {
   if (!currentQuestionId.value) {
     return null
   }
 
+  return answers.value[currentQuestionId.value] ?? null
+})
+
+const isCurrentAnswerCorrect = computed<boolean>((): boolean => {
+  if (!currentAnswer.value || !currentQuestion.value) {
+    return false
+  }
+
   return (
-    answers.value.find((answer) => answer.id === currentQuestionId.value) ||
-    null
+    currentQuestion.value?.answers?.find((answer) => answer.correct)?.id ===
+    currentAnswer.value
   )
 })
 
-const timerLeftPercent = computed<number>((): number =>
-  Math.round(
+const timerProgressStyle = computed<string>((): string => {
+  const leftPercent = Math.round(
     ((((timeLeft.value ?? 0) * 100) / (timeout.value * 1000)) * 100) / 100
   )
-)
-const timerProgressStyle = computed<string>(
-  (): string =>
-    `width: ${timerLeftPercent.value}%; transition: width 0.1s linear;`
-)
+  return `width: ${leftPercent}%; transition: width 0.1s linear;`
+})
 
-function startQuiz(): void {
-  currentQuestionId.value = questions[0].id
-}
-
-function selectAnswer(answerId: number, correct: boolean): void {
-  if (!currentQuestion.value) {
+function selectAnswer(answer: QuizAnswer): void {
+  if (!currentQuestionId.value) {
     return
   }
 
-  answers.value.push({
-    id: currentQuestion.value.id,
-    answer: answerId,
-    correct
-  })
+  Vue.set(answers.value, currentQuestionId.value, answer.id)
 
   timeLeft.value = timeout.value * 1000
   interval.value = window.setInterval((): void => updateTimer(), speed.value)
@@ -203,31 +262,116 @@ function updateTimer(): void {
   }
 }
 
-function stepNext(): void {}
+function getPreviousQuestion(): QuizQuestion | null {
+  return (
+    questions.find((question) => question.id + 1 === currentQuestionId.value) ||
+    null
+  )
+}
+
+function getNextQuestion(): QuizQuestion | null {
+  return (
+    questions.find(
+      (question) => (currentQuestionId.value ?? 0) + 1 === question.id
+    ) || null
+  )
+}
+
+function stepNext(): void {
+  const nextQuestion = getNextQuestion()
+
+  // reset timer just in case
+  resetTimer()
+
+  // update quiz state if this was the end of the quiz
+  if (!nextQuestion) {
+    removeProgress()
+
+    state.value = State.FINISHED
+
+    return
+  }
+
+  // save progress
+  saveProgress(answers.value)
+
+  const isStart = !currentQuestionId.value
+
+  currentQuestionId.value = nextQuestion.id
+
+  // update quiz state if this was the start of the quiz
+  if (isStart) {
+    state.value = State.IN_PROGRESS
+  }
+}
 
 function stepBack(): void {
-  let previousQuestion = null
-
-  for (const question of questions) {
-    if (question.id === currentQuestionId.value) {
-      break
-    }
-
-    previousQuestion = question
-  }
+  const previousQuestion = getPreviousQuestion()
 
   // remove current answer if any when going back
   if (currentQuestionId.value) {
-    answers.value = answers.value.filter(
-      (answer) => answer.id !== currentQuestionId.value
-    )
+    Vue.delete(answers.value, currentQuestionId.value)
   }
+
+  // there is no previous question => user is at the start
+  if (!previousQuestion) {
+    state.value = State.DEFAULT
+  }
+
+  // save progress
+  saveProgress(answers.value)
 
   // reset timer
   resetTimer()
 
   currentQuestionId.value = previousQuestion?.id || null
 }
+
+function loadProgress(): { [key: number]: number } | null {
+  let value = localStorage.getItem(LOCAL_STORAGE_KEY)
+
+  if (!value) {
+    return null
+  }
+
+  value = JSON.parse(value)
+
+  if (typeof value !== 'object') {
+    return null
+  }
+
+  return value as any as { [key: number]: number }
+}
+
+function removeProgress(): void {
+  localStorage.removeItem(LOCAL_STORAGE_KEY)
+}
+
+function saveProgress(answers: { [key: number]: number }): void {
+  if (!Object.keys(answers).length) {
+    localStorage.removeItem(LOCAL_STORAGE_KEY)
+
+    return
+  }
+
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(answers))
+}
+
+onMounted((): void => {
+  const progress = loadProgress()
+
+  if (!progress) {
+    return
+  }
+
+  answers.value = progress
+
+  currentQuestionId.value =
+    Math.max(...Object.keys(answers.value).map((answer) => parseInt(answer))) +
+    1
+
+  state.value = State.IN_PROGRESS
+})
 </script>
 
 <script lang="ts">

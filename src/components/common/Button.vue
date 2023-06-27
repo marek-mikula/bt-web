@@ -8,6 +8,9 @@
     <span v-if="isLoading">
       {{ 'Loading' + loadingText }}
     </span>
+    <template v-else-if="$slots['default']">
+      <slot></slot>
+    </template>
     <span v-else>
       {{ label }}
     </span>
@@ -18,7 +21,7 @@
 import { computed, onBeforeUnmount, ref, watch } from '@nuxtjs/composition-api'
 
 interface Props {
-  label: string
+  label?: string | null
   size?: 1 | 2 | 3 | 4 | 5 // 1 - smallest, 5 - biggest,
   color?: 'primary' | 'secondary'
   rounded?: boolean
@@ -30,6 +33,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  label: null,
   size: 3,
   color: 'primary',
   rounded: false,
