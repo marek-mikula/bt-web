@@ -113,8 +113,9 @@
       "emailSent": "If the email exists, we have sent you an email with link to reset your password."
     },
     "mfa": {
+      "invalidToken": "The link with given token is invalid.",
+      "expiredToken": "The link with given token has expired and is no longer valid.",
       "invalidCode": "The verification code is invalid.",
-      "invalidToken": "The link with given token is no longer valid.",
       "passwordReset": {
         "success": "The password has been successfully reset."
       },

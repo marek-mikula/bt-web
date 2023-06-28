@@ -111,7 +111,13 @@ async function verify(): Promise<void> {
 
     clearErrors()
 
-    if (response.data.code === RESPONSE_CODE.INVALID_OR_MISSING_MFA_TOKEN) {
+    if (
+      [
+        RESPONSE_CODE.MFA_MISSING_TOKEN,
+        RESPONSE_CODE.MFA_CORRUPTED_TOKEN,
+        RESPONSE_CODE.MFA_INVALID_TOKEN
+      ].includes(response.data.code)
+    ) {
       $toast.error({
         title: i18n.t('toasts.mfa.invalidToken').toString()
       })
@@ -119,7 +125,15 @@ async function verify(): Promise<void> {
       return
     }
 
-    if (response.data.code === RESPONSE_CODE.INVALID_MFA_CODE) {
+    if (response.data.code === RESPONSE_CODE.MFA_EXPIRED_TOKEN) {
+      $toast.error({
+        title: i18n.t('toasts.mfa.expiredToken').toString()
+      })
+
+      return
+    }
+
+    if (response.data.code === RESPONSE_CODE.MFA_INVALID_CODE) {
       $toast.error({
         title: i18n.t('toasts.mfa.invalidCode').toString()
       })

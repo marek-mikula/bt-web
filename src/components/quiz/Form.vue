@@ -62,7 +62,11 @@
 
         <div class="flex items-center justify-between">
           <!-- back button -->
-          <CommonButton color="secondary" @click="stepBack">
+          <CommonButton
+            color="secondary"
+            :is-loading="loading"
+            @click="stepBack"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -86,6 +90,7 @@
           <!-- finish/next button -->
           <CommonButton
             :disabled="!currentAnswer || !!interval"
+            :is-loading="loading"
             @click="stepNext"
           >
             <svg
@@ -173,6 +178,8 @@ const { $configs } = useContext()
 
 const questions = $configs.quiz.getQuestions()
 const answers = ref<{ [key: number]: number }>({})
+
+const loading = ref<boolean>(false)
 
 // quiz state
 const state = ref<State>(State.DEFAULT)
