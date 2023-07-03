@@ -1,7 +1,6 @@
 <template>
   <div class="space-y-5 px-4 py-5 sm:px-6">
     <h1 class="text-2xl">Informational quiz</h1>
-
     <div>
       <p class="mb-3 text-justify">
         Welcome to our crypto investment application for beginners! To ensure

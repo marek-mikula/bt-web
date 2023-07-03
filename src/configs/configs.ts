@@ -1,6 +1,4 @@
 import { Context } from '@nuxt/types'
-import QuizConfig from '~/configs/QuizConfig'
 
-export default (ctx: Context) => ({
-  quiz: new QuizConfig(ctx)
-})
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default (ctx: Context) => ({})

@@ -1,5 +1,5 @@
 import { Context } from '@nuxt/types'
-import UserEntity from '~/types/entities/UserEntity'
+import { User } from '~/types/http/entities/User'
 
 export default function (context: Context) {
   const { path } = context.route
@@ -13,7 +13,7 @@ export default function (context: Context) {
     return context.redirect('/')
   }
 
-  const user = context.$auth.user as any as UserEntity
+  const user = context.$auth.user as any as User
 
   // redirect to quiz page
   if (!user.quizTaken) {

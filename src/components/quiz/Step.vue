@@ -19,7 +19,7 @@
         </svg>
       </div>
       <p class="ml-2">
-        {{ currentQuestion.question }}
+        {{ currentQuestion.text }}
       </p>
     </div>
 
@@ -37,7 +37,7 @@
           }
         ]"
       >
-        <p>{{ answer.answer }}</p>
+        <p>{{ answer.text }}</p>
       </div>
     </div>
 
@@ -49,7 +49,7 @@
         class="cursor-pointer rounded-lg border-2 border-gray-200 p-3 hover:bg-gray-200"
         @click="selectAnswer(answer)"
       >
-        <p>{{ answer.answer }}</p>
+        <p>{{ answer.text }}</p>
       </div>
     </div>
 
@@ -121,12 +121,12 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from '@nuxtjs/composition-api'
-import { QuizAnswer, QuizQuestion } from '~/types/configs/Quiz'
+import { QuizAnswer, Quiz } from '~/types/http/entities/Quiz'
 
 interface Props {
-  currentQuestion: QuizQuestion
+  currentQuestion: Quiz
   currentAnswer?: number | null
-  questions: QuizQuestion[]
+  questions: Quiz[]
 }
 
 const props = withDefaults(defineProps<Props>(), {

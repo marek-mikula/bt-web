@@ -25,9 +25,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, useContext } from '@nuxtjs/composition-api'
+import { computed, onMounted, ref } from '@nuxtjs/composition-api'
 import Vue from 'vue'
-import { QuizAnswer, QuizQuestion } from '~/types/configs/Quiz'
+import { QuizAnswer, Quiz } from '~/types/http/entities/Quiz'
 
 const LOCAL_STORAGE_KEY = 'quiz-answers'
 
@@ -37,9 +37,12 @@ enum State {
   FINISHED = 3
 }
 
-const { $configs } = useContext()
+interface Props {
+  questions: Quiz[]
+}
 
-const questions = $configs.quiz.getQuestions()
+const props = defineProps<Props>()
+
 const answers = ref<{ [key: number]: number }>({})
 
 // quiz state
@@ -56,18 +59,17 @@ const isInFinishedState = computed<boolean>(
 )
 
 // current question object
-const currentQuestion = computed<QuizQuestion | null>(
-  (): QuizQuestion | null => {
-    if (!currentQuestionId.value) {
-      return null
-    }
-
-    return (
-      questions.find((question) => question.id === currentQuestionId.value) ||
-      null
-    )
+const currentQuestion = computed<Quiz | null>((): Quiz | null => {
+  if (!currentQuestionId.value) {
+    return null
   }
-)
+
+  return (
+    props.questions.find(
+      (question: Quiz) => question.id === currentQuestionId.value
+    ) || null
+  )
+})
 
 // current user's answer object
 const currentAnswer = computed<number | null>((): number | null => {
@@ -86,16 +88,17 @@ function selectAnswer(answer: QuizAnswer): void {
   Vue.set(answers.value, currentQuestionId.value, answer.id)
 }
 
-function getPreviousQuestion(): QuizQuestion | null {
+function getPreviousQuestion(): Quiz | null {
   return (
-    questions.find((question) => question.id + 1 === currentQuestionId.value) ||
-    null
+    props.questions.find(
+      (question) => question.id + 1 === currentQuestionId.value
+    ) || null
   )
 }
 
-function getNextQuestion(): QuizQuestion | null {
+function getNextQuestion(): Quiz | null {
   return (
-    questions.find(
+    props.questions.find(
       (question) => (currentQuestionId.value ?? 0) + 1 === question.id
     ) || null
   )
@@ -175,6 +178,7 @@ function saveProgress(answers: { [key: number]: number }): void {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(answers))
 }
 
+// set current step based on value from local storage
 onMounted((): void => {
   const progress = loadProgress()
 
