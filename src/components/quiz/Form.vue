@@ -14,7 +14,7 @@
 
     <!-- Ending text -->
     <template v-else-if="isInFinishedState">
-      <QuizEnd />
+      <QuizEnd @finish="finish" />
     </template>
 
     <!-- Starting informational text -->
@@ -25,9 +25,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from '@nuxtjs/composition-api'
+import {
+  computed,
+  onMounted,
+  ref,
+  useContext,
+  useRouter
+} from '@nuxtjs/composition-api'
 import Vue from 'vue'
 import { QuizAnswer, Quiz } from '~/types/http/entities/Quiz'
+import { useLoading } from '~/composables/loading'
+import FinishForm from '~/types/forms/Quiz/FinishForm'
+
+const { $repositories, $toast, i18n, $auth } = useContext()
+const { setIsLoading } = useLoading()
+const router = useRouter()
 
 const LOCAL_STORAGE_KEY = 'quiz-answers'
 
@@ -104,28 +116,35 @@ function getNextQuestion(): Quiz | null {
   )
 }
 
-function stepNext(): void {
-  const nextQuestion = getNextQuestion()
+async function finish(): Promise<void> {
+  setIsLoading(true)
 
-  // update quiz state if this was the end of the quiz
-  if (!nextQuestion) {
-    removeProgress()
+  try {
+    const form: FinishForm = {
+      answers: []
+    }
 
-    state.value = State.FINISHED
+    // map answers object to form data
+    Object.entries(answers.value).forEach(([key, value]: [string, number]) => {
+      form.answers.push({
+        id: parseInt(key),
+        answer: value
+      })
+    })
 
-    return
-  }
+    await $repositories.quiz.finish(form)
 
-  // save progress
-  saveProgress(answers.value)
+    await $auth.fetchUser() // update user model
 
-  const isStart = !currentQuestionId.value
+    removeProgress() // remove progress from local storage
 
-  currentQuestionId.value = nextQuestion.id
-
-  // update quiz state if this was the start of the quiz
-  if (isStart) {
-    state.value = State.IN_PROGRESS
+    await router.push({ path: '/app' })
+  } catch (e) {
+    $toast.error({
+      title: i18n.t('toasts.common.somethingWentWrong').toString()
+    })
+  } finally {
+    setIsLoading(false)
   }
 }
 
@@ -146,6 +165,29 @@ function stepBack(): void {
   saveProgress(answers.value)
 
   currentQuestionId.value = previousQuestion?.id || null
+}
+
+function stepNext(): void {
+  const nextQuestion = getNextQuestion()
+
+  // update quiz state if this was the end of the quiz
+  if (!nextQuestion) {
+    state.value = State.FINISHED
+
+    return
+  }
+
+  // save progress
+  saveProgress(answers.value)
+
+  const isStart = !currentQuestionId.value
+
+  currentQuestionId.value = nextQuestion.id
+
+  // update quiz state if this was the start of the quiz
+  if (isStart) {
+    state.value = State.IN_PROGRESS
+  }
 }
 
 function loadProgress(): { [key: number]: number } | null {

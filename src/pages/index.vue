@@ -85,10 +85,12 @@ import InvalidContentResponse from '~/types/http/responses/InvalidContentRespons
 import { useForm } from '~/composables/forms/form'
 import MfaTokenResponse from '~/types/http/responses/MfaTokenResponse'
 import { MFA_TOKEN_TYPE } from '~/enums/MfaTokenType'
+import { useLoading } from '~/composables/loading'
 
 const { $repositories, $auth, $toast, i18n } = useContext()
-const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
-  useForm()
+const { clearErrors, fieldError, parseErrors } = useForm()
+const { isLoading, setIsLoading } = useLoading()
+
 const router = useRouter()
 
 const form: LoginForm = reactive({

@@ -86,12 +86,13 @@ import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { useForm } from '~/composables/forms/form'
 import ResetPasswordForm from '~/types/forms/Mfa/ResetPasswordForm'
+import { useLoading } from '~/composables/loading'
 
 const route = useRoute()
 const router = useRouter()
 const { $repositories, $toast, i18n } = useContext()
-const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
-  useForm()
+const { clearErrors, fieldError, parseErrors } = useForm()
+const { isLoading, setIsLoading } = useLoading()
 
 const form: ResetPasswordForm = reactive({
   code: null,

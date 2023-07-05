@@ -57,10 +57,11 @@ import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { useForm } from '~/composables/forms/form'
 import SendEmailForm from '~/types/forms/PasswordReset/SendEmailForm'
+import { useLoading } from '~/composables/loading'
 
 const { $repositories, $toast, i18n } = useContext()
-const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
-  useForm()
+const { clearErrors, fieldError, parseErrors } = useForm()
+const { isLoading, setIsLoading } = useLoading()
 
 const form: SendEmailForm = reactive({
   email: null
