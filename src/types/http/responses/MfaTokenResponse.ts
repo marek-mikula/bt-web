@@ -1,13 +1,9 @@
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import JsonResponse from '~/types/http/responses/JsonResponse'
-import { MFA_TOKEN_TYPE } from '~/enums/MfaTokenType'
+import { MfaToken } from '~/types/http/entities/Auth'
 
 type Data = {
-  token: {
-    type: MFA_TOKEN_TYPE
-    token: string
-    validUntil: string
-  }
+  token: MfaToken
 }
 
 export default interface MfaTokenResponse extends JsonResponse<Data> {

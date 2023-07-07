@@ -4,7 +4,7 @@ export interface QuizAnswer {
   correct: boolean
 }
 
-export interface Quiz {
+export interface QuizQuestion {
   id: number
   text: string
   hint: string

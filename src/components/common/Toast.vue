@@ -15,7 +15,7 @@
       <div
         v-if="progress && timeout"
         :class="[
-          'absolute left-0 bottom-0 right-0 h-0.5 rounded bg-green-400',
+          'absolute left-0 bottom-0 right-0 h-0.5 rounded',
           {
             'bg-blue-400': isInfo,
             'bg-yellow-400': isWarning,

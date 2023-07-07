@@ -60,7 +60,11 @@
 
     <div class="flex items-center justify-between">
       <!-- back button -->
-      <CommonButton color="secondary" :is-loading="loading" @click="stepBack">
+      <CommonButton
+        color="secondary"
+        :disabled="currentQuestion.id <= 1"
+        @click="stepBack"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -81,12 +85,8 @@
         {{ currentQuestion.id }} / {{ questions.length }}
       </span>
 
-      <!-- finish/next button -->
-      <CommonButton
-        :disabled="!currentAnswer || !!interval"
-        :is-loading="loading"
-        @click="stepNext"
-      >
+      <!-- next button -->
+      <CommonButton :disabled="!currentAnswer || !!interval" @click="stepNext">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -121,12 +121,12 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from '@nuxtjs/composition-api'
-import { QuizAnswer, Quiz } from '~/types/http/entities/Quiz'
+import { QuizAnswer, QuizQuestion } from '~/types/http/entities/Quiz'
 
 interface Props {
-  currentQuestion: Quiz
+  currentQuestion: QuizQuestion
   currentAnswer?: number | null
-  questions: Quiz[]
+  questions: QuizQuestion[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -138,8 +138,6 @@ const emit = defineEmits<{
   (e: 'next'): void
   (e: 'back'): void
 }>()
-
-const loading = ref<boolean>(false)
 
 // timer vars
 const timeout = ref<number>(2)

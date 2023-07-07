@@ -1,9 +1,9 @@
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import JsonResponse from '~/types/http/responses/JsonResponse'
-import { Quiz } from '~/types/http/entities/Quiz'
+import { QuizQuestion } from '~/types/http/entities/Quiz'
 
 type Data = {
-  questions: Quiz[]
+  questions: QuizQuestion[]
 }
 
 export default interface QuizQuestionsResponse extends JsonResponse<Data> {

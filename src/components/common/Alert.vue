@@ -56,11 +56,11 @@
         </svg>
       </div>
       <div class="ml-3">
-        <h3 v-if="label" :class="['mb-2 text-sm font-medium', labelClass]">
+        <p v-if="label" :class="['mb-2 text-sm font-medium', labelClass]">
           {{ label }}
-        </h3>
+        </p>
         <div :class="['text-sm', messageClass]">
-          <p v-if="message">
+          <p v-if="message" class="text-justify">
             {{ message }}
           </p>
           <slot v-else>Empty message</slot>

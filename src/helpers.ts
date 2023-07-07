@@ -5,3 +5,7 @@ export function removeElement(element: HTMLElement): void {
     element.parentNode?.removeChild(element)
   }
 }
+
+export function delay(time: number): Promise<void> {
+  return new Promise((resolve) => window.setTimeout(resolve, time))
+}

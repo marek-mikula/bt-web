@@ -14,7 +14,12 @@
 
     <!-- Ending text -->
     <template v-else-if="isInFinishedState">
-      <QuizEnd @finish="finish" />
+      <QuizEnd
+        :questions="questions"
+        :answers="answers"
+        :form-is-loading="isLoading"
+        @finish="finish"
+      />
     </template>
 
     <!-- Starting informational text -->
@@ -33,12 +38,12 @@ import {
   useRouter
 } from '@nuxtjs/composition-api'
 import Vue from 'vue'
-import { QuizAnswer, Quiz } from '~/types/http/entities/Quiz'
+import { QuizAnswer, QuizQuestion } from '~/types/http/entities/Quiz'
 import { useLoading } from '~/composables/loading'
 import FinishForm from '~/types/forms/Quiz/FinishForm'
 
 const { $repositories, $toast, i18n, $auth } = useContext()
-const { setIsLoading } = useLoading()
+const { isLoading, setIsLoading } = useLoading()
 const router = useRouter()
 
 const LOCAL_STORAGE_KEY = 'quiz-answers'
@@ -50,7 +55,7 @@ enum State {
 }
 
 interface Props {
-  questions: Quiz[]
+  questions: QuizQuestion[]
 }
 
 const props = defineProps<Props>()
@@ -71,17 +76,19 @@ const isInFinishedState = computed<boolean>(
 )
 
 // current question object
-const currentQuestion = computed<Quiz | null>((): Quiz | null => {
-  if (!currentQuestionId.value) {
-    return null
-  }
+const currentQuestion = computed<QuizQuestion | null>(
+  (): QuizQuestion | null => {
+    if (!currentQuestionId.value) {
+      return null
+    }
 
-  return (
-    props.questions.find(
-      (question: Quiz) => question.id === currentQuestionId.value
-    ) || null
-  )
-})
+    return (
+      props.questions.find(
+        (question: QuizQuestion) => question.id === currentQuestionId.value
+      ) || null
+    )
+  }
+)
 
 // current user's answer object
 const currentAnswer = computed<number | null>((): number | null => {
@@ -100,7 +107,7 @@ function selectAnswer(answer: QuizAnswer): void {
   Vue.set(answers.value, currentQuestionId.value, answer.id)
 }
 
-function getPreviousQuestion(): Quiz | null {
+function getPreviousQuestion(): QuizQuestion | null {
   return (
     props.questions.find(
       (question) => question.id + 1 === currentQuestionId.value
@@ -108,7 +115,7 @@ function getPreviousQuestion(): Quiz | null {
   )
 }
 
-function getNextQuestion(): Quiz | null {
+function getNextQuestion(): QuizQuestion | null {
   return (
     props.questions.find(
       (question) => (currentQuestionId.value ?? 0) + 1 === question.id
@@ -137,6 +144,10 @@ async function finish(): Promise<void> {
     await $auth.fetchUser() // update user model
 
     removeProgress() // remove progress from local storage
+
+    $toast.success({
+      title: i18n.t('toasts.quiz.success').toString()
+    })
 
     await router.push({ path: '/app' })
   } catch (e) {
@@ -170,15 +181,15 @@ function stepBack(): void {
 function stepNext(): void {
   const nextQuestion = getNextQuestion()
 
+  // save progress
+  saveProgress(answers.value)
+
   // update quiz state if this was the end of the quiz
   if (!nextQuestion) {
     state.value = State.FINISHED
 
     return
   }
-
-  // save progress
-  saveProgress(answers.value)
 
   const isStart = !currentQuestionId.value
 
@@ -229,6 +240,13 @@ onMounted((): void => {
   }
 
   answers.value = progress
+
+  // user has completed the quiz already
+  if (Object.keys(answers.value).length === props.questions.length) {
+    state.value = State.FINISHED
+
+    return
+  }
 
   currentQuestionId.value =
     Math.max(...Object.keys(answers.value).map((answer) => parseInt(answer))) +

@@ -7,7 +7,8 @@
       "delete": "Delete",
       "confirm": "Confirm",
       "cancel": "Cancel",
-      "backToLogin": "Back to login"
+      "backToLogin": "Back to login",
+      "loading": "Loading"
     }
   },
   "forms": {
@@ -57,6 +58,17 @@
     }
   },
   "pages": {
+    "quiz": {
+      "start": {
+        "header": "Informational entry quiz",
+        "line1": "Welcome to our crypto investment application for beginners! To ensure that you have the necessary knowledge to make informed investment decisions, we kindly request you to complete our mandatory entry quiz.",
+        "line2": "This quiz is designed specifically for beginners like you, covering essential concepts and strategies related to crypto investments. By completing the quiz, you'll gain the foundation needed to navigate the exciting world of cryptocurrencies with confidence. Start your educational journey today and unlock the full potential of our application. Happy learning and successful investing!",
+        "alert": {
+          "title": "Why do you need to pass a quiz?",
+          "message": "At our web application, we believe that being well-informed is crucial when it comes to cryptocurrencies and investing. By taking this quit you will gain basic knowledge of cryptocurrency fundamentals and you will be less likely to take risky actions."
+        }
+      }
+    },
     "auth": {
       "imageByMidJourney": "Image by Midjourney"
     },
@@ -125,6 +137,9 @@
       "verifyEmail": {
         "success": "Your email address has been successfully verified."
       }
+    },
+    "quiz": {
+      "success": "Entry quiz has been successfully completed."
     }
   }
 }

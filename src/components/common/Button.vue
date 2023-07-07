@@ -6,7 +6,7 @@
     @click="handleClick"
   >
     <span v-if="isLoading">
-      {{ 'Loading' + loadingText }}
+      {{ $t('common.buttons.loading').toString() + loadingText }}
     </span>
     <template v-else-if="$slots['default']">
       <slot></slot>
