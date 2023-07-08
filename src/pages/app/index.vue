@@ -1,16 +1,12 @@
 <template>
-  <div>You are logged in! {{ user.firstname }} {{ user.lastname }}</div>
+  <div>You are logged in!</div>
 </template>
 
-<script setup lang="ts">
-import { useUser } from '~/composables/user'
-
-const { user } = useUser()
-</script>
+<script setup lang="ts"></script>
 
 <script lang="ts">
 export default {
-  name: 'AppHomePage',
+  name: 'AppHome',
   layout: 'none'
 }
 </script>

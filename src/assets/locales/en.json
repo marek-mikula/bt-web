@@ -7,7 +7,8 @@
       "delete": "Delete",
       "confirm": "Confirm",
       "cancel": "Cancel",
-      "backToLogin": "Back to login"
+      "backToLogin": "Back to login",
+      "loading": "Loading"
     }
   },
   "forms": {
@@ -57,6 +58,34 @@
     }
   },
   "pages": {
+    "quiz": {
+      "start": {
+        "header": "Informational entry quiz",
+        "line1": "Welcome to our crypto investment application for beginners! To ensure that you have the necessary knowledge to make informed investment decisions, we kindly request you to complete our mandatory entry quiz.",
+        "line2": "This quiz is designed specifically for beginners like you, covering essential concepts and strategies related to crypto investments. By completing the quiz, you'll gain the foundation needed to navigate the exciting world of cryptocurrencies with confidence. Start your educational journey today and unlock the full potential of our application. Happy learning and successful investing!",
+        "alert": {
+          "title": "Why do you need to pass a quiz?",
+          "message": "At our web application, we believe that being well-informed is crucial when it comes to cryptocurrencies and investing. By taking this quit you will gain basic knowledge of cryptocurrency fundamentals and you will be less likely to take risky actions."
+        },
+        "button": "Start quiz"
+      },
+      "end": {
+        "header": "Quiz results",
+        "statistics": {
+          "correct": "Correct answers",
+          "wrong": "Wrong answers",
+          "total": "Total score"
+        },
+        "score": {
+          "1": "Your score indicates there is room for improvement. Don't worry, crypto investments can be complex. Keep learning and exploring to enhance your knowledge in this exciting field!",
+          "2": "Congratulations on completing the quiz! Your score shows a basic understanding of crypto investments. Continue to expand your knowledge and explore different strategies to improve your investment skills.",
+          "3": "Well done! Your score demonstrates a solid understanding of crypto investments. You're on the right track. Keep refining your knowledge and exploring various investment opportunities in the dynamic world of cryptocurrencies.",
+          "4": "Congratulations on an excellent score! Your deep understanding of crypto investments is impressive. Your knowledge positions you well to make informed investment decisions. Keep up the great work and continue exploring advanced strategies to maximize your potential."
+        },
+        "text": "Please use the button bellow to save your results and continue to the application.",
+        "button": "Finish quiz"
+      }
+    },
     "auth": {
       "imageByMidJourney": "Image by Midjourney"
     },
@@ -113,8 +142,9 @@
       "emailSent": "If the email exists, we have sent you an email with link to reset your password."
     },
     "mfa": {
+      "invalidToken": "The link with given token is invalid.",
+      "expiredToken": "The link with given token has expired and is no longer valid.",
       "invalidCode": "The verification code is invalid.",
-      "invalidToken": "The link with given token is no longer valid.",
       "passwordReset": {
         "success": "The password has been successfully reset."
       },
@@ -124,6 +154,9 @@
       "verifyEmail": {
         "success": "Your email address has been successfully verified."
       }
+    },
+    "quiz": {
+      "success": "Entry quiz has been successfully completed."
     }
   }
 }

@@ -4,6 +4,17 @@ export default {
   // change source root directory
   srcDir: 'src/',
 
+  app: {
+    pageTransition: {
+      name: 'fade',
+      mode: 'out-in' // default
+    },
+    layoutTransition: {
+      name: 'slide',
+      mode: 'out-in' // default
+    }
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'BT-WEB',
@@ -76,12 +87,23 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['~/assets/css/app.css'],
+
+  pageTransition: {
+    name: 'page',
+    mode: 'out-in'
+  },
+
+  layoutTransition: {
+    name: 'layout',
+    mode: 'out-in'
+  },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/axios.ts',
     '~/plugins/repositories.ts',
+    '~/plugins/configs.ts',
     '~/plugins/lodash.ts',
     { src: '~/plugins/toast.ts', mode: 'client' }
   ],
@@ -184,7 +206,10 @@ export default {
   },
 
   router: {
-    middleware: ['auth']
+    middleware: [
+      'auth', // middleware for authentication
+      'quiz' // middleware to check if user passed the entry quiz
+    ]
   },
 
   // Auth module config

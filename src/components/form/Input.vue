@@ -64,54 +64,55 @@ import { useField } from '~/composables/forms/field'
 
 const { renderLabel } = useField()
 
-interface Props {
-  type:
-    | 'color'
-    | 'date'
-    | 'datetime'
-    | 'email'
-    | 'file'
-    | 'image'
-    | 'month'
-    | 'number'
-    | 'password'
-    | 'search'
-    | 'tel'
-    | 'text'
-    | 'time'
-    | 'url'
-    | 'week'
-  name: string
-  value?: string | number | null // value bind using v-model
-  id?: string | null
-  label?: string | null
-  required?: boolean
-  disabled?: boolean
-  readonly?: boolean
-  autocomplete?: string
-  maxlength?: number | null
-  min?: number | string | null
-  max?: number | string | null
-  hint?: string | null
-  placeholder?: string | null
-  error?: string | null
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  value: null,
-  id: null,
-  label: null,
-  required: false,
-  disabled: false,
-  readonly: false,
-  autocomplete: 'off',
-  maxlength: null,
-  min: null,
-  max: null,
-  hint: null,
-  placeholder: null,
-  error: null
-})
+const props = withDefaults(
+  defineProps<{
+    type:
+      | 'color'
+      | 'date'
+      | 'datetime'
+      | 'email'
+      | 'file'
+      | 'image'
+      | 'month'
+      | 'number'
+      | 'password'
+      | 'search'
+      | 'tel'
+      | 'text'
+      | 'time'
+      | 'url'
+      | 'week'
+    name: string
+    value?: string | number | null // value bind using v-model
+    id?: string | null
+    label?: string | null
+    required?: boolean
+    disabled?: boolean
+    readonly?: boolean
+    autocomplete?: string
+    maxlength?: number | null
+    min?: number | string | null
+    max?: number | string | null
+    hint?: string | null
+    placeholder?: string | null
+    error?: string | null
+  }>(),
+  {
+    value: null,
+    id: null,
+    label: null,
+    required: false,
+    disabled: false,
+    readonly: false,
+    autocomplete: 'off',
+    maxlength: null,
+    min: null,
+    max: null,
+    hint: null,
+    placeholder: null,
+    error: null
+  }
+)
 
 const emit = defineEmits<{
   (e: 'input', value: string | number | null): void

@@ -15,7 +15,7 @@
       <div
         v-if="progress && timeout"
         :class="[
-          'absolute left-0 bottom-0 right-0 h-0.5 rounded bg-green-400',
+          'absolute left-0 bottom-0 right-0 h-0.5 rounded',
           {
             'bg-blue-400': isInfo,
             'bg-yellow-400': isWarning,
@@ -126,6 +126,7 @@ import {
   ref
 } from '@nuxtjs/composition-api'
 import { TOAST_TYPE } from '~/enums/common/ToastType'
+import { removeElement } from '~/helpers'
 
 const element = ref<HTMLElement | null>(null)
 const active = ref<boolean>(false)
@@ -135,23 +136,24 @@ const speed = ref<number>(100)
 
 type onRemoveCallback = () => Promise<void>
 
-interface Props {
-  type: TOAST_TYPE
-  title: string
-  message?: string | null
-  closable?: boolean
-  timeout?: number // time in seconds
-  progress?: boolean
-  onRemove?: onRemoveCallback | null
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  message: null,
-  closable: true,
-  timeout: 3, // 3s
-  progress: false,
-  onRemove: null
-})
+const props = withDefaults(
+  defineProps<{
+    type: TOAST_TYPE
+    title: string
+    message?: string | null
+    closable?: boolean
+    timeout?: number // time in seconds
+    progress?: boolean
+    onRemove?: onRemoveCallback | null
+  }>(),
+  {
+    message: null,
+    closable: true,
+    timeout: 3, // 3s
+    progress: false,
+    onRemove: null
+  }
+)
 
 onMounted((): void => {
   active.value = true
@@ -200,14 +202,6 @@ function updateTime(): void {
 function stopInterval(): void {
   if (interval.value) {
     window.clearInterval(interval.value)
-  }
-}
-
-function removeElement(element: HTMLElement): void {
-  if (typeof element.remove !== 'undefined') {
-    element.remove()
-  } else {
-    element?.parentNode?.removeChild(element)
   }
 }
 

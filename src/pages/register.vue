@@ -196,11 +196,11 @@ import JsonResponse from '~/types/http/responses/JsonResponse'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import { useForm } from '~/composables/forms/form'
 import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
+import { useLoading } from '~/composables/loading'
 
 const { $repositories, $toast, i18n } = useContext()
-const { isLoading, setIsLoading, clearErrors, fieldError, parseErrors } =
-  useForm()
-
+const { clearErrors, fieldError, parseErrors } = useForm()
+const { isLoading, setIsLoading } = useLoading()
 const router = useRouter()
 
 const form: RegisterForm = reactive({

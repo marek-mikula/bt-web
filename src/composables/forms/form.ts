@@ -4,7 +4,6 @@ import InvalidContentResponse from '~/types/http/responses/InvalidContentRespons
 export function useForm() {
   const { $_ } = useContext()
 
-  const isLoading = ref<boolean>(false)
   const fieldErrors = ref<{ [key: string]: string[] }>({})
 
   const errors = computed<string[]>((): string[] => {
@@ -33,20 +32,11 @@ export function useForm() {
     fieldErrors.value = response.data.errors
   }
 
-  /**
-   * Changes the loading state of the form
-   */
-  function setIsLoading(state: boolean): void {
-    isLoading.value = state
-  }
-
   return {
-    isLoading,
     errors,
     fieldErrors,
     fieldError,
     clearErrors,
-    parseErrors,
-    setIsLoading
+    parseErrors
   }
 }

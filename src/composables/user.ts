@@ -1,12 +1,20 @@
 import { useContext } from '@nuxtjs/composition-api'
-import UserEntity from '~/types/entities/UserEntity'
+import { User } from '~/types/http/entities/User'
 
 export function useUser() {
   const { $auth } = useContext()
 
-  const user = $auth.user as any as UserEntity
+  function getUser(): User {
+    if (!$auth.loggedIn) {
+      throw new Error(
+        'Cannot use useUser composable when user is not logged in!'
+      )
+    }
+
+    return $auth.user as any as User
+  }
 
   return {
-    user
+    getUser
   }
 }
