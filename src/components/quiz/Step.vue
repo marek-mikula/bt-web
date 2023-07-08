@@ -123,15 +123,16 @@
 import { computed, onBeforeUnmount, ref } from '@nuxtjs/composition-api'
 import { QuizAnswer, QuizQuestion } from '~/types/http/entities/Quiz'
 
-interface Props {
-  currentQuestion: QuizQuestion
-  currentAnswer?: number | null
-  questions: QuizQuestion[]
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  currentAnswer: null
-})
+const props = withDefaults(
+  defineProps<{
+    currentQuestion: QuizQuestion
+    currentAnswer?: number | null
+    questions: QuizQuestion[]
+  }>(),
+  {
+    currentAnswer: null
+  }
+)
 
 const emit = defineEmits<{
   (e: 'selected', answer: QuizAnswer): void

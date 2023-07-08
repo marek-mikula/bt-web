@@ -9,83 +9,98 @@
       </div>
     </div>
     <div v-else class="relative space-y-5 px-4 py-5 sm:px-6">
-      <div v-if="wrongAnswersCount > 0 || correctAnswersCount > 0" class="flex">
-        <div
-          v-if="correctAnswersCount > 0"
-          :class="[
-            'h-2 bg-green-400',
-            {
-              'rounded-l': wrongAnswersCount > 0,
-              rounded: wrongAnswersCount <= 0
-            }
-          ]"
-          :style="correctAnswersStyle"
-        ></div>
-        <div
-          v-if="wrongAnswersCount > 0"
-          :class="[
-            'h-2 bg-red-400',
-            {
-              'rounded-r': correctAnswersCount > 0,
-              rounded: correctAnswersCount <= 0
-            }
-          ]"
-          :style="wrongAnswersStyle"
-        ></div>
+      <h1 class="text-center text-2xl font-bold text-gray-900 sm:text-3xl">
+        {{ $t('pages.quiz.end.header') }}
+      </h1>
+
+      <div>
+        <dl
+          class="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg border bg-white sm:grid-cols-2 sm:divide-x sm:divide-y-0"
+        >
+          <div class="relative col-span-1 px-4 py-5 sm:p-5">
+            <dt
+              class="text-center text-base font-normal text-gray-900 sm:text-left"
+            >
+              {{ $t('pages.quiz.end.statistics.correct') }}
+            </dt>
+            <div
+              class="mt-1 text-center text-3xl font-semibold text-green-600 sm:text-left"
+            >
+              {{ correctAnswersCount }} / {{ totalAnswersCount }}
+            </div>
+            <div
+              v-if="correctAnswersCount > 0"
+              class="absolute left-0 bottom-0 right-0 h-1 bg-green-400"
+              :style="correctAnswersStyle"
+            ></div>
+          </div>
+          <div class="relative col-span-1 px-4 py-5 sm:p-5">
+            <dt
+              class="text-center text-base font-normal text-gray-900 sm:text-left"
+            >
+              {{ $t('pages.quiz.end.statistics.wrong') }}
+            </dt>
+            <div
+              class="mt-1 text-center text-3xl font-semibold text-red-600 sm:text-left"
+            >
+              {{ wrongAnswersCount }} / {{ totalAnswersCount }}
+            </div>
+            <div
+              v-if="wrongAnswersCount > 0"
+              class="absolute left-0 bottom-0 right-0 h-1 bg-red-400"
+              :style="wrongAnswersStyle"
+            ></div>
+          </div>
+        </dl>
       </div>
 
       <div>
-        <dl class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <dl class="grid grid-cols-1">
           <div
-            class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
+            class="overflow-hidden rounded-lg border bg-white px-4 py-5 sm:p-5"
           >
-            <dt class="truncate text-sm font-medium text-green-500">
-              Correct answers
+            <dt class="text-center text-base font-normal text-gray-900">
+              {{ $t('pages.quiz.end.statistics.total') }}
             </dt>
             <dd
-              class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"
+              class="mt-1 text-center text-3xl font-semibold tracking-tight text-gray-900"
             >
-              {{ correctAnswersCount }} / {{ totalAnswersCount }}
-            </dd>
-          </div>
-          <div
-            class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
-          >
-            <dt class="truncate text-sm font-medium text-red-500">
-              Wrong answers
-            </dt>
-            <dd
-              class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"
-            >
-              {{ wrongAnswersCount }} / {{ totalAnswersCount }}
+              {{ totalPercentage }} %
             </dd>
           </div>
         </dl>
       </div>
 
       <div>
-        <p class="text-justify">
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Mauris
-          tincidunt sem sed arcu. Aenean placerat. Nulla non lectus sed nisl
-          molestie malesuada. Aliquam erat volutpat. Pellentesque arcu. Fusce
-          aliquam vestibulum ipsum. Class aptent taciti sociosqu ad litora
-          torquent per conubia nostra, per inceptos hymenaeos. Nullam eget nisl.
-          In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Class
-          aptent taciti sociosqu ad litora torquent per conubia nostra, per
-          inceptos hymenaeos. Nulla turpis magna, cursus sit amet, suscipit a,
-          interdum id, felis. Nunc auctor. Phasellus rhoncus. Aliquam erat
-          volutpat. Nam libero tempore, cum soluta nobis est eligendi optio
-          cumque nihil impedit quo minus id quod maxime placeat facere possimus,
-          omnis voluptas assumenda est, omnis dolor repellendus. Praesent in
-          mauris eu tortor porttitor accumsan. Itaque earum rerum hic tenetur a
-          sapiente delectus, ut aut reiciendis voluptatibus maiores alias
-          consequatur aut perferendis doloribus asperiores repellat.
+        <p v-if="totalPercentage <= 25.0" class="text-justify">
+          {{ $t('pages.quiz.end.score.1') }}
+        </p>
+        <p
+          v-else-if="totalPercentage > 25.0 && totalPercentage <= 50.0"
+          class="text-justify"
+        >
+          {{ $t('pages.quiz.end.score.2') }}
+        </p>
+        <p
+          v-else-if="totalPercentage > 50.0 && totalPercentage <= 75.0"
+          class="text-justify"
+        >
+          {{ $t('pages.quiz.end.score.3') }}
+        </p>
+        <p v-else class="text-justify">
+          {{ $t('pages.quiz.end.score.4') }}
+        </p>
+      </div>
+
+      <div>
+        <p>
+          {{ $t('pages.quiz.end.text') }}
         </p>
       </div>
 
       <div>
         <CommonButton
-          label="Finish quiz"
+          :label="$t('pages.quiz.end.button').toString()"
           block
           :is-loading="formIsLoading"
           @click="finish"
@@ -103,27 +118,28 @@ import { useLoading } from '~/composables/loading'
 
 const { isLoading, setIsLoading } = useLoading(true)
 
-interface Props {
+const props = defineProps<{
   questions: QuizQuestion[]
   answers: { [key: number]: number }
   formIsLoading: boolean
-}
-
-const props = defineProps<Props>()
+}>()
 
 const totalAnswersCount = ref<number>(Object.keys(props.answers).length)
-const correctAnswersCount = ref<number | null>(null)
-const wrongAnswersCount = ref<number | null>(null)
+const correctAnswersCount = ref<number>(0)
+const wrongAnswersCount = ref<number>(0)
+
+const totalPercentage = computed<string>((): string => {
+  return (
+    ((correctAnswersCount.value ?? 0) * 100) /
+    totalAnswersCount.value
+  ).toFixed(2)
+})
 
 const correctAnswersLength = computed<number>((): number => {
-  return Math.round(
-    ((correctAnswersCount.value ?? 0) * 100) / totalAnswersCount.value
-  )
+  return Math.round((correctAnswersCount.value * 100) / totalAnswersCount.value)
 })
 const wrongAnswersLength = computed<number>((): number => {
-  return Math.round(
-    ((wrongAnswersCount.value ?? 0) * 100) / totalAnswersCount.value
-  )
+  return Math.round((wrongAnswersCount.value * 100) / totalAnswersCount.value)
 })
 
 const correctAnswersStyle = computed<string>((): string => {

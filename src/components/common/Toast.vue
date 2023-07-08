@@ -136,23 +136,24 @@ const speed = ref<number>(100)
 
 type onRemoveCallback = () => Promise<void>
 
-interface Props {
-  type: TOAST_TYPE
-  title: string
-  message?: string | null
-  closable?: boolean
-  timeout?: number // time in seconds
-  progress?: boolean
-  onRemove?: onRemoveCallback | null
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  message: null,
-  closable: true,
-  timeout: 3, // 3s
-  progress: false,
-  onRemove: null
-})
+const props = withDefaults(
+  defineProps<{
+    type: TOAST_TYPE
+    title: string
+    message?: string | null
+    closable?: boolean
+    timeout?: number // time in seconds
+    progress?: boolean
+    onRemove?: onRemoveCallback | null
+  }>(),
+  {
+    message: null,
+    closable: true,
+    timeout: 3, // 3s
+    progress: false,
+    onRemove: null
+  }
+)
 
 onMounted((): void => {
   active.value = true

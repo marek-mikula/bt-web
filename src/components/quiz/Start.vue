@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-5 px-4 py-5 sm:px-6">
-    <h1 class="mt-2 text-center text-2xl font-bold text-gray-900 sm:text-3xl">
+    <h1 class="text-center text-2xl font-bold text-gray-900 sm:text-3xl">
       {{ $t('pages.quiz.start.header') }}
     </h1>
 
@@ -20,7 +20,11 @@
     />
 
     <div>
-      <CommonButton label="Start quiz" block @click="start" />
+      <CommonButton
+        :label="$t('pages.quiz.start.button').toString()"
+        block
+        @click="start"
+      />
     </div>
   </div>
 </template>

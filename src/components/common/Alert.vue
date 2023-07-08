@@ -60,7 +60,7 @@
           {{ label }}
         </p>
         <div :class="['text-sm', messageClass]">
-          <p v-if="message" class="text-justify">
+          <p v-if="message">
             {{ message }}
           </p>
           <slot v-else>Empty message</slot>
@@ -101,19 +101,20 @@ import { removeElement } from '~/helpers'
 const element = ref<HTMLElement | null>(null)
 const active = ref<boolean>(false)
 
-interface Props {
-  message?: string | null
-  type?: 'success' | 'danger' | 'warning' | 'info'
-  label?: string | null
-  closable?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  message: null,
-  type: 'success',
-  label: null,
-  closable: false
-})
+const props = withDefaults(
+  defineProps<{
+    message?: string | null
+    type?: 'success' | 'danger' | 'warning' | 'info'
+    label?: string | null
+    closable?: boolean
+  }>(),
+  {
+    message: null,
+    type: 'success',
+    label: null,
+    closable: false
+  }
+)
 
 const containerClass = computed<string>((): string => {
   switch (props.type) {

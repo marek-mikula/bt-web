@@ -25,23 +25,24 @@ import { useField } from '~/composables/forms/field'
 
 const { renderLabel } = useField()
 
-interface Props {
-  name: string
-  label: string
-  value?: boolean // value bind using v-model
-  id?: string | null
-  required?: boolean
-  disabled?: boolean
-  readonly?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  value: false,
-  id: null,
-  required: false,
-  disabled: false,
-  readonly: false
-})
+const props = withDefaults(
+  defineProps<{
+    name: string
+    label: string
+    value?: boolean // value bind using v-model
+    id?: string | null
+    required?: boolean
+    disabled?: boolean
+    readonly?: boolean
+  }>(),
+  {
+    value: false,
+    id: null,
+    required: false,
+    disabled: false,
+    readonly: false
+  }
+)
 
 const emit = defineEmits<{
   (e: 'input', value: boolean): void

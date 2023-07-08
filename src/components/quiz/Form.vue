@@ -54,11 +54,9 @@ enum State {
   FINISHED = 3
 }
 
-interface Props {
+const props = defineProps<{
   questions: QuizQuestion[]
-}
-
-const props = defineProps<Props>()
+}>()
 
 const answers = ref<{ [key: number]: number }>({})
 

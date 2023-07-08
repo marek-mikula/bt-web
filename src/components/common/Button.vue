@@ -20,29 +20,30 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from '@nuxtjs/composition-api'
 
-interface Props {
-  label?: string | null
-  size?: 1 | 2 | 3 | 4 | 5 // 1 - smallest, 5 - biggest,
-  color?: 'primary' | 'secondary'
-  rounded?: boolean
-  soft?: boolean
-  block?: boolean
-  type?: 'button' | 'submit'
-  disabled?: boolean
-  isLoading?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  label: null,
-  size: 3,
-  color: 'primary',
-  rounded: false,
-  soft: false,
-  block: false,
-  type: 'button',
-  disabled: false,
-  isLoading: false
-})
+const props = withDefaults(
+  defineProps<{
+    label?: string | null
+    size?: 1 | 2 | 3 | 4 | 5 // 1 - smallest, 5 - biggest,
+    color?: 'primary' | 'secondary'
+    rounded?: boolean
+    soft?: boolean
+    block?: boolean
+    type?: 'button' | 'submit'
+    disabled?: boolean
+    isLoading?: boolean
+  }>(),
+  {
+    label: null,
+    size: 3,
+    color: 'primary',
+    rounded: false,
+    soft: false,
+    block: false,
+    type: 'button',
+    disabled: false,
+    isLoading: false
+  }
+)
 
 const loadingInterval = ref<number | null>(null)
 const loadingText = ref<string>('')

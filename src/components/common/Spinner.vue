@@ -23,15 +23,16 @@
 <script setup lang="ts">
 import { computed } from '@nuxtjs/composition-api'
 
-interface Props {
-  type?: 'success' | 'danger' | 'warning' | 'info' | 'default'
-  size?: 4 | 6 | 8 | 10
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  type: 'default',
-  size: 4
-})
+const props = withDefaults(
+  defineProps<{
+    type?: 'success' | 'danger' | 'warning' | 'info' | 'default'
+    size?: 4 | 6 | 8 | 10
+  }>(),
+  {
+    type: 'default',
+    size: 4
+  }
+)
 
 const classList = computed<string>((): string => {
   let classes = 'text-gray-200 animate-spin'
