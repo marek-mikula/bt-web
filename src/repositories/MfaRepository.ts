@@ -1,8 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { BaseRepository } from '~/repositories/BaseRepository'
-import VerifyForm from '~/types/forms/Mfa/VerifyForm'
-import ResetPasswordForm from '~/types/forms/Mfa/ResetPasswordForm'
 import SuccessResponse from '~/types/http/responses/SuccessResponse'
+import { ResetPasswordForm, VerifyForm } from '~/types/forms/Mfa'
 
 export default class MfaRepository extends BaseRepository {
   verifyEmail(

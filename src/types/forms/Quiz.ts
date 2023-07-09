@@ -1,4 +1,4 @@
-export default interface FinishForm {
+export interface FinishForm {
   answers: {
     id: number
     answer: number
