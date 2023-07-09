@@ -3,7 +3,20 @@ import { Context } from '@nuxt/types'
 const axiosPlugin: any = (ctx: Context): void => {
   // eslint-disable-next-line
   ctx.$axios.onRequest((config) => {
-    // todo
+    const { $cookies, $repositories } = ctx
+
+    // fetch csrf token if needed
+    if (
+      ['POST', 'PUT', 'DELETE', 'PATCH'].includes(
+        (config.method || '').toUpperCase()
+      ) &&
+      !$cookies.get('XSRF-TOKEN') &&
+      !config.doNotCheckCsrf
+    ) {
+      return $repositories.auth.csrf().then(() => config)
+    }
+
+    return config
   })
 
   // eslint-disable-next-line

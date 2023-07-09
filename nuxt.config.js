@@ -105,6 +105,7 @@ export default {
     '~/plugins/repositories.ts',
     '~/plugins/configs.ts',
     '~/plugins/lodash.ts',
+    '~/plugins/cookies.ts',
     { src: '~/plugins/toast.ts', mode: 'client' }
   ],
 
@@ -202,7 +203,8 @@ export default {
       post: {},
       put: {},
       patch: {}
-    }
+    },
+    withCredentials: true
   },
 
   router: {
@@ -214,26 +216,26 @@ export default {
 
   // Auth module config
   auth: {
-    defaultStrategy: 'laravelJWT',
+    defaultStrategy: 'laravelSanctum',
     redirect: {
       login: '/',
       logout: '/',
       callback: '/',
       home: '/app'
     },
-    watchLoggedIn: false,
+    watchLoggedIn: false, // redirect during login/logout
     strategies: {
-      laravelJWT: {
-        provider: 'laravel/jwt',
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
         url: '/api',
         endpoints: {
+          csrf: {
+            url: '/auth/csrf-cookie',
+            method: 'get'
+          },
           login: {
             url: '/auth/login',
             method: 'post'
-          },
-          refresh: {
-            url: '/auth/refresh',
-            method: 'get'
           },
           logout: {
             url: '/auth/logout',
@@ -244,21 +246,13 @@ export default {
             method: 'get'
           }
         },
-        token: {
-          type: 'Bearer',
-          global: true,
-          name: 'Authorization',
-          property: 'data.token.accessToken',
-          maxAge: process.env.JWT_ACCESS_TOKEN_LIFETIME * 60
-        },
-        refreshToken: {
-          property: 'data.token.refreshToken',
-          maxAge: process.env.JWT_REFRESH_TOKEN_LIFETIME * 60
-        },
         user: {
+          autoFetch: false, // do not fetch user automatically after login
           property: 'data.user'
         },
-        autoLogout: false
+        cookie: {
+          name: 'XSRF-TOKEN'
+        }
       }
     }
   },
