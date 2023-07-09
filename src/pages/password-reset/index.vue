@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, useContext } from '@nuxtjs/composition-api'
+import { reactive, useContext, useRouter } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import JsonResponse from '~/types/http/responses/JsonResponse'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
@@ -62,6 +62,7 @@ import { PasswordResetEmailForm } from '~/types/forms/PasswordReset'
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
 const { isLoading, setIsLoading } = useLoading()
+const router = useRouter()
 
 const form: PasswordResetEmailForm = reactive<PasswordResetEmailForm>({
   email: null
@@ -78,6 +79,8 @@ async function sendEmail(): Promise<void> {
     $toast.success({
       title: i18n.t('toasts.passwordReset.emailSent').toString()
     })
+
+    await router.push({ path: '/' })
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 
