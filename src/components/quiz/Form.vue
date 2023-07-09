@@ -40,7 +40,7 @@ import {
 import Vue from 'vue'
 import { QuizAnswer, QuizQuestion } from '~/types/http/entities/Quiz'
 import { useLoading } from '~/composables/loading'
-import FinishForm from '~/types/forms/Quiz/FinishForm'
+import { FinishForm } from '~/types/forms/Quiz'
 
 const { $repositories, $toast, i18n, $auth } = useContext()
 const { isLoading, setIsLoading } = useLoading()

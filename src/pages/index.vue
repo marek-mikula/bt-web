@@ -78,13 +78,13 @@
 <script setup lang="ts">
 import { reactive, useContext, useRouter } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
-import LoginForm from '~/types/forms/Auth/LoginForm'
 import JsonResponse from '~/types/http/responses/JsonResponse'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { useForm } from '~/composables/forms/form'
 import MfaTokenResponse from '~/types/http/responses/MfaTokenResponse'
 import { useLoading } from '~/composables/loading'
+import { LoginForm } from '~/types/forms/Auth'
 
 const { $auth, $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
@@ -92,7 +92,7 @@ const { isLoading, setIsLoading } = useLoading()
 
 const router = useRouter()
 
-const form: LoginForm = reactive({
+const form: LoginForm = reactive<LoginForm>({
   email: null,
   password: null,
   rememberMe: false

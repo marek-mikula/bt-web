@@ -59,12 +59,12 @@ import {
   useRouter
 } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
-import VerifyForm from '~/types/forms/Mfa/VerifyForm'
 import JsonResponse from '~/types/http/responses/JsonResponse'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { useForm } from '~/composables/forms/form'
 import { useLoading } from '~/composables/loading'
+import { VerifyForm } from '~/types/forms/Mfa'
 
 const route = useRoute()
 const router = useRouter()
@@ -72,7 +72,7 @@ const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
 const { isLoading, setIsLoading } = useLoading()
 
-const form: VerifyForm = reactive({
+const form: VerifyForm = reactive<VerifyForm>({
   code: null
 })
 

@@ -56,14 +56,14 @@ import JsonResponse from '~/types/http/responses/JsonResponse'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { useForm } from '~/composables/forms/form'
-import SendEmailForm from '~/types/forms/PasswordReset/SendEmailForm'
 import { useLoading } from '~/composables/loading'
+import { PasswordResetEmailForm } from '~/types/forms/PasswordReset'
 
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
 const { isLoading, setIsLoading } = useLoading()
 
-const form: SendEmailForm = reactive({
+const form: PasswordResetEmailForm = reactive<PasswordResetEmailForm>({
   email: null
 })
 

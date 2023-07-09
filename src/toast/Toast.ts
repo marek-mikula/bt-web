@@ -2,7 +2,7 @@ import { Context } from '@nuxt/types'
 import Vue from 'vue'
 import ToastComponent from '~/components/common/Toast.vue'
 import { TOAST_TYPE } from '~/enums/common/ToastType'
-import ToastArguments from '~/types/common/ToastArguments'
+import { ToastArguments } from '~/types/common/Toast'
 
 export default class Toast {
   // eslint-disable-next-line no-useless-constructor
