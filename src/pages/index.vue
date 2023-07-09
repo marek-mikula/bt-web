@@ -84,10 +84,9 @@ import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { useForm } from '~/composables/forms/form'
 import MfaTokenResponse from '~/types/http/responses/MfaTokenResponse'
-import { MFA_TOKEN_TYPE } from '~/enums/MfaTokenType'
 import { useLoading } from '~/composables/loading'
 
-const { $repositories, $auth, $toast, i18n } = useContext()
+const { $auth, $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
 const { isLoading, setIsLoading } = useLoading()
 
@@ -107,16 +106,15 @@ async function login(): Promise<void> {
 
     clearErrors()
 
+    // user needs to verify email address
     if (response.data.code === RESPONSE_CODE.MFA_TOKEN) {
-      await redirectToMfa(response.data as MfaTokenResponse)
+      await redirectToVerifyEmail(response.data as MfaTokenResponse)
 
       return
     }
 
-    await $auth.setUserToken(
-      response.data.data.token.accessToken,
-      response.data.data.token.refreshToken
-    )
+    // set user from response
+    $auth.setUser(response.data.data.user)
 
     $toast.success({
       title: i18n.t('toasts.login.loggedIn').toString()
@@ -154,23 +152,13 @@ async function login(): Promise<void> {
   }
 }
 
-async function redirectToMfa(data: MfaTokenResponse): Promise<void> {
-  const route =
-    data.data.token.type === MFA_TOKEN_TYPE.VERIFY_DEVICE
-      ? '/mfa/verify-device'
-      : '/mfa/verify-email'
-
-  const toastMessage =
-    data.data.token.type === MFA_TOKEN_TYPE.VERIFY_DEVICE
-      ? 'toasts.login.verifyDevice'
-      : 'toasts.login.verifyEmail'
-
+async function redirectToVerifyEmail(data: MfaTokenResponse): Promise<void> {
   $toast.info({
-    title: i18n.t(toastMessage).toString()
+    title: i18n.t('toasts.login.verifyEmail').toString()
   })
 
   await router.push({
-    path: route,
+    path: '/mfa/verify-email',
     query: { token: data.data.token.token }
   })
 }

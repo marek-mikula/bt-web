@@ -49,9 +49,6 @@
         "passwordConfirm": "Password confirmation",
         "submit": "Reset password"
       },
-      "verifyDevice": {
-        "submit": "Verify device"
-      },
       "verifyEmail": {
         "submit": "Verify email"
       }
@@ -114,10 +111,6 @@
         "title": "Reset password",
         "subtitle": "Please enter your new password and secret code from the email we have sent you."
       },
-      "verifyDevice": {
-        "title": "Verify your new device",
-        "subtitle": "We have sent you a code to your email address. Please enter the code and verify your new device."
-      },
       "verifyEmail": {
         "title": "Verify your email address",
         "subtitle": "We have sent you a code to your email address. Please enter the code and verify your email."
@@ -131,7 +124,6 @@
     },
     "login": {
       "loggedIn": "Successfully logged in!",
-      "verifyDevice": "You need to verify your new device.",
       "verifyEmail": "You need to verify your email address.",
       "invalidCredentials": "Invalid credentials!"
     },
@@ -148,11 +140,8 @@
       "passwordReset": {
         "success": "The password has been successfully reset."
       },
-      "verifyDevice": {
-        "success": "Your new device has been successfully verified."
-      },
       "verifyEmail": {
-        "success": "Your email address has been successfully verified."
+        "success": "Your email address has been successfully verified. You can now log in."
       }
     },
     "quiz": {

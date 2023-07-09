@@ -1,4 +1,4 @@
 export enum MFA_TOKEN_TYPE {
   VERIFY_EMAIL = 1,
-  VERIFY_DEVICE = 2
+  RESET_PASSWORD = 2
 }

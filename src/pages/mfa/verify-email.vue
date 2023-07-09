@@ -68,7 +68,7 @@ import { useLoading } from '~/composables/loading'
 
 const route = useRoute()
 const router = useRouter()
-const { $repositories, $auth, $toast, i18n } = useContext()
+const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
 const { isLoading, setIsLoading } = useLoading()
 
@@ -80,23 +80,15 @@ async function verify(): Promise<void> {
   setIsLoading(true)
 
   try {
-    const response = await $repositories.mfa.verifyEmail(
-      route.value.query.token as string,
-      form
-    )
+    await $repositories.mfa.verifyEmail(route.value.query.token as string, form)
 
     clearErrors()
-
-    await $auth.setUserToken(
-      response.data.data.token.accessToken,
-      response.data.data.token.refreshToken
-    )
 
     $toast.success({
       title: i18n.t('toasts.mfa.verifyEmail.success').toString()
     })
 
-    await router.push({ path: '/app' })
+    await router.push({ path: '/' })
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 

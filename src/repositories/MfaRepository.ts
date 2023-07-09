@@ -1,27 +1,16 @@
 import { AxiosResponse } from 'axios'
 import { BaseRepository } from '~/repositories/BaseRepository'
 import VerifyForm from '~/types/forms/Mfa/VerifyForm'
-import TokenPairResponse from '~/types/http/responses/TokenPairResponse'
-import JsonResponse from '~/types/http/responses/JsonResponse'
 import ResetPasswordForm from '~/types/forms/Mfa/ResetPasswordForm'
+import SuccessResponse from '~/types/http/responses/SuccessResponse'
 
 export default class MfaRepository extends BaseRepository {
   verifyEmail(
     token: string,
     form: VerifyForm
-  ): Promise<AxiosResponse<TokenPairResponse>> {
-    return this.context.$axios.post<TokenPairResponse>(
+  ): Promise<AxiosResponse<SuccessResponse>> {
+    return this.context.$axios.post<SuccessResponse>(
       `${this.prefix}/verify-email?token=${token}`,
-      form
-    )
-  }
-
-  verifyDevice(
-    token: string,
-    form: VerifyForm
-  ): Promise<AxiosResponse<TokenPairResponse>> {
-    return this.context.$axios.post<TokenPairResponse>(
-      `${this.prefix}/verify-device?token=${token}`,
       form
     )
   }
@@ -29,8 +18,8 @@ export default class MfaRepository extends BaseRepository {
   resetPassword(
     token: string,
     form: ResetPasswordForm
-  ): Promise<AxiosResponse<JsonResponse>> {
-    return this.context.$axios.post<JsonResponse>(
+  ): Promise<AxiosResponse<SuccessResponse>> {
+    return this.context.$axios.post<SuccessResponse>(
       `${this.prefix}/reset-password?token=${token}`,
       form
     )

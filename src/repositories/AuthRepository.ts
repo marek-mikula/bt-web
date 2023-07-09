@@ -3,7 +3,8 @@ import { BaseRepository } from '~/repositories/BaseRepository'
 import RegisterForm from '~/types/forms/Auth/RegisterForm'
 import LoginForm from '~/types/forms/Auth/LoginForm'
 import MfaTokenResponse from '~/types/http/responses/MfaTokenResponse'
-import TokenPairResponse from '~/types/http/responses/TokenPairResponse'
+import LoginResponse from '~/types/http/responses/LoginResponse'
+import SuccessResponse from '~/types/http/responses/SuccessResponse'
 
 export default class AuthRepository extends BaseRepository {
   register(form: RegisterForm): Promise<AxiosResponse<MfaTokenResponse>> {
@@ -15,10 +16,15 @@ export default class AuthRepository extends BaseRepository {
 
   login(
     form: LoginForm
-  ): Promise<AxiosResponse<TokenPairResponse | MfaTokenResponse>> {
-    return this.context.$axios.post<TokenPairResponse | MfaTokenResponse>(
-      `${this.prefix}/login`,
-      form
+  ): Promise<AxiosResponse<LoginResponse | MfaTokenResponse>> {
+    return this.context.$auth.login({
+      data: form
+    }) as Promise<AxiosResponse<LoginResponse | MfaTokenResponse>>
+  }
+
+  csrf(): Promise<AxiosResponse<SuccessResponse>> {
+    return this.context.$axios.get<SuccessResponse>(
+      `${this.prefix}/csrf-cookie`
     )
   }
 }
