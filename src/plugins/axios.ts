@@ -1,15 +1,15 @@
 import { Context } from '@nuxt/types'
+import { defineNuxtPlugin } from '@nuxtjs/composition-api'
 
-const axiosPlugin: any = (ctx: Context): void => {
-  // eslint-disable-next-line
+export default defineNuxtPlugin((ctx: Context): void => {
   ctx.$axios.onRequest((config) => {
     const { $cookies, $repositories } = ctx
 
+    const method = (config.method || '').toUpperCase()
+
     // fetch csrf token if needed
     if (
-      ['POST', 'PUT', 'DELETE', 'PATCH'].includes(
-        (config.method || '').toUpperCase()
-      ) &&
+      ['POST', 'PUT', 'DELETE', 'PATCH'].includes(method) &&
       !$cookies.get('XSRF-TOKEN') &&
       !config.doNotCheckCsrf
     ) {
@@ -38,6 +38,4 @@ const axiosPlugin: any = (ctx: Context): void => {
   ctx.$axios.onResponseError((err) => {
     // todo
   })
-}
-
-export default axiosPlugin
+})

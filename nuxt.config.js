@@ -15,6 +15,16 @@ export default {
     }
   },
 
+  // loading progress bar
+  loading: {
+    color: 'rgb(79, 70, 229)',
+    failedColor: 'rgb(185, 28, 28)',
+    height: '2px',
+    throttle: 200,
+    css: true, // use default progress styles
+    rtl: false // navigating from right to left
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'BT-WEB',
@@ -254,6 +264,9 @@ export default {
           name: 'XSRF-TOKEN'
         }
       }
+    },
+    cookie: {
+      secure: !isLocalhost
     }
   },
 

@@ -42,6 +42,9 @@ $ yarn test
 
 # runs Jest tests with coverage report
 $ yarn test:coverage
+
+# runs code format and fix
+$ yarn format
 ```
 
 ## Folder structure

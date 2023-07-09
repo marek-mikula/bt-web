@@ -1,10 +1,10 @@
-import { Context } from '@nuxt/types'
+import { defineNuxtPlugin } from '@nuxtjs/composition-api'
 
-export default function (context: Context) {
-  const token = context.route.query.token as string | null
+export default defineNuxtPlugin(({ route, redirect }) => {
+  const token = route.query.token as string | null
 
   // redirect to login page
   if (!token) {
-    return context.redirect('/')
+    return redirect('/')
   }
-}
+})

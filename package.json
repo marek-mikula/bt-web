@@ -16,7 +16,7 @@
     "prepare": "husky install",
     "test": "jest --no-coverage",
     "test:coverge": "jest",
-    "fix": "yarn lint:fix && yarn prettier:fix"
+    "format": "yarn lint:fix && yarn prettier:fix"
   },
   "dependencies": {
     "@nuxtjs/auth-next": "5.0.0-1667386184.dfbbb54",
