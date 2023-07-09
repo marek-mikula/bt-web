@@ -1,9 +1,8 @@
 import { Context } from '@nuxt/types'
 import { Inject } from '@nuxt/types/app'
+import { defineNuxtPlugin } from '@nuxtjs/composition-api'
 import createConfigs from '~/configs/configs'
 
-const configsPlugin: any = (ctx: Context, inject: Inject): void => {
+export default defineNuxtPlugin((ctx: Context, inject: Inject): void => {
   inject('configs', createConfigs(ctx))
-}
-
-export default configsPlugin
+})

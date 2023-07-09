@@ -254,6 +254,9 @@ export default {
           name: 'XSRF-TOKEN'
         }
       }
+    },
+    cookie: {
+      secure: !isLocalhost
     }
   },
 
