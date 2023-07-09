@@ -8,7 +8,7 @@ export default class MfaRepository extends BaseRepository {
     token: string,
     form: VerifyForm
   ): Promise<AxiosResponse<SuccessResponse>> {
-    return this.context.$axios.post<SuccessResponse>(
+    return this.ctx.$axios.post<SuccessResponse>(
       `${this.prefix}/verify-email?token=${token}`,
       form
     )
@@ -18,7 +18,7 @@ export default class MfaRepository extends BaseRepository {
     token: string,
     form: ResetPasswordForm
   ): Promise<AxiosResponse<SuccessResponse>> {
-    return this.context.$axios.post<SuccessResponse>(
+    return this.ctx.$axios.post<SuccessResponse>(
       `${this.prefix}/reset-password?token=${token}`,
       form
     )

@@ -7,9 +7,6 @@ export default class PasswordResetRepository extends BaseRepository {
   sendEmail(
     form: PasswordResetEmailForm
   ): Promise<AxiosResponse<JsonResponse>> {
-    return this.context.$axios.post<JsonResponse>(
-      `${this.prefix}/send-email`,
-      form
-    )
+    return this.ctx.$axios.post<JsonResponse>(`${this.prefix}/send-email`, form)
   }
 }
