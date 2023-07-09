@@ -31,8 +31,10 @@
     "lodash": "^4.17.21",
     "nuxt": "^2.15.8",
     "vue": "^2.7.10",
+    "vue-password-strength-meter": "^1.7.2",
     "vue-server-renderer": "^2.7.10",
-    "vue-template-compiler": "^2.7.10"
+    "vue-template-compiler": "^2.7.10",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",

@@ -112,6 +112,7 @@
                   :hint="$t('forms.register.password.hint').toString()"
                   :error="fieldError('password')"
                   class="col-span-full"
+                  show-password-meter
                   required
                 />
 

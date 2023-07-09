@@ -37,6 +37,7 @@
             :autocomplete="'new-password'"
             :hint="$t('forms.mfa.passwordReset.password.hint').toString()"
             :error="fieldError('password')"
+            show-password-meter
             required
           />
 

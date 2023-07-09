@@ -31,6 +31,7 @@
         ]"
         @input="handleInput"
       />
+      <CommonPasswordMeter v-if="showPasswordMeter" :value="value" />
       <div
         v-if="hasError"
         class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
@@ -96,6 +97,7 @@ const props = withDefaults(
     hint?: string | null
     placeholder?: string | null
     error?: string | null
+    showPasswordMeter?: boolean
   }>(),
   {
     value: null,
@@ -110,7 +112,8 @@ const props = withDefaults(
     max: null,
     hint: null,
     placeholder: null,
-    error: null
+    error: null,
+    showPasswordMeter: false
   }
 )
 
