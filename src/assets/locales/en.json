@@ -127,6 +127,9 @@
       "verifyEmail": "You need to verify your email address.",
       "invalidCredentials": "Invalid credentials!"
     },
+    "logout": {
+      "success": "Successfully logged out!"
+    },
     "register": {
       "verifyEmail": "Registration successful. Now you need to verify your email address."
     },

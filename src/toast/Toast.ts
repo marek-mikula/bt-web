@@ -24,12 +24,7 @@ export default class Toast {
       el: container.appendChild(document.createElement('div')),
       propsData: {
         type,
-        title: args.title,
-        message: args.message,
-        closable: args.closable,
-        timeout: args.timeout,
-        progress: args.progress,
-        onRemove: args.onRemove
+        ...args
       }
     })
   }
