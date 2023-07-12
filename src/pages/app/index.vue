@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>You are logged in!</div>
+    <div>Dashboard</div>
   </div>
 </template>
 

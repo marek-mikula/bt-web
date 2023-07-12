@@ -225,11 +225,11 @@
 
               <CommonDropdown
                 :model="userDropdown"
+                :state="userDropdown.state"
                 class="divide-y divide-gray-100"
                 position-horizontal="right"
                 labeled-by="user-menu-button"
                 position-vertical="bottom"
-                :state="userDropdown.state"
               >
                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                 <div class="py-1" role="none">
@@ -278,7 +278,6 @@
 import {
   reactive,
   ref,
-  useContext,
   useRoute,
   useRouter,
   watch
@@ -286,32 +285,21 @@ import {
 import { useUser } from '~/composables/user'
 import { delay } from '~/helpers'
 import { useDropdown } from '~/composables/dropdown'
+import { StringMap } from '~/types/common/Common'
 
-const { $auth, $toast, i18n } = useContext()
 const router = useRouter()
-const { getUser } = useUser()
+const { getUser, logout } = useUser()
 const user = getUser()
 const route = useRoute()
 const { getDropdown } = useDropdown()
 
-const menu = reactive({
+const menu = reactive<StringMap<boolean>>({
   outer: false,
   inner: false
 })
 
 const userDropdown = getDropdown()
-
 const searchQuery = ref<string | null>(null)
-
-async function logout(): Promise<void> {
-  await $auth.logout()
-
-  $toast.success({
-    title: i18n.t('toasts.logout.success').toString()
-  })
-
-  await router.push({ path: '/' })
-}
 
 async function search(): Promise<void> {
   await router.push({ path: '/app/search', query: { q: searchQuery.value } })

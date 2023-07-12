@@ -41,6 +41,7 @@ import Vue from 'vue'
 import { QuizAnswer, QuizQuestion } from '~/types/http/entities/Quiz'
 import { useLoading } from '~/composables/loading'
 import { FinishForm } from '~/types/forms/Quiz'
+import { NumberMap } from '~/types/common/Common'
 
 const { $repositories, $toast, i18n, $auth } = useContext()
 const { isLoading, setIsLoading } = useLoading()
@@ -58,7 +59,7 @@ const props = defineProps<{
   questions: QuizQuestion[]
 }>()
 
-const answers = ref<{ [key: number]: number }>({})
+const answers = ref<NumberMap<number>>({})
 
 // quiz state
 const state = ref<State>(State.DEFAULT)
@@ -199,7 +200,7 @@ function stepNext(): void {
   }
 }
 
-function loadProgress(): { [key: number]: number } | null {
+function loadProgress(): NumberMap<number> | null {
   let value = localStorage.getItem(LOCAL_STORAGE_KEY)
 
   if (!value) {
@@ -212,14 +213,14 @@ function loadProgress(): { [key: number]: number } | null {
     return null
   }
 
-  return value as any as { [key: number]: number }
+  return value as any as NumberMap<number>
 }
 
 function removeProgress(): void {
   localStorage.removeItem(LOCAL_STORAGE_KEY)
 }
 
-function saveProgress(answers: { [key: number]: number }): void {
+function saveProgress(answers: NumberMap<number>): void {
   if (!Object.keys(answers).length) {
     localStorage.removeItem(LOCAL_STORAGE_KEY)
 
