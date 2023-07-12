@@ -225,11 +225,10 @@
 
               <CommonDropdown
                 :model="userDropdown"
-                :state="userDropdown.state"
-                class="divide-y divide-gray-100"
                 position-horizontal="right"
                 labeled-by="user-menu-button"
                 position-vertical="bottom"
+                class="divide-y divide-gray-100"
               >
                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                 <div class="py-1" role="none">
