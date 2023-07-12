@@ -191,9 +191,9 @@
                 id="user-menu-button"
                 type="button"
                 class="-m-1.5 flex items-center p-1.5"
-                :aria-expanded="dropdownState ? 'true' : 'false'"
+                :aria-expanded="userDropdown.state.value ? 'true' : 'false'"
                 aria-haspopup="true"
-                @click.prevent="showDropdown"
+                @click.prevent="userDropdown.show"
               >
                 <span class="sr-only">Open user menu</span>
                 <img
@@ -224,12 +224,12 @@
               </button>
 
               <CommonDropdown
+                :model="userDropdown"
                 class="divide-y divide-gray-100"
                 position-horizontal="right"
                 labeled-by="user-menu-button"
                 position-vertical="bottom"
-                :state="dropdownState"
-                @closed="hideDropdown"
+                :state="userDropdown.state"
               >
                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                 <div class="py-1" role="none">
@@ -285,20 +285,23 @@ import {
 } from '@nuxtjs/composition-api'
 import { useUser } from '~/composables/user'
 import { delay } from '~/helpers'
+import { useDropdown } from '~/composables/dropdown'
 
 const { $auth, $toast, i18n } = useContext()
 const router = useRouter()
 const { getUser } = useUser()
 const user = getUser()
 const route = useRoute()
+const { getDropdown } = useDropdown()
 
 const menu = reactive({
   outer: false,
   inner: false
 })
 
+const userDropdown = getDropdown()
+
 const searchQuery = ref<string | null>(null)
-const dropdownState = ref<boolean>(false)
 
 async function logout(): Promise<void> {
   await $auth.logout()
@@ -315,18 +318,10 @@ async function search(): Promise<void> {
   searchQuery.value = null
 }
 
-function showDropdown(): void {
-  dropdownState.value = !dropdownState.value
-}
-
-function hideDropdown(): void {
-  dropdownState.value = false
-}
-
 async function openMenu(): Promise<void> {
   menu.outer = true
 
-  await delay(10)
+  await delay(5)
 
   menu.inner = true
 }
@@ -334,7 +329,7 @@ async function openMenu(): Promise<void> {
 async function closeMenu(): Promise<void> {
   menu.inner = false
 
-  await delay(500)
+  await delay(500) // wait for animation to end
 
   menu.outer = false
 }

@@ -8,7 +8,7 @@
     leave-to-class="transform opacity-0 scale-95"
   >
     <div
-      v-if="state"
+      v-if="model.state.value"
       ref="element"
       :class="classList"
       role="menu"
@@ -25,16 +25,13 @@
 import { ref } from 'vue'
 import { onBeforeUnmount, watch } from '@nuxtjs/composition-api'
 import { delay } from '~/helpers'
+import { Dropdown } from '~/types/common/Dropdown'
 
 const props = defineProps<{
+  model: Dropdown
   positionHorizontal: 'left' | 'right'
   positionVertical: 'bottom' | 'top'
   labeledBy: string
-  state: boolean
-}>()
-
-const emit = defineEmits<{
-  (e: 'closed'): void
 }>()
 
 const element = ref<HTMLElement | null>(null)
@@ -75,21 +72,21 @@ const classList = [
 ]
 
 function closeIfNeeded(e: Event): void {
-  if (!props.state) {
+  if (!props.model.state.value) {
     return
   }
 
   const target = e.target as HTMLElement
 
   if (target !== element.value && !element.value?.contains(target)) {
-    emit('closed')
+    props.model.hide()
   }
 }
 
 // watch state change, when the dropdown shows, attach
 // event so when user clicks outside, the dropdown gets closed
 watch<boolean, boolean>(
-  (): boolean => props.state,
+  (): boolean => props.model.state.value,
   (val: boolean) => {
     if (val) {
       // delay event attaching, so it does not get closed
