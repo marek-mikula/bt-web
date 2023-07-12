@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>You are logged in!</div>
+    <p>Projects</p>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 
 <script lang="ts">
 export default {
-  name: 'AppHome',
+  name: 'AppProjectsPage',
   layout: 'app'
 }
 </script>

@@ -31,7 +31,8 @@
       "@nuxtjs/auth-next",
       "axios",
       "@nuxtjs/i18n"
-    ]
+    ],
+    "skipLibCheck": true // skip checking all .d.ts files for types
   },
   "exclude": [
     "node_modules",
