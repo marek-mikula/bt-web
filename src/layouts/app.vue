@@ -1,40 +1,26 @@
 <template>
-  <!--
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-white">
-    <body class="h-full">
-    ```
-  -->
   <div>
     <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-    <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
+    <div
+      v-if="menu.outer"
+      class="relative z-50 lg:hidden"
+      role="dialog"
+      aria-modal="true"
+    >
       <!--
         Off-canvas menu backdrop, show/hide based on off-canvas menu state.
-
-        Entering: "transition-opacity ease-linear duration-300"
-          From: "opacity-0"
-          To: "opacity-100"
-        Leaving: "transition-opacity ease-linear duration-300"
-          From: "opacity-100"
-          To: "opacity-0"
       -->
-      <div class="fixed inset-0 bg-gray-900/80"></div>
+      <transition
+        enter-active-class="transition-opacity ease-linear duration-300"
+        enter-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition-opacity ease-linear duration-300"
+        leave-class="opacity-100"
+        leave-to-class="opacity-0"
+        :duration="500"
+      >
+        <div v-if="menu.inner" class="fixed inset-0 bg-gray-900/80"></div>
+      </transition>
 
       <div class="fixed inset-0 flex">
         <!--
@@ -47,42 +33,59 @@
             From: "translate-x-0"
             To: "-translate-x-full"
         -->
-        <div class="relative mr-16 flex w-full max-w-xs flex-1">
-          <!--
-            Close button, show/hide based on off-canvas menu state.
+        <transition
+          enter-active-class="transition ease-in-out duration-300 transform"
+          enter-class="-translate-x-full"
+          enter-to-class="translate-x-0"
+          leave-active-class="transition ease-in-out duration-300 transform"
+          leave-class="translate-x-0"
+          leave-to-class="-translate-x-full"
+          :duration="500"
+        >
+          <div
+            v-if="menu.inner"
+            class="relative mr-16 flex w-full max-w-xs flex-1"
+          >
+            <!--
+              Close button, show/hide based on off-canvas menu state.
 
-            Entering: "ease-in-out duration-300"
-              From: "opacity-0"
-              To: "opacity-100"
-            Leaving: "ease-in-out duration-300"
-              From: "opacity-100"
-              To: "opacity-0"
-          -->
-          <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
-            <button type="button" class="-m-2.5 p-2.5">
-              <span class="sr-only">Close sidebar</span>
-              <svg
-                class="h-6 w-6 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
+              Entering: "ease-in-out duration-300"
+                From: "opacity-0"
+                To: "opacity-100"
+              Leaving: "ease-in-out duration-300"
+                From: "opacity-100"
+                To: "opacity-0"
+            -->
+            <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
+              <button
+                type="button"
+                class="-m-2.5 p-2.5"
+                @click.prevent="closeMenu"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
+                <span class="sr-only">Close sidebar</span>
+                <svg
+                  class="h-6 w-6 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
 
-          <!-- Sidebar component, swap this element with another sidebar if you like -->
-          <CommonMenu
-            class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4"
-          />
-        </div>
+            <!-- Sidebar component, swap this element with another sidebar if you like -->
+            <CommonMenu
+              class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4"
+            />
+          </div>
+        </transition>
       </div>
     </div>
 
@@ -100,7 +103,11 @@
       <div
         class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8"
       >
-        <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
+        <button
+          type="button"
+          class="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+          @click.prevent="openMenu"
+        >
           <span class="sr-only">Open sidebar</span>
           <svg
             class="h-6 w-6"
@@ -189,8 +196,12 @@
                 @click.prevent="showDropdown"
               >
                 <span class="sr-only">Open user menu</span>
-                <!--                <img class="h-8 w-8 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">-->
-                <span class="hidden lg:flex lg:items-center">
+                <img
+                  class="h-8 w-8 rounded-full bg-gray-50"
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  alt=""
+                />
+                <span class="ml-4 hidden lg:flex lg:items-center">
                   <!-- ml-4 with profile pic -->
                   <span
                     class="text-sm font-semibold leading-6 text-gray-900"
@@ -264,13 +275,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useContext, useRouter } from '@nuxtjs/composition-api'
+import {
+  reactive,
+  ref,
+  useContext,
+  useRoute,
+  useRouter,
+  watch
+} from '@nuxtjs/composition-api'
 import { useUser } from '~/composables/user'
+import { delay } from '~/helpers'
 
 const { $auth, $toast, i18n } = useContext()
 const router = useRouter()
 const { getUser } = useUser()
 const user = getUser()
+const route = useRoute()
+
+const menu = reactive({
+  outer: false,
+  inner: false
+})
 
 const searchQuery = ref<string | null>(null)
 const dropdownState = ref<boolean>(false)
@@ -287,6 +312,7 @@ async function logout(): Promise<void> {
 
 async function search(): Promise<void> {
   await router.push({ path: '/app/search', query: { q: searchQuery.value } })
+  searchQuery.value = null
 }
 
 function showDropdown(): void {
@@ -296,6 +322,30 @@ function showDropdown(): void {
 function hideDropdown(): void {
   dropdownState.value = false
 }
+
+async function openMenu(): Promise<void> {
+  menu.outer = true
+
+  await delay(10)
+
+  menu.inner = true
+}
+
+async function closeMenu(): Promise<void> {
+  menu.inner = false
+
+  await delay(500)
+
+  menu.outer = false
+}
+
+// close menu on route change
+watch(
+  () => route.value,
+  (): void => {
+    closeMenu()
+  }
+)
 </script>
 
 <script lang="ts">
