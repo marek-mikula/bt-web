@@ -225,9 +225,8 @@
 
               <CommonDropdown
                 :model="userDropdown"
-                position-horizontal="right"
-                labeled-by="user-menu-button"
-                position-vertical="bottom"
+                horizontal="right"
+                vertical="bottom"
                 class="divide-y divide-gray-100"
               >
                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
@@ -297,7 +296,7 @@ const menu = reactive<StringMap<boolean>>({
   inner: false
 })
 
-const userDropdown = getDropdown()
+const userDropdown = getDropdown('user-menu-button')
 const searchQuery = ref<string | null>(null)
 
 async function search(): Promise<void> {

@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { Dropdown } from '~/types/common/Dropdown'
 
 export function useDropdown() {
-  function getDropdown(): Dropdown {
+  function getDropdown(labeledBy: string): Dropdown {
     const state = ref<boolean>(false)
 
     function show(): void {
@@ -15,6 +15,7 @@ export function useDropdown() {
 
     return {
       state,
+      labeledBy,
       show,
       hide
     }

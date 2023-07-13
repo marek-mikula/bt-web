@@ -13,7 +13,7 @@
       :class="classList"
       role="menu"
       aria-orientation="vertical"
-      :aria-labelledby="labeledBy"
+      :aria-labelledby="model.labeledBy"
       tabindex="-1"
     >
       <slot />
@@ -29,29 +29,19 @@ import { Dropdown } from '~/types/common/Dropdown'
 
 const props = defineProps<{
   model: Dropdown
-  positionHorizontal: 'left' | 'right'
-  positionVertical: 'bottom' | 'top'
-  labeledBy: string
+  horizontal: 'left' | 'right'
+  vertical: 'bottom' | 'top'
 }>()
 
 const element = ref<HTMLElement | null>(null)
 
 let positionClass = ''
 
-if (
-  props.positionHorizontal === 'left' &&
-  props.positionVertical === 'bottom'
-) {
+if (props.horizontal === 'left' && props.vertical === 'bottom') {
   positionClass = 'origin-top-left left-0 mt-2'
-} else if (
-  props.positionHorizontal === 'right' &&
-  props.positionVertical === 'bottom'
-) {
+} else if (props.horizontal === 'right' && props.vertical === 'bottom') {
   positionClass = 'origin-top-right right-0 mt-2'
-} else if (
-  props.positionHorizontal === 'left' &&
-  props.positionVertical === 'top'
-) {
+} else if (props.horizontal === 'left' && props.vertical === 'top') {
   positionClass = 'origin-bottom-left left-0 bottom-[100%] mb-2'
 } else {
   positionClass = 'origin-bottom-right right-0 bottom-[100%] mb-2'
