@@ -115,12 +115,13 @@ import { computed, onMounted } from '@nuxtjs/composition-api'
 import { ref } from 'vue'
 import { QuizAnswer, QuizQuestion } from '~/types/http/entities/Quiz'
 import { useLoading } from '~/composables/loading'
+import { NumberMap } from '~/types/common/Common'
 
 const { isLoading, setIsLoading } = useLoading(true)
 
 const props = defineProps<{
   questions: QuizQuestion[]
-  answers: { [key: number]: number }
+  answers: NumberMap<number>
   formIsLoading: boolean
 }>()
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>Dashboard</div>
+    <p>Reports</p>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 
 <script lang="ts">
 export default {
-  name: 'AppHome',
+  name: 'AppReportsPage',
   layout: 'app'
 }
 </script>

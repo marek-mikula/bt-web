@@ -1,10 +1,11 @@
 import { computed, ref, useContext } from '@nuxtjs/composition-api'
 import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
+import { StringMap } from '~/types/common/Common'
 
 export function useForm() {
   const { $_ } = useContext()
 
-  const fieldErrors = ref<{ [key: string]: string[] }>({})
+  const fieldErrors = ref<StringMap<string[]>>({})
 
   const errors = computed<string[]>((): string[] => {
     return $_.uniq(Object.values(fieldErrors.value).flat())
