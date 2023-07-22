@@ -99,6 +99,7 @@ import Vue from 'vue'
 import { computed, onMounted, ref, useContext } from '@nuxtjs/composition-api'
 import { Notification } from '~/types/http/entities/Notification'
 import { useLoading } from '~/composables/loading'
+import MarkAsReadResponse from '~/types/http/responses/UserNotification/MarkAsReadResponse'
 
 const { $repositories, $toast, i18n } = useContext()
 const { isLoading, setIsLoading } = useLoading()
@@ -125,8 +126,8 @@ function closePanel(): void {
 async function fetchNotifications(): Promise<void> {
   notifications.value = null
   try {
-    notifications.value = await $repositories.user
-      .notifications()
+    notifications.value = await $repositories.userNotification
+      .index()
       .then((response) => response.data.data.notifications)
   } catch (e) {
     error.value = true
@@ -145,8 +146,14 @@ async function markAsRead(uuid: string): Promise<void> {
   }
 
   try {
-    const response = await $repositories.user.markAsRead(uuid)
-    Vue.set(notifications.value, index, response.data.data.notification)
+    const response = await $repositories.userNotification.markAsRead({
+      uuid
+    })
+    Vue.set(
+      notifications.value,
+      index,
+      (response.data as MarkAsReadResponse).data.notification
+    )
   } catch (e) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
@@ -158,7 +165,7 @@ async function markAllAsRead(): Promise<void> {
   setIsLoading(true)
 
   try {
-    await $repositories.user.markAllAsRead()
+    await $repositories.userNotification.markAsRead()
 
     // re-fetch all notifications to update the list
     await fetchNotifications()

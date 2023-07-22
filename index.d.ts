@@ -6,7 +6,7 @@ import QuizRepository from '~/repositories/QuizRepository'
 import Cookies from '~/plugins/cookies'
 import 'axios'
 import { Toast } from '~/plugins/toast'
-import UserRepository from '~/repositories/UserRepository'
+import UserNotificationRepository from '~/repositories/UserNotificationRepository'
 
 declare module '@nuxt/types' {
   interface Context {
@@ -15,7 +15,7 @@ declare module '@nuxt/types' {
       mfa: MfaRepository
       passwordReset: PasswordResetRepository
       quiz: QuizRepository
-      user: UserRepository
+      userNotification: UserNotificationRepository
     }
 
     $configs: {}

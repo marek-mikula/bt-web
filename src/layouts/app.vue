@@ -392,8 +392,8 @@ async function closePanel(): Promise<void> {
 }
 
 async function fetchUnreadNotifications(): Promise<void> {
-  unreadNotifications.value = await $repositories.user
-    .unreadNotifications()
+  unreadNotifications.value = await $repositories.userNotification
+    .unread()
     .then((response) => response.data.data.count)
 }
 
