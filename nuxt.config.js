@@ -229,10 +229,10 @@ export default {
   auth: {
     defaultStrategy: 'laravelSanctum',
     redirect: {
-      login: '/',
-      logout: '/',
-      callback: '/',
-      home: '/app'
+      login: '/', // redirect here if user is not logged in
+      logout: '/', // redirect here after logout
+      callback: false, // disabled redirection from auth provider
+      home: '/app' // redirect here after login
     },
     watchLoggedIn: false, // redirect during login/logout
     strategies: {
@@ -240,10 +240,7 @@ export default {
         provider: 'laravel/sanctum',
         url: '/api',
         endpoints: {
-          csrf: {
-            url: '/auth/csrf-cookie',
-            method: 'get'
-          },
+          csrf: false, // we handle csrf-token fetch by ourselves
           login: {
             url: '/auth/login',
             method: 'post'

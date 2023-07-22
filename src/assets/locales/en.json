@@ -150,5 +150,19 @@
     "quiz": {
       "success": "Entry quiz has been successfully completed."
     }
+  },
+  "messages": {
+    "common": {
+      "requestError": "Oops! We couldn't load this data. Please refresh the page and if the error persists, contact the support."
+    }
+  },
+  "notifications": {
+    "panel": {
+      "title": "Notifications",
+      "markAllAsRead": "Mark all as read"
+    },
+    "domain": {
+      "user": "User"
+    }
   }
 }

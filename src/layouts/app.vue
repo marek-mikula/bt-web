@@ -11,10 +11,10 @@
         Off-canvas menu backdrop, show/hide based on off-canvas menu state.
       -->
       <transition
-        enter-active-class="transition-opacity ease-linear duration-300"
+        enter-active-class="transition-opacity ease-linear duration-500"
         enter-class="opacity-0"
         enter-to-class="opacity-100"
-        leave-active-class="transition-opacity ease-linear duration-300"
+        leave-active-class="transition-opacity ease-linear duration-500"
         leave-class="opacity-100"
         leave-to-class="opacity-0"
         :duration="500"
@@ -25,19 +25,12 @@
       <div class="fixed inset-0 flex">
         <!--
           Off-canvas menu, show/hide based on off-canvas menu state.
-
-          Entering: "transition ease-in-out duration-300 transform"
-            From: "-translate-x-full"
-            To: "translate-x-0"
-          Leaving: "transition ease-in-out duration-300 transform"
-            From: "translate-x-0"
-            To: "-translate-x-full"
         -->
         <transition
-          enter-active-class="transition ease-in-out duration-300 transform"
+          enter-active-class="transition ease-in-out duration-500 transform"
           enter-class="-translate-x-full"
           enter-to-class="translate-x-0"
-          leave-active-class="transition ease-in-out duration-300 transform"
+          leave-active-class="transition ease-in-out duration-500 transform"
           leave-class="translate-x-0"
           leave-to-class="-translate-x-full"
           :duration="500"
@@ -48,13 +41,6 @@
           >
             <!--
               Close button, show/hide based on off-canvas menu state.
-
-              Entering: "ease-in-out duration-300"
-                From: "opacity-0"
-                To: "opacity-100"
-              Leaving: "ease-in-out duration-300"
-                From: "opacity-100"
-                To: "opacity-0"
             -->
             <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
               <button
@@ -160,7 +146,8 @@
           <div class="flex items-center gap-x-4 lg:gap-x-6">
             <button
               type="button"
-              class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+              class="relative -m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+              @click.prevent="openPanel"
             >
               <span class="sr-only">View notifications</span>
               <svg
@@ -177,6 +164,12 @@
                   d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
                 />
               </svg>
+              <span
+                v-if="unreadNotifications"
+                class="absolute top-0 right-0 inline-flex h-4 w-5 items-center justify-center rounded-full bg-red-500 text-xxs text-white"
+              >
+                {{ unreadNotifications > 99 ? '99+' : unreadNotifications }}
+              </span>
             </button>
 
             <!-- Separator -->
@@ -269,13 +262,64 @@
         <Nuxt />
       </main>
     </div>
+
+    <div
+      v-if="panel.outer"
+      class="relative z-50"
+      aria-labelledby="slide-over-title"
+      role="dialog"
+      aria-modal="true"
+    >
+      <!--
+        Background backdrop, show/hide based on slide-over state.
+      -->
+      <transition
+        enter-active-class="ease-in-out duration-500"
+        enter-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="ease-in-out duration-500"
+        leave-class="opacity-100"
+        leave-to-class="opacity-0"
+        :duration="500"
+      >
+        <div
+          v-if="panel.inner"
+          class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        ></div>
+      </transition>
+
+      <div class="fixed inset-0 overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden">
+          <div
+            class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10"
+          >
+            <!--
+              Slide-over panel, show/hide based on slide-over state.
+            -->
+            <transition
+              enter-active-class="transform transition ease-in-out duration-500"
+              enter-class="translate-x-full"
+              enter-to-class="translate-x-0"
+              leave-active-class="transform transition ease-in-out duration-500"
+              leave-class="translate-x-0"
+              leave-to-class="translate-x-full"
+              :duration="500"
+            >
+              <NotificationPanel v-if="panel.inner" @closed="closePanel" />
+            </transition>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import {
+  onMounted,
   reactive,
   ref,
+  useContext,
   useRoute,
   useRouter,
   watch
@@ -285,6 +329,7 @@ import { delay } from '~/helpers'
 import { useDropdown } from '~/composables/dropdown'
 import { StringMap } from '~/types/common/Common'
 
+const { $repositories } = useContext()
 const router = useRouter()
 const { getUser, logout } = useUser()
 const user = getUser()
@@ -296,8 +341,14 @@ const menu = reactive<StringMap<boolean>>({
   inner: false
 })
 
+const panel = reactive<StringMap<boolean>>({
+  outer: false,
+  inner: false
+})
+
 const userDropdown = getDropdown('user-menu-button')
 const searchQuery = ref<string | null>(null)
+const unreadNotifications = ref<number | null>(null)
 
 async function search(): Promise<void> {
   await router.push({ path: '/app/search', query: { q: searchQuery.value } })
@@ -320,6 +371,32 @@ async function closeMenu(): Promise<void> {
   menu.outer = false
 }
 
+async function openPanel(): Promise<void> {
+  panel.outer = true
+
+  await delay(5)
+
+  panel.inner = true
+}
+
+async function closePanel(): Promise<void> {
+  panel.inner = false
+
+  await delay(500) // wait for animation to end
+
+  panel.outer = false
+
+  // re-fetch number of unread notifications after
+  // close in case user marked some notifications as read
+  await fetchUnreadNotifications()
+}
+
+async function fetchUnreadNotifications(): Promise<void> {
+  unreadNotifications.value = await $repositories.user
+    .unreadNotifications()
+    .then((response) => response.data.data.count)
+}
+
 // close menu on route change
 watch(
   () => route.value,
@@ -327,6 +404,10 @@ watch(
     closeMenu()
   }
 )
+
+onMounted(async (): Promise<void> => {
+  await fetchUnreadNotifications()
+})
 </script>
 
 <script lang="ts">
