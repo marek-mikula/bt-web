@@ -2,6 +2,11 @@ import type { Config } from 'tailwindcss'
 
 export default <Partial<Config>>{
   theme: {
+    extend: {
+      fontSize: {
+        xxs: '0.5rem'
+      }
+    },
     fill: ({ theme }) => ({
       green: {
         500: theme('colors.green.500')
