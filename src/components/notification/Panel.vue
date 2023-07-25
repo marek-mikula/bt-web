@@ -81,6 +81,15 @@
         </div>
       </div>
 
+      <div
+        v-else-if="notifications.length === 0"
+        class="relative flex-1 p-4 text-center sm:p-6"
+      >
+        <p class="text-center text-sm text-gray-300">
+          {{ $t('notifications.panel.empty') }}
+        </p>
+      </div>
+
       <!-- notifications list -->
       <div v-else class="relative flex-1 space-y-1 overflow-y-auto p-4 sm:p-6">
         <NotificationItem
@@ -106,6 +115,7 @@ const { isLoading, setIsLoading } = useLoading()
 
 const emit = defineEmits<{
   (e: 'closed'): void
+  (e: 'read', uuid: string | null): void
 }>()
 
 const error = ref<boolean>(false)
@@ -128,7 +138,7 @@ async function fetchNotifications(): Promise<void> {
   try {
     notifications.value = await $repositories.userNotification
       .index()
-      .then((response) => response.data.data.notifications)
+      .then((response) => response.data.data.notifications.data)
   } catch (e) {
     error.value = true
   }
@@ -149,11 +159,14 @@ async function markAsRead(uuid: string): Promise<void> {
     const response = await $repositories.userNotification.markAsRead({
       uuid
     })
+
     Vue.set(
       notifications.value,
       index,
       (response.data as MarkAsReadResponse).data.notification
     )
+
+    emit('read', uuid)
   } catch (e) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
@@ -169,6 +182,8 @@ async function markAllAsRead(): Promise<void> {
 
     // re-fetch all notifications to update the list
     await fetchNotifications()
+
+    emit('read', null)
   } catch (e) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()

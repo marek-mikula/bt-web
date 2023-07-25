@@ -305,7 +305,11 @@
               leave-to-class="translate-x-full"
               :duration="500"
             >
-              <NotificationPanel v-if="panel.inner" @closed="closePanel" />
+              <NotificationPanel
+                v-if="panel.inner"
+                @closed="closePanel"
+                @read="read"
+              />
             </transition>
           </div>
         </div>
@@ -385,10 +389,16 @@ async function closePanel(): Promise<void> {
   await delay(500) // wait for animation to end
 
   panel.outer = false
+}
 
-  // re-fetch number of unread notifications after
-  // close in case user marked some notifications as read
-  await fetchUnreadNotifications()
+function read(uuid: string | null): void {
+  if (!unreadNotifications.value) {
+    return
+  }
+
+  // if uuid is set, we suppose user marked one notification
+  // as read, he marked all as read otherwise
+  unreadNotifications.value = uuid ? unreadNotifications.value - 1 : 0
 }
 
 async function fetchUnreadNotifications(): Promise<void> {

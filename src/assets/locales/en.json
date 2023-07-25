@@ -159,7 +159,8 @@
   "notifications": {
     "panel": {
       "title": "Notifications",
-      "markAllAsRead": "Mark all as read"
+      "markAllAsRead": "Mark all as read",
+      "empty": "Nothing is here."
     },
     "domain": {
       "user": "User"
