@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { computed } from '@nuxtjs/composition-api'
-import { Notification } from '~/types/http/entities/Notification'
+import { Notification } from '~/types/http/Entities'
 
 const props = defineProps<{
   notification: Notification

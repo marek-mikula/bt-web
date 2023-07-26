@@ -192,12 +192,11 @@
 <script setup lang="ts">
 import { reactive, useContext, useRouter } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
-import JsonResponse from '~/types/http/responses/JsonResponse'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import { useForm } from '~/composables/forms/form'
-import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { useLoading } from '~/composables/loading'
 import { RegisterForm } from '~/types/forms/Auth'
+import { InvalidContentResponse, JsonResponse } from '~/types/http/Responses'
 
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()

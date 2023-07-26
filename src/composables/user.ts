@@ -1,5 +1,5 @@
 import { useContext, useRouter } from '@nuxtjs/composition-api'
-import { User } from '~/types/http/entities/User'
+import { User } from '~/types/http/Entities'
 
 export function useUser() {
   const { $auth, $toast, i18n } = useContext()

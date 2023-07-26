@@ -78,13 +78,15 @@
 <script setup lang="ts">
 import { reactive, useContext, useRouter } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
-import JsonResponse from '~/types/http/responses/JsonResponse'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
-import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { useForm } from '~/composables/forms/form'
-import MfaTokenResponse from '~/types/http/responses/MfaTokenResponse'
 import { useLoading } from '~/composables/loading'
 import { LoginForm } from '~/types/forms/Auth'
+import {
+  InvalidContentResponse,
+  JsonResponse,
+  MfaTokenResponse
+} from '~/types/http/Responses'
 
 const { $auth, $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
@@ -108,7 +110,7 @@ async function login(): Promise<void> {
 
     // user needs to verify email address
     if (response.data.code === RESPONSE_CODE.MFA_TOKEN) {
-      await redirectToVerifyEmail(response.data as MfaTokenResponse)
+      await redirectToVerifyEmail(response.data)
 
       return
     }

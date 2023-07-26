@@ -1,5 +1,5 @@
 import { defineNuxtPlugin } from '@nuxtjs/composition-api'
-import { User } from '~/types/http/entities/User'
+import { User } from '~/types/http/Entities'
 
 export default defineNuxtPlugin(({ route, $auth, redirect }) => {
   const { path } = route

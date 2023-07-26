@@ -38,10 +38,10 @@ import {
   useRouter
 } from '@nuxtjs/composition-api'
 import Vue from 'vue'
-import { QuizAnswer, QuizQuestion } from '~/types/http/entities/Quiz'
 import { useLoading } from '~/composables/loading'
 import { FinishForm } from '~/types/forms/Quiz'
 import { NumberMap } from '~/types/common/Common'
+import { QuizAnswer, QuizQuestion } from '~/types/http/Entities'
 
 const { $repositories, $toast, i18n, $auth } = useContext()
 const { isLoading, setIsLoading } = useLoading()

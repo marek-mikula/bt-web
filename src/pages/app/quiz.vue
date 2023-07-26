@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { useAsync, useContext } from '@nuxtjs/composition-api'
-import { QuizQuestion } from '~/types/http/entities/Quiz'
+import { QuizQuestion } from '~/types/http/Entities'
 
 const { $repositories, $_ } = useContext()
 

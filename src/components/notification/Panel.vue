@@ -106,9 +106,9 @@
 <script setup lang="ts">
 import Vue from 'vue'
 import { computed, onMounted, ref, useContext } from '@nuxtjs/composition-api'
-import { Notification } from '~/types/http/entities/Notification'
 import { useLoading } from '~/composables/loading'
-import MarkAsReadResponse from '~/types/http/responses/UserNotification/MarkAsReadResponse'
+import { MarkAsReadResponse } from '~/types/http/Responses'
+import { Notification } from '~/types/http/Entities'
 
 const { $repositories, $toast, i18n } = useContext()
 const { isLoading, setIsLoading } = useLoading()

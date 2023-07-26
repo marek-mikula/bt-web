@@ -1,6 +1,6 @@
 import { computed, ref, useContext } from '@nuxtjs/composition-api'
-import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { StringMap } from '~/types/common/Common'
+import { InvalidContentResponse } from '~/types/http/Responses'
 
 export function useForm() {
   const { $_ } = useContext()
