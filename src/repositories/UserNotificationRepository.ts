@@ -9,8 +9,12 @@ import {
 } from '~/types/http/Responses'
 
 export default class UserNotificationRepository extends BaseRepository {
-  index(): Promise<AxiosResponse<NotificationsResponse>> {
-    return this.ctx.$axios.get<NotificationsResponse>(`${this.prefix}`)
+  index(page: number): Promise<AxiosResponse<NotificationsResponse>> {
+    return this.ctx.$axios.get<NotificationsResponse>(`${this.prefix}`, {
+      params: {
+        page
+      }
+    })
   }
 
   unread(): Promise<AxiosResponse<UnreadNotificationsResponse>> {

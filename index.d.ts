@@ -30,6 +30,6 @@ declare module '@nuxt/types' {
 
 declare module 'axios' {
   interface AxiosRequestConfig {
-    doNotCheckCsrf: boolean | undefined
+    doNotCheckCsrf?: boolean
   }
 }
