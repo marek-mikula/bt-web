@@ -1,5 +1,11 @@
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
-import { MfaToken, Pagination, QuizQuestion, User } from '~/types/http/Entities'
+import {
+  MfaToken,
+  Notification,
+  Pagination,
+  QuizQuestion,
+  User
+} from '~/types/http/Entities'
 
 export interface JsonResponse {
   code: RESPONSE_CODE
