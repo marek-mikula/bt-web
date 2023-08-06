@@ -165,7 +165,7 @@
                 />
               </svg>
               <span
-                v-if="unreadNotifications"
+                v-if="unreadNotifications > 0"
                 class="absolute top-0 right-0 inline-flex h-4 w-5 items-center justify-center rounded-full bg-red-500 text-xxs text-white"
               >
                 {{ unreadNotifications > 99 ? '99+' : unreadNotifications }}
@@ -305,11 +305,7 @@
               leave-to-class="translate-x-full"
               :duration="500"
             >
-              <NotificationPanel
-                v-if="panel.inner"
-                @closed="closePanel"
-                @read="read"
-              />
+              <NotificationPanel v-if="panel.inner" @closed="closePanel" />
             </transition>
           </div>
         </div>
@@ -320,12 +316,13 @@
 
 <script setup lang="ts">
 import {
+  computed,
   onMounted,
   reactive,
   ref,
-  useContext,
   useRoute,
   useRouter,
+  useStore,
   watch
 } from '@nuxtjs/composition-api'
 import { useUser } from '~/composables/user'
@@ -333,12 +330,12 @@ import { delay } from '~/helpers'
 import { useDropdown } from '~/composables/dropdown'
 import { StringMap } from '~/types/common/Common'
 
-const { $repositories } = useContext()
 const router = useRouter()
 const { getUser, logout } = useUser()
 const user = getUser()
 const route = useRoute()
 const { getDropdown } = useDropdown()
+const store = useStore()
 
 const menu = reactive<StringMap<boolean>>({
   outer: false,
@@ -352,7 +349,10 @@ const panel = reactive<StringMap<boolean>>({
 
 const userDropdown = getDropdown('user-menu-button')
 const searchQuery = ref<string | null>(null)
-const unreadNotifications = ref<number | null>(null)
+
+const unreadNotifications = computed<number>(
+  () => store.getters['notification/unreadNotifications']
+)
 
 async function search(): Promise<void> {
   await router.push({ path: '/app/search', query: { q: searchQuery.value } })
@@ -391,22 +391,6 @@ async function closePanel(): Promise<void> {
   panel.outer = false
 }
 
-function read(uuid: string | null): void {
-  if (!unreadNotifications.value) {
-    return
-  }
-
-  // if uuid is set, we suppose user marked one notification
-  // as read, he marked all as read otherwise
-  unreadNotifications.value = uuid ? unreadNotifications.value - 1 : 0
-}
-
-async function fetchUnreadNotifications(): Promise<void> {
-  unreadNotifications.value = await $repositories.userNotification
-    .unread()
-    .then((response) => response.data.data.count)
-}
-
 // close menu on route change
 watch(
   () => route.value,
@@ -416,7 +400,7 @@ watch(
 )
 
 onMounted(async (): Promise<void> => {
-  await fetchUnreadNotifications()
+  await store.dispatch('notification/fetchUnreadNotifications')
 })
 </script>
 

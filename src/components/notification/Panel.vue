@@ -110,13 +110,15 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
-  useContext
+  useContext,
+  useStore
 } from '@nuxtjs/composition-api'
 import { useDomainLoading } from '~/composables/loading'
 import { MarkAsReadResponse } from '~/types/http/Responses'
 import { Notification } from '~/types/http/Entities'
 import { useInfiniteScroll } from '~/composables/scroll'
 
+const store = useStore()
 const { $repositories, $toast, i18n } = useContext()
 const { isLoading, setIsLoading } = useDomainLoading<{
   button: boolean
@@ -128,7 +130,6 @@ const { isLoading, setIsLoading } = useDomainLoading<{
 
 const emit = defineEmits<{
   (e: 'closed'): void
-  (e: 'read', uuid: string | null): void
 }>()
 
 const panelElement = ref<HTMLElement | null>(null)
@@ -170,6 +171,8 @@ async function fetchNotifications(refresh: boolean = false): Promise<void> {
     }
 
     end.value = meta.currentPage === meta.lastPage
+
+    error.value = false
   } catch (e) {
     error.value = true
   } finally {
@@ -199,7 +202,8 @@ async function markAsRead(uuid: string): Promise<void> {
       (response.data as MarkAsReadResponse).data.notification
     )
 
-    emit('read', uuid)
+    // decrement the value of unread notifications
+    store.commit('notification/decrement')
   } catch (e) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
@@ -216,7 +220,8 @@ async function markAllAsRead(): Promise<void> {
     // re-fetch all notifications to update the list
     await fetchNotifications(true)
 
-    emit('read', null)
+    // set number of unread notifications to 0
+    store.commit('notification/setUnreadNotifications', 0)
   } catch (e) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
