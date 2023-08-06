@@ -1,4 +1,8 @@
 import { Context } from '@nuxt/types'
 
+export interface Configs {}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (ctx: Context) => ({})
+export function createConfigs(ctx: Context): Configs {
+  return {}
+}
