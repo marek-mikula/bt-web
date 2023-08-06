@@ -107,7 +107,6 @@ async function sendEmail(): Promise<void> {
 <script lang="ts">
 export default {
   name: 'PasswordResetPage',
-  layout: 'auth',
-  auth: 'guest'
+  layout: 'auth'
 }
 </script>

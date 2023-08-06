@@ -1,7 +1,7 @@
-import { defineNuxtPlugin } from '@nuxtjs/composition-api'
+import { defineNuxtMiddleware } from '@nuxtjs/composition-api'
 import { User } from '~/types/http/Entities'
 
-export default defineNuxtPlugin(({ route, $auth, redirect }) => {
+export default defineNuxtMiddleware(({ route, store, redirect }) => {
   const { path } = route
 
   if (!path.startsWith('/app') || path === '/app/quiz') {
@@ -9,11 +9,11 @@ export default defineNuxtPlugin(({ route, $auth, redirect }) => {
   }
 
   // user is not logged in
-  if (!$auth.loggedIn) {
+  if (!store.getters['auth/loggedIn']) {
     return redirect('/')
   }
 
-  const user = $auth.user as any as User
+  const user = store.getters['auth/user'] as any as User
 
   // redirect to quiz page
   if (!user.quizTaken) {

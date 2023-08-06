@@ -1,17 +1,16 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
+import { Context } from '@nuxt/types'
 
-export const state = () => ({
-  name: 'Me'
-})
+export const state = () => ({})
 
 export type RootState = ReturnType<typeof state>
 
-export const getters: GetterTree<RootState, RootState> = {
-  name: (state) => state.name
-}
+export const getters: GetterTree<RootState, RootState> = {}
 
-export const mutations: MutationTree<RootState> = {
-  CHANGE_NAME: (state, newName: string) => (state.name = newName)
-}
+export const mutations: MutationTree<RootState> = {}
 
-export const actions: ActionTree<RootState, RootState> = {}
+export const actions: ActionTree<RootState, RootState> = {
+  async nuxtServerInit({ dispatch }, ctx: Context) {
+    await dispatch('auth/load', ctx)
+  }
+}

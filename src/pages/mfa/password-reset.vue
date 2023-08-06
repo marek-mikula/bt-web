@@ -173,7 +173,6 @@ async function resetPassword(): Promise<void> {
 <script lang="ts">
 export default {
   name: 'MfaPasswordResetPage',
-  layout: 'auth',
-  auth: 'guest'
+  layout: 'auth'
 }
 </script>

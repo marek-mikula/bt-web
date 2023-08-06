@@ -152,9 +152,6 @@ export default {
     // https://image.nuxtjs.org/
     '@nuxt/image',
 
-    // https://auth.nuxtjs.org/
-    '@nuxtjs/auth-next',
-
     // https://i18n.nuxtjs.org/setup
     '@nuxtjs/i18n'
   ],
@@ -223,49 +220,6 @@ export default {
       'auth', // middleware for authentication
       'quiz' // middleware to check if user passed the entry quiz
     ]
-  },
-
-  // Auth module config
-  auth: {
-    defaultStrategy: 'laravelSanctum',
-    redirect: {
-      login: '/', // redirect here if user is not logged in
-      logout: '/', // redirect here after logout
-      callback: false, // disabled redirection from auth provider
-      home: '/app' // redirect here after login
-    },
-    watchLoggedIn: false, // redirect during login/logout
-    strategies: {
-      laravelSanctum: {
-        provider: 'laravel/sanctum',
-        url: '/api',
-        endpoints: {
-          csrf: false, // we handle csrf-token fetch by ourselves
-          login: {
-            url: '/auth/login',
-            method: 'post'
-          },
-          logout: {
-            url: '/auth/logout',
-            method: 'post'
-          },
-          user: {
-            url: '/auth/me',
-            method: 'get'
-          }
-        },
-        user: {
-          autoFetch: false, // do not fetch user automatically after login
-          property: 'data.user'
-        },
-        cookie: {
-          name: 'XSRF-TOKEN'
-        }
-      }
-    },
-    cookie: {
-      secure: !isLocalhost
-    }
   },
 
   publicRuntimeConfig: {

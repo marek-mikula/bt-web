@@ -35,7 +35,8 @@ import {
   onMounted,
   ref,
   useContext,
-  useRouter
+  useRouter,
+  useStore
 } from '@nuxtjs/composition-api'
 import Vue from 'vue'
 import { useLoading } from '~/composables/loading'
@@ -43,9 +44,10 @@ import { FinishForm } from '~/types/forms/Quiz'
 import { NumberMap } from '~/types/common/Common'
 import { QuizAnswer, QuizQuestion } from '~/types/http/Entities'
 
-const { $repositories, $toast, i18n, $auth } = useContext()
+const { $repositories, $toast, i18n } = useContext()
 const { isLoading, setIsLoading } = useLoading()
 const router = useRouter()
+const store = useStore()
 
 const LOCAL_STORAGE_KEY = 'quiz-answers'
 
@@ -140,7 +142,7 @@ async function finish(): Promise<void> {
 
     await $repositories.quiz.finish(form)
 
-    await $auth.fetchUser() // update user model
+    await store.dispatch('auth/fetchUser') // update user model
 
     removeProgress() // remove progress from local storage
 

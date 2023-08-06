@@ -257,7 +257,6 @@ async function register(): Promise<void> {
 <script lang="ts">
 export default {
   name: 'RegisterPage',
-  layout: 'none',
-  auth: 'guest'
+  layout: 'none'
 }
 </script>

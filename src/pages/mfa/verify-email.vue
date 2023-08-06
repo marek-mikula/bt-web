@@ -145,7 +145,6 @@ async function verify(): Promise<void> {
 <script lang="ts">
 export default {
   name: 'MfaVerifyEmailPage',
-  layout: 'auth',
-  auth: 'guest'
+  layout: 'auth'
 }
 </script>

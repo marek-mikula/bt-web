@@ -76,7 +76,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, useContext, useRouter } from '@nuxtjs/composition-api'
+import {
+  reactive,
+  useContext,
+  useRouter,
+  useStore
+} from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import { useForm } from '~/composables/forms/form'
@@ -88,9 +93,10 @@ import {
   MfaTokenResponse
 } from '~/types/http/Responses'
 
-const { $auth, $repositories, $toast, i18n } = useContext()
+const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
 const { isLoading, setIsLoading } = useLoading()
+const store = useStore()
 
 const router = useRouter()
 
@@ -116,7 +122,7 @@ async function login(): Promise<void> {
     }
 
     // set user from response
-    $auth.setUser(response.data.data.user)
+    await store.dispatch('auth/login', response.data.data.user)
 
     $toast.success({
       title: i18n.t('toasts.login.loggedIn').toString()
@@ -169,7 +175,6 @@ async function redirectToVerifyEmail(data: MfaTokenResponse): Promise<void> {
 <script lang="ts">
 export default {
   name: 'LoginPage',
-  layout: 'auth',
-  auth: 'guest'
+  layout: 'auth'
 }
 </script>

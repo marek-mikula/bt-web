@@ -26,6 +26,13 @@ export interface InvalidContentResponse extends JsonResponse {
   }
 }
 
+export interface MeResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    user: User
+  }
+}
+
 export interface LoginResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
