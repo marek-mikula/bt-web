@@ -59,12 +59,11 @@ import {
   useRouter
 } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
-import JsonResponse from '~/types/http/responses/JsonResponse'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
-import InvalidContentResponse from '~/types/http/responses/InvalidContentResponse'
 import { useForm } from '~/composables/forms/form'
 import { useLoading } from '~/composables/loading'
 import { VerifyForm } from '~/types/forms/Mfa'
+import { InvalidContentResponse, JsonResponse } from '~/types/http/Responses'
 
 const route = useRoute()
 const router = useRouter()
@@ -146,7 +145,6 @@ async function verify(): Promise<void> {
 <script lang="ts">
 export default {
   name: 'MfaVerifyEmailPage',
-  layout: 'auth',
-  auth: 'guest'
+  layout: 'auth'
 }
 </script>

@@ -1,8 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { BaseRepository } from '~/repositories/BaseRepository'
-import QuizQuestionsResponse from '~/types/http/responses/Quiz/QuizQuestionsResponse'
-import SuccessResponse from '~/types/http/responses/SuccessResponse'
 import { FinishForm } from '~/types/forms/Quiz'
+import { QuizQuestionsResponse, SuccessResponse } from '~/types/http/Responses'
 
 export default class QuizRepository extends BaseRepository {
   questions(): Promise<AxiosResponse<QuizQuestionsResponse>> {

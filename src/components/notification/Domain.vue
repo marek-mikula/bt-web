@@ -11,8 +11,8 @@
 
 <script setup lang="ts">
 import { computed, useContext } from '@nuxtjs/composition-api'
-import { Notification } from '~/types/http/entities/Notification'
 import { NOTIFICATION_DOMAIN } from '~/enums/notifications/NotificationDomain'
+import { Notification } from '~/types/http/Entities'
 
 const { i18n } = useContext()
 

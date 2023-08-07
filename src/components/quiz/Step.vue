@@ -121,7 +121,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from '@nuxtjs/composition-api'
-import { QuizAnswer, QuizQuestion } from '~/types/http/entities/Quiz'
+import { QuizAnswer, QuizQuestion } from '~/types/http/Entities'
 
 const props = withDefaults(
   defineProps<{

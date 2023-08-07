@@ -1,14 +1,20 @@
 import { AxiosResponse } from 'axios'
 import { BaseRepository } from '~/repositories/BaseRepository'
-import UnreadNotificationsResponse from '~/types/http/responses/UserNotification/UnreadNotificationsResponse'
-import NotificationsResponse from '~/types/http/responses/UserNotification/NotificationsResponse'
-import MarkAsReadResponse from '~/types/http/responses/UserNotification/MarkAsReadResponse'
 import { MarkAsReadForm } from '~/types/forms/UserNotification'
-import SuccessResponse from '~/types/http/responses/SuccessResponse'
+import {
+  MarkAsReadResponse,
+  NotificationsResponse,
+  SuccessResponse,
+  UnreadNotificationsResponse
+} from '~/types/http/Responses'
 
 export default class UserNotificationRepository extends BaseRepository {
-  index(): Promise<AxiosResponse<NotificationsResponse>> {
-    return this.ctx.$axios.get<NotificationsResponse>(`${this.prefix}`)
+  index(page: number): Promise<AxiosResponse<NotificationsResponse>> {
+    return this.ctx.$axios.get<NotificationsResponse>(`${this.prefix}`, {
+      params: {
+        page
+      }
+    })
   }
 
   unread(): Promise<AxiosResponse<UnreadNotificationsResponse>> {

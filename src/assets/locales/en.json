@@ -120,7 +120,8 @@
   "toasts": {
     "common": {
       "formErrors": "There are some errors in the form.",
-      "somethingWentWrong": "Oops! Something went wrong. Please contact support for more information."
+      "somethingWentWrong": "Oops! Something went wrong. Please contact support for more information.",
+      "newNotifications": "You have new notifications!"
     },
     "login": {
       "loggedIn": "Successfully logged in!",

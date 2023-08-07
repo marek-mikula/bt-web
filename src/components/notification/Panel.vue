@@ -52,8 +52,7 @@
         <div class="mt-5">
           <CommonButton
             color="secondary"
-            :is-loading="isLoading"
-            :disabled="!hasAnyUnread"
+            :is-loading="isLoading.button"
             :label="$t('notifications.panel.markAllAsRead').toString()"
             block
             @click="markAllAsRead"
@@ -62,7 +61,7 @@
       </div>
 
       <!-- request error -->
-      <div v-if="error" class="relative flex-1 p-4 text-center sm:p-6">
+      <div v-if="error" class="flex-1 p-4 text-center sm:p-6">
         <div class="flex h-full items-center justify-center">
           <CommonAlert
             type="danger"
@@ -71,33 +70,35 @@
         </div>
       </div>
 
-      <!-- loading spinner for notifications -->
       <div
-        v-else-if="notifications === null"
-        class="relative flex-1 p-4 text-center sm:p-6"
+        v-else
+        ref="panelElement"
+        class="flex-1 space-y-1 overflow-y-auto p-4 sm:p-6"
       >
-        <div class="flex h-full items-center justify-center">
+        <!-- notifications - empty state -->
+        <template v-if="notifications?.length === 0">
+          <p class="text-center text-sm text-gray-300">
+            {{ $t('notifications.panel.empty') }}
+          </p>
+        </template>
+
+        <!-- notifications list -->
+        <template v-else-if="notifications?.length > 0">
+          <NotificationItem
+            v-for="notification in notifications"
+            :key="notification.uuid"
+            :notification="notification"
+            @read="markAsRead"
+          />
+        </template>
+
+        <!-- loading spinner for notifications -->
+        <div
+          v-if="isLoading.notifications"
+          class="flex items-center justify-center p-4"
+        >
           <CommonSpinner :size="10" />
         </div>
-      </div>
-
-      <div
-        v-else-if="notifications.length === 0"
-        class="relative flex-1 p-4 text-center sm:p-6"
-      >
-        <p class="text-center text-sm text-gray-300">
-          {{ $t('notifications.panel.empty') }}
-        </p>
-      </div>
-
-      <!-- notifications list -->
-      <div v-else class="relative flex-1 space-y-1 overflow-y-auto p-4 sm:p-6">
-        <NotificationItem
-          v-for="notification in notifications"
-          :key="notification.uuid"
-          :notification="notification"
-          @read="markAsRead"
-        />
       </div>
     </div>
   </div>
@@ -105,42 +106,77 @@
 
 <script setup lang="ts">
 import Vue from 'vue'
-import { computed, onMounted, ref, useContext } from '@nuxtjs/composition-api'
-import { Notification } from '~/types/http/entities/Notification'
-import { useLoading } from '~/composables/loading'
-import MarkAsReadResponse from '~/types/http/responses/UserNotification/MarkAsReadResponse'
+import {
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useContext,
+  useStore
+} from '@nuxtjs/composition-api'
+import { useDomainLoading } from '~/composables/loading'
+import { MarkAsReadResponse } from '~/types/http/Responses'
+import { Notification } from '~/types/http/Entities'
+import { useInfiniteScroll } from '~/composables/scroll'
 
+const store = useStore()
 const { $repositories, $toast, i18n } = useContext()
-const { isLoading, setIsLoading } = useLoading()
+const { isLoading, setIsLoading } = useDomainLoading<{
+  button: boolean
+  notifications: boolean
+}>({
+  button: false,
+  notifications: false
+})
 
 const emit = defineEmits<{
   (e: 'closed'): void
-  (e: 'read', uuid: string | null): void
 }>()
 
+const panelElement = ref<HTMLElement | null>(null)
+const { initInfiniteScroll, destroyInfiniteScroll } = useInfiniteScroll(
+  panelElement,
+  infiniteScrollHandler
+)
+
 const error = ref<boolean>(false)
+const page = ref<number>(0)
+const end = ref<boolean>(false)
 const notifications = ref<Notification[] | null>(null)
-
-const hasAnyUnread = computed<boolean>((): boolean => {
-  if (!notifications.value) {
-    return false
-  }
-
-  return notifications.value.some((n) => !n.readAt)
-})
 
 function closePanel(): void {
   emit('closed')
 }
 
-async function fetchNotifications(): Promise<void> {
-  notifications.value = null
+async function fetchNotifications(refresh: boolean = false): Promise<void> {
+  setIsLoading(true, 'notifications')
+
+  if (refresh) {
+    page.value = 0
+  }
+
   try {
-    notifications.value = await $repositories.userNotification
-      .index()
-      .then((response) => response.data.data.notifications.data)
+    page.value += 1
+
+    const response = await $repositories.userNotification.index(page.value)
+
+    const { data, meta } = response.data.data.notifications
+
+    // append current page notifications
+    // to the notifications array if the page
+    // is not the first one
+    if (page.value === 1) {
+      notifications.value = data
+    } else {
+      notifications.value = [...(notifications.value ?? []), ...data]
+    }
+
+    end.value = meta.currentPage === meta.lastPage
+
+    error.value = false
   } catch (e) {
     error.value = true
+  } finally {
+    setIsLoading(false, 'notifications')
   }
 }
 
@@ -166,7 +202,8 @@ async function markAsRead(uuid: string): Promise<void> {
       (response.data as MarkAsReadResponse).data.notification
     )
 
-    emit('read', uuid)
+    // decrement the value of unread notifications
+    store.commit('notification/decrement')
   } catch (e) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
@@ -175,27 +212,46 @@ async function markAsRead(uuid: string): Promise<void> {
 }
 
 async function markAllAsRead(): Promise<void> {
-  setIsLoading(true)
+  setIsLoading(true, 'button')
 
   try {
     await $repositories.userNotification.markAsRead()
 
     // re-fetch all notifications to update the list
-    await fetchNotifications()
+    await fetchNotifications(true)
 
-    emit('read', null)
+    // set number of unread notifications to 0
+    store.commit('notification/setUnread', 0)
   } catch (e) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
     })
   } finally {
-    setIsLoading(false)
+    setIsLoading(false, 'button')
   }
+}
+
+async function infiniteScrollHandler(): Promise<void> {
+  // do not fetch notifications if:
+  //    - we hit the end of the list
+  //    - notifications hasn't been initially loaded yet
+  //    - new notification batch is currently loading
+  if (end.value || notifications.value === null || isLoading.notifications) {
+    return
+  }
+
+  await fetchNotifications()
 }
 
 onMounted(async (): Promise<void> => {
   // fetch notifications when panel is opened
   await fetchNotifications()
+
+  initInfiniteScroll()
+})
+
+onBeforeUnmount((): void => {
+  destroyInfiniteScroll()
 })
 </script>
 
