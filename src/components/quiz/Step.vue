@@ -47,6 +47,7 @@
         v-for="answer in currentQuestion.answers"
         :key="answer.id"
         class="cursor-pointer rounded-lg border-2 border-gray-200 p-3 hover:bg-gray-200"
+        tabindex="0"
         @click="selectAnswer(answer)"
       >
         <p>{{ answer.text }}</p>
