@@ -32,13 +32,15 @@ export const mutations: MutationTree<AuthState> = {
 
 export const actions: ActionTree<AuthState, AuthState> = {
   // loads initial user data when the page first loads
-  async load(
+  async nuxtServerInit(
     { dispatch },
     { $repositories, $axios, req }: Context
   ): Promise<void> {
     // set referrer so the sanctum middleware gets correctly
     // loaded on the API side
-    $axios.setHeader('referer', req.headers.host)
+    if (process.server) {
+      $axios.setHeader('referer', req.headers.host)
+    }
 
     try {
       const user = await $repositories.auth
@@ -49,6 +51,9 @@ export const actions: ActionTree<AuthState, AuthState> = {
     } catch (e: any) {
       const response: AxiosResponse<JsonResponse> = e.response
 
+      // do not throw 401 (Unauthenticated)
+      // because that just means the user is not
+      // authenticated
       if (response.status !== 401) {
         throw e
       }

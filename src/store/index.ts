@@ -11,6 +11,6 @@ export const mutations: MutationTree<RootState> = {}
 
 export const actions: ActionTree<RootState, RootState> = {
   async nuxtServerInit({ dispatch }, ctx: Context) {
-    await dispatch('auth/load', ctx)
+    await dispatch('auth/nuxtServerInit', ctx)
   }
 }
