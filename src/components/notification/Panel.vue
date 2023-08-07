@@ -221,7 +221,7 @@ async function markAllAsRead(): Promise<void> {
     await fetchNotifications(true)
 
     // set number of unread notifications to 0
-    store.commit('notification/setUnreadNotifications', 0)
+    store.commit('notification/setUnread', 0)
   } catch (e) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()

@@ -317,9 +317,11 @@
 <script setup lang="ts">
 import {
   computed,
+  onBeforeUnmount,
   onMounted,
   reactive,
   ref,
+  useContext,
   useRoute,
   useRouter,
   useStore,
@@ -336,6 +338,9 @@ const user = getUser()
 const route = useRoute()
 const { getDropdown } = useDropdown()
 const store = useStore()
+const context = useContext()
+
+const notificationInterval = ref<null | number>(null)
 
 const menu = reactive<StringMap<boolean>>({
   outer: false,
@@ -351,7 +356,7 @@ const userDropdown = getDropdown('user-menu-button')
 const searchQuery = ref<string | null>(null)
 
 const unreadNotifications = computed<number>(
-  () => store.getters['notification/unreadNotifications']
+  () => store.getters['notification/unread']
 )
 
 async function search(): Promise<void> {
@@ -391,6 +396,20 @@ async function closePanel(): Promise<void> {
   panel.outer = false
 }
 
+function initNotificationInterval(): void {
+  notificationInterval.value = window.setInterval(async (): Promise<void> => {
+    await store.dispatch('notification/fetchUnreadNotifications', context)
+  }, 3 * 60 * 1000) // every 3 minutes
+}
+
+function destroyNotificationInterval(): void {
+  if (!notificationInterval.value) {
+    return
+  }
+
+  window.clearInterval(notificationInterval.value)
+}
+
 // close menu on route change
 watch(
   () => route.value,
@@ -400,7 +419,12 @@ watch(
 )
 
 onMounted(async (): Promise<void> => {
-  await store.dispatch('notification/fetchUnreadNotifications')
+  await store.dispatch('notification/fetchUnreadNotifications', context)
+  initNotificationInterval()
+})
+
+onBeforeUnmount((): void => {
+  destroyNotificationInterval()
 })
 </script>
 

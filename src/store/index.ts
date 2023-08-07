@@ -1,9 +1,9 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
 import { Context } from '@nuxt/types'
 
-export const state = () => ({})
+export interface RootState {}
 
-export type RootState = ReturnType<typeof state>
+export const state = (): RootState => ({})
 
 export const getters: GetterTree<RootState, RootState> = {}
 

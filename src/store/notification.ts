@@ -1,45 +1,69 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
-import { useContext } from '@nuxtjs/composition-api'
+import { Context } from '@nuxt/types'
 
 export interface NotificationState {
-  unreadNotifications: number
+  unread: number
+  firstLoad: boolean
 }
 
 export const state = (): NotificationState => ({
-  unreadNotifications: 0
+  unread: 0,
+  firstLoad: true
 })
 
 export const getters: GetterTree<NotificationState, NotificationState> = {
-  unreadNotifications: (state) => state.unreadNotifications
+  unread: (state): number => state.unread
 }
 
 export const mutations: MutationTree<NotificationState> = {
-  setUnreadNotifications: (state, count: number): void => {
-    state.unreadNotifications = count
+  setUnread: (state, count: number): void => {
+    state.unread = count
   },
 
   increment: (state): void => {
-    state.unreadNotifications += 1
+    state.unread += 1
   },
 
   decrement: (state): void => {
-    state.unreadNotifications =
-      state.unreadNotifications > 0 ? state.unreadNotifications - 1 : 0
+    state.unread = state.unread > 0 ? state.unread - 1 : 0
+  },
+
+  setFirstLoad: (state, val: boolean) => {
+    state.firstLoad = val
   }
 }
 
 export const actions: ActionTree<NotificationState, NotificationState> = {
-  async fetchUnreadNotifications({ commit }): Promise<void> {
-    const { $repositories } = useContext()
-
+  async fetchUnreadNotifications(
+    { commit, state },
+    { $repositories, $toast, i18n }: Context
+  ): Promise<void> {
     try {
       const count = await $repositories.userNotification
         .unread()
         .then((response) => response.data.data.count)
 
-      commit('setUnreadNotifications', count)
+      // save original count
+      const originalCount = state.unread
+
+      // set new count
+      await commit('setUnread', count)
+
+      // show toasts message when user receives new notifications
+      // but only if it's not an initial load
+      if (!state.firstLoad && originalCount < count) {
+        $toast.info({
+          title: i18n.t('toasts.common.newNotifications').toString()
+        })
+      }
+
+      // change the value of first load if this
+      // was the initial load
+      if (state.firstLoad) {
+        await commit('setFirstLoad', false)
+      }
     } catch (e) {
-      commit('setUnreadNotifications', 0)
+      await commit('setUnread', 0)
     }
   }
 }

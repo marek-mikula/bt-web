@@ -1,7 +1,6 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
 import { Context } from '@nuxt/types'
 import { AxiosResponse } from 'axios'
-import { useContext } from '@nuxtjs/composition-api'
 import { User } from '~/types/http/Entities'
 import { JsonResponse } from '~/types/http/Responses'
 
@@ -62,9 +61,7 @@ export const actions: ActionTree<AuthState, AuthState> = {
     }
   },
 
-  async fetchUser({ dispatch }): Promise<void> {
-    const { $repositories } = useContext()
-
+  async fetchUser({ dispatch }, { $repositories }: Context): Promise<void> {
     const user = await $repositories.auth
       .me()
       .then((response) => response.data.data.user)

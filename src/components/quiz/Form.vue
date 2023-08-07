@@ -44,7 +44,8 @@ import { FinishForm } from '~/types/forms/Quiz'
 import { NumberMap } from '~/types/common/Common'
 import { QuizAnswer, QuizQuestion } from '~/types/http/Entities'
 
-const { $repositories, $toast, i18n } = useContext()
+const context = useContext()
+const { $repositories, $toast, i18n } = context
 const { isLoading, setIsLoading } = useLoading()
 const router = useRouter()
 const store = useStore()
@@ -142,7 +143,7 @@ async function finish(): Promise<void> {
 
     await $repositories.quiz.finish(form)
 
-    await store.dispatch('auth/fetchUser') // update user model
+    await store.dispatch('auth/fetchUser', context) // update user model
 
     removeProgress() // remove progress from local storage
 
