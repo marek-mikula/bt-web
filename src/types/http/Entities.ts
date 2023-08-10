@@ -56,3 +56,13 @@ export interface User {
   createdAt: string
   updatedAt: string
 }
+
+export interface FeaturedCryptoToken {
+  id: number
+  name: string
+  symbol: string
+  slug: string
+  quoteCurrency: string
+  quotePrice: number
+  iconUrl: string
+}

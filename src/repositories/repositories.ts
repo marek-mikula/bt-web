@@ -4,6 +4,7 @@ import MfaRepository from '~/repositories/MfaRepository'
 import PasswordResetRepository from '~/repositories/PasswordResetRepository'
 import QuizRepository from '~/repositories/QuizRepository'
 import UserNotificationRepository from '~/repositories/UserNotificationRepository'
+import DashboardRepository from '~/repositories/DashboardRepository'
 
 export interface Repositories {
   auth: AuthRepository
@@ -11,6 +12,7 @@ export interface Repositories {
   passwordReset: PasswordResetRepository
   quiz: QuizRepository
   userNotification: UserNotificationRepository
+  dashboard: DashboardRepository
 }
 
 export function createRepositories(ctx: Context): Repositories {
@@ -22,6 +24,7 @@ export function createRepositories(ctx: Context): Repositories {
     userNotification: new UserNotificationRepository(
       ctx,
       '/api/user/notifications'
-    )
+    ),
+    dashboard: new DashboardRepository(ctx, '/api/dashboard')
   }
 }

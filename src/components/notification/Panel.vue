@@ -152,6 +152,7 @@ async function fetchNotifications(refresh: boolean = false): Promise<void> {
 
   if (refresh) {
     page.value = 0
+    notifications.value = null
   }
 
   try {

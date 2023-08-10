@@ -1,5 +1,6 @@
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import {
+  FeaturedCryptoToken,
   MfaToken,
   Notification,
   Pagination,
@@ -72,5 +73,12 @@ export interface UnreadNotificationsResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
     count: number
+  }
+}
+
+export interface DashboardIndexResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    topCrypto: FeaturedCryptoToken[]
   }
 }
