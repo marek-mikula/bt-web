@@ -11,13 +11,13 @@
         Off-canvas menu backdrop, show/hide based on off-canvas menu state.
       -->
       <transition
-        enter-active-class="transition-opacity ease-linear duration-500"
+        enter-active-class="transition-opacity ease-linear duration-300"
         enter-class="opacity-0"
         enter-to-class="opacity-100"
-        leave-active-class="transition-opacity ease-linear duration-500"
+        leave-active-class="transition-opacity ease-linear duration-300"
         leave-class="opacity-100"
         leave-to-class="opacity-0"
-        :duration="500"
+        :duration="300"
       >
         <div v-if="menu.inner" class="fixed inset-0 bg-gray-900/80"></div>
       </transition>
@@ -27,13 +27,13 @@
           Off-canvas menu, show/hide based on off-canvas menu state.
         -->
         <transition
-          enter-active-class="transition ease-in-out duration-500 transform"
+          enter-active-class="transition ease-in-out duration-300 transform"
           enter-class="-translate-x-full"
           enter-to-class="translate-x-0"
-          leave-active-class="transition ease-in-out duration-500 transform"
+          leave-active-class="transition ease-in-out duration-300 transform"
           leave-class="translate-x-0"
           leave-to-class="-translate-x-full"
-          :duration="500"
+          :duration="300"
         >
           <div
             v-if="menu.inner"
@@ -274,13 +274,13 @@
         Background backdrop, show/hide based on slide-over state.
       -->
       <transition
-        enter-active-class="ease-in-out duration-500"
+        enter-active-class="ease-in-out duration-300"
         enter-class="opacity-0"
         enter-to-class="opacity-100"
-        leave-active-class="ease-in-out duration-500"
+        leave-active-class="ease-in-out duration-300"
         leave-class="opacity-100"
         leave-to-class="opacity-0"
-        :duration="500"
+        :duration="300"
       >
         <div
           v-if="panel.inner"
@@ -297,13 +297,13 @@
               Slide-over panel, show/hide based on slide-over state.
             -->
             <transition
-              enter-active-class="transform transition ease-in-out duration-500"
+              enter-active-class="transform transition ease-in-out duration-300"
               enter-class="translate-x-full"
               enter-to-class="translate-x-0"
-              leave-active-class="transform transition ease-in-out duration-500"
+              leave-active-class="transform transition ease-in-out duration-300"
               leave-class="translate-x-0"
               leave-to-class="translate-x-full"
-              :duration="500"
+              :duration="300"
             >
               <NotificationPanel v-if="panel.inner" @closed="closePanel" />
             </transition>
@@ -375,7 +375,7 @@ async function openMenu(): Promise<void> {
 async function closeMenu(): Promise<void> {
   menu.inner = false
 
-  await delay(500) // wait for animation to end
+  await delay(300) // wait for animation to end
 
   menu.outer = false
 }
@@ -391,7 +391,7 @@ async function openPanel(): Promise<void> {
 async function closePanel(): Promise<void> {
   panel.inner = false
 
-  await delay(500) // wait for animation to end
+  await delay(300) // wait for animation to end
 
   panel.outer = false
 }

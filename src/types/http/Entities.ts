@@ -66,3 +66,16 @@ export interface FeaturedCryptoToken {
   quotePrice: number
   iconUrl: string
 }
+
+export interface MarketMetrics {
+  ethDominance: number
+  ethDominanceYesterday: number
+  ethDominancePercentageChange: number
+  btcDominance: number
+  btcDominanceYesterday: number
+  btcDominancePercentageChange: number
+  totalMarketCap: number
+  totalMarketCapYesterday: number
+  totalMarketCapPercentageChange: number
+  totalMarketCapCurrency: string
+}

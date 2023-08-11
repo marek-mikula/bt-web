@@ -121,6 +121,16 @@
       "featuredTokens": {
         "title": "Featured tokens",
         "subtitle": "by market cap"
+      },
+      "marketData": {
+        "title": "Market data",
+        "sections": {
+          "totalMarketCap": "Total market cap",
+          "btcDominance": "Bitcoin dominance",
+          "ethDominance": "Ethereum dominance"
+        },
+        "decreased": "Decreased by",
+        "increased": "Increased by"
       }
     }
   },
