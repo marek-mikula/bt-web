@@ -8,7 +8,8 @@
       "confirm": "Confirm",
       "cancel": "Cancel",
       "backToLogin": "Back to login",
-      "loading": "Loading"
+      "loading": "Loading",
+      "showAll": "Show all"
     }
   },
   "forms": {
@@ -114,6 +115,12 @@
       "verifyEmail": {
         "title": "Verify your email address",
         "subtitle": "We have sent you a code to your email address. Please enter the code and verify your email."
+      }
+    },
+    "dashboard": {
+      "featuredTokens": {
+        "title": "Featured tokens",
+        "subtitle": "by market cap"
       }
     }
   },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Calendar</p>
+    <p>Cryptocurrencies</p>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 
 <script lang="ts">
 export default {
-  name: 'AppCalendarPage',
+  name: 'AppCryptocurrenciesPage',
   layout: 'app'
 }
 </script>
