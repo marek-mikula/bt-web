@@ -56,7 +56,12 @@
               <span class="absolute inset-0" aria-hidden="true"></span>
               <p class="text-sm font-medium text-gray-900">{{ token.name }}</p>
               <p class="truncate text-xs text-gray-500 md:text-sm">
-                {{ token.quotePrice.toFixed(5) }} {{ token.quoteCurrency }}
+                {{
+                  $formatter.formatCurrency(
+                    token.quotePrice,
+                    token.quoteCurrency
+                  )
+                }}
               </p>
             </a>
           </div>

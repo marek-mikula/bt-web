@@ -116,6 +116,7 @@ export default {
     '~/plugins/configs.ts',
     '~/plugins/lodash.ts',
     '~/plugins/cookies.ts',
+    '~/plugins/formatter.ts',
     { src: '~/plugins/components.ts', mode: 'client' },
     { src: '~/plugins/toast.ts', mode: 'client' }
   ],
