@@ -29,10 +29,10 @@
 
           <div
             v-if="data.data.marketMetrics.totalMarketCapPercentageChange > 0.0"
-            class="inline-flex items-baseline rounded-full bg-green-100 px-2.5 py-0.5 text-sm font-medium text-green-800 md:mt-2 lg:mt-0"
+            class="inline-flex items-baseline rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 md:mt-2 lg:mt-0"
           >
             <svg
-              class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
+              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-green-500"
               viewBox="0 0 20 20"
               fill="currentColor"
               aria-hidden="true"
@@ -52,10 +52,10 @@
           </div>
           <div
             v-else
-            class="inline-flex items-baseline rounded-full bg-red-100 px-2.5 py-0.5 text-sm font-medium text-red-800 md:mt-2 lg:mt-0"
+            class="inline-flex items-baseline rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800 md:mt-2 lg:mt-0"
           >
             <svg
-              class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500"
+              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-red-500"
               viewBox="0 0 20 20"
               fill="currentColor"
               aria-hidden="true"
@@ -88,10 +88,10 @@
 
           <div
             v-if="data.data.marketMetrics.btcDominancePercentageChange > 0.0"
-            class="inline-flex items-baseline rounded-full bg-green-100 px-2.5 py-0.5 text-sm font-medium text-green-800 md:mt-2 lg:mt-0"
+            class="inline-flex items-baseline rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 md:mt-2 lg:mt-0"
           >
             <svg
-              class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
+              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-green-500"
               viewBox="0 0 20 20"
               fill="currentColor"
               aria-hidden="true"
@@ -111,10 +111,10 @@
           </div>
           <div
             v-else
-            class="inline-flex items-baseline rounded-full bg-red-100 px-2.5 py-0.5 text-sm font-medium text-red-800 md:mt-2 lg:mt-0"
+            class="inline-flex items-baseline rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800 md:mt-2 lg:mt-0"
           >
             <svg
-              class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500"
+              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-red-500"
               viewBox="0 0 20 20"
               fill="currentColor"
               aria-hidden="true"
@@ -147,10 +147,10 @@
 
           <div
             v-if="data.data.marketMetrics.ethDominancePercentageChange > 0.0"
-            class="inline-flex items-baseline rounded-full bg-green-100 px-2.5 py-0.5 text-sm font-medium text-green-800 md:mt-2 lg:mt-0"
+            class="inline-flex items-baseline rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 md:mt-2 lg:mt-0"
           >
             <svg
-              class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
+              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-green-500"
               viewBox="0 0 20 20"
               fill="currentColor"
               aria-hidden="true"
@@ -170,10 +170,10 @@
           </div>
           <div
             v-else
-            class="inline-flex items-baseline rounded-full bg-red-100 px-2.5 py-0.5 text-sm font-medium text-red-800 md:mt-2 lg:mt-0"
+            class="inline-flex items-baseline rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800 md:mt-2 lg:mt-0"
           >
             <svg
-              class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500"
+              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-red-500"
               viewBox="0 0 20 20"
               fill="currentColor"
               aria-hidden="true"
