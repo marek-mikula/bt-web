@@ -244,7 +244,7 @@
 
     <div
       v-if="data"
-      class="xxl:grid-cols-4 grid grid-cols-2 gap-4 md:grid-cols-3"
+      class="xxl:grid-cols-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"
     >
       <div
         v-for="token in data.data.topCrypto"
