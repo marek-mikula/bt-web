@@ -10,7 +10,7 @@
 
     <dl
       v-if="data"
-      class="mb-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0"
+      class="mb-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm md:grid-cols-3 md:divide-x md:divide-y-0"
     >
       <!-- total market cap block -->
       <div class="px-4 py-5 sm:p-6">
