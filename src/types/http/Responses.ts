@@ -1,7 +1,7 @@
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import {
-  FeaturedCryptoToken,
-  MarketMetrics,
+  DashboardToken,
+  DashboardMarketMetrics,
   MfaToken,
   Notification,
   Pagination,
@@ -80,7 +80,7 @@ export interface UnreadNotificationsResponse extends JsonResponse {
 export interface DashboardIndexResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
-    topCrypto: FeaturedCryptoToken[]
-    marketMetrics: MarketMetrics
+    topCrypto: DashboardToken[]
+    marketMetrics: DashboardMarketMetrics
   }
 }

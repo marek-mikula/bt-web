@@ -57,7 +57,7 @@ export interface User {
   updatedAt: string
 }
 
-export interface FeaturedCryptoToken {
+export interface DashboardToken {
   id: number
   name: string
   symbol: string
@@ -67,7 +67,7 @@ export interface FeaturedCryptoToken {
   iconUrl: string
 }
 
-export interface MarketMetrics {
+export interface DashboardMarketMetrics {
   ethDominance: number
   ethDominanceYesterday: number
   ethDominancePercentageChange: number
