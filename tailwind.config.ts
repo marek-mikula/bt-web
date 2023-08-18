@@ -22,6 +22,9 @@ export default <Partial<Config>>{
       },
       gray: {
         500: theme('colors.gray.500')
+      },
+      indigo: {
+        500: theme('colors.indigo.500')
       }
     })
   },

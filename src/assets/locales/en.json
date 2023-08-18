@@ -132,6 +132,9 @@
         "decreased": "Decreased by",
         "increased": "Increased by"
       }
+    },
+    "search": {
+      "empty": "No search results for \"{query}\". Try changing the search query."
     }
   },
   "toasts": {

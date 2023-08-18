@@ -79,3 +79,16 @@ export interface DashboardMarketMetrics {
   totalMarketCapPercentageChange: number
   totalMarketCapCurrency: string
 }
+
+export interface SearchResultUrls {}
+
+export interface SearchResult {
+  id: number
+  name: string
+  symbol: string
+  description: string
+  logo: string
+  urls: SearchResultUrls
+  price: number
+  priceCurrency: string
+}

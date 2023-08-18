@@ -6,7 +6,8 @@ import {
   Notification,
   Pagination,
   QuizQuestion,
-  User
+  User,
+  SearchResult
 } from '~/types/http/Entities'
 
 export interface JsonResponse {
@@ -82,5 +83,12 @@ export interface DashboardIndexResponse extends JsonResponse {
   data: {
     topCrypto: DashboardToken[]
     marketMetrics: DashboardMarketMetrics
+  }
+}
+
+export interface SearchResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    results: SearchResult[]
   }
 }

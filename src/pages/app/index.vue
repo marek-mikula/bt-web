@@ -1,16 +1,32 @@
 <template>
   <div>
     <div class="pb-5 sm:flex sm:items-center sm:justify-between">
-      <div class="-ml-2 -mt-2 flex flex-wrap items-baseline">
-        <h3 class="ml-2 mt-2 text-base font-semibold leading-6 text-gray-900">
-          {{ $t('pages.dashboard.marketData.title') }}
-        </h3>
+      <div class="flex items-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="mr-2 h-6 w-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"
+          />
+        </svg>
+        <div class="-ml-2 -mt-2 flex flex-wrap items-baseline">
+          <h3 class="ml-2 mt-2 text-base font-semibold leading-6 text-gray-900">
+            {{ $t('pages.dashboard.marketData.title') }}
+          </h3>
+        </div>
       </div>
     </div>
 
     <dl
       v-if="data"
-      class="mb-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm md:grid-cols-3 md:divide-x md:divide-y-0"
+      class="mb-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded border border-gray-200 bg-white shadow-sm sm:rounded-lg md:grid-cols-3 md:divide-x md:divide-y-0"
     >
       <!-- total market cap block -->
       <div class="px-4 py-5 sm:p-6">
@@ -208,13 +224,35 @@
     </dl>
 
     <div class="pb-5 sm:flex sm:items-center sm:justify-between">
-      <div class="-ml-2 -mt-2 flex flex-wrap items-baseline">
-        <h3 class="ml-2 mt-2 text-base font-semibold leading-6 text-gray-900">
-          {{ $t('pages.dashboard.featuredTokens.title') }}
-        </h3>
-        <p class="ml-2 mt-1 truncate text-sm text-gray-500">
-          {{ $t('pages.dashboard.featuredTokens.subtitle') }}
-        </p>
+      <div class="flex items-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="mr-2 h-6 w-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z"
+          />
+        </svg>
+
+        <div class="-ml-2 -mt-2 flex flex-wrap items-baseline">
+          <h3 class="ml-2 mt-2 text-base font-semibold leading-6 text-gray-900">
+            {{ $t('pages.dashboard.featuredTokens.title') }}
+          </h3>
+          <p class="ml-2 mt-1 truncate text-sm text-gray-500">
+            {{ $t('pages.dashboard.featuredTokens.subtitle') }}
+          </p>
+        </div>
       </div>
       <div class="mt-3 sm:ml-4 sm:mt-0">
         <NuxtLink
@@ -244,12 +282,12 @@
 
     <div
       v-if="data"
-      class="xxl:grid-cols-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"
+      class="xxl:grid-cols-4 grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3"
     >
       <div
         v-for="token in data.data.topCrypto"
         :key="token.id"
-        class="relative flex items-center space-x-3 rounded-lg border border-gray-200 bg-white px-3 py-2.5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400 md:px-6 md:py-5"
+        class="relative flex items-center space-x-3 rounded border border-gray-200 bg-white px-3 py-2.5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400 sm:rounded-lg md:px-6 md:py-5"
       >
         <div class="flex-shrink-0">
           <img
