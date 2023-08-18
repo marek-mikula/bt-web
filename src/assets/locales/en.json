@@ -134,7 +134,8 @@
       }
     },
     "search": {
-      "empty": "No search results for \"{query}\". Try changing the search query."
+      "empty": "No search results for \"{query}\". Try changing the search query.",
+      "result": "Found {count} result. | Found {count} results."
     }
   },
   "toasts": {
