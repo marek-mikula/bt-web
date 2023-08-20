@@ -25,8 +25,8 @@
     </div>
 
     <dl
-      v-if="data"
-      class="mb-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded border border-gray-200 bg-white shadow-sm sm:rounded-lg md:grid-cols-3 md:divide-x md:divide-y-0"
+      v-if="marketMetrics"
+      class="mb-7 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded border border-gray-200 bg-white shadow-sm sm:rounded-lg md:grid-cols-3 md:divide-x md:divide-y-0"
     >
       <!-- total market cap block -->
       <div class="px-4 py-5 sm:p-6">
@@ -37,14 +37,14 @@
           <div class="flex items-baseline text-sm text-gray-500">
             {{
               $formatter.formatCurrency(
-                data.data.marketMetrics.totalMarketCap,
-                data.data.marketMetrics.totalMarketCapCurrency
+                marketMetrics.totalMarketCap,
+                marketMetrics.totalMarketCapCurrency
               )
             }}
           </div>
 
           <div
-            v-if="data.data.marketMetrics.totalMarketCapPercentageChange > 0.0"
+            v-if="marketMetrics.totalMarketCapPercentageChange > 0.0"
             class="inline-flex items-baseline rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 md:mt-2 lg:mt-0"
           >
             <svg
@@ -62,9 +62,7 @@
             <span class="sr-only">
               {{ $t('pages.dashboard.marketData.increased') }}
             </span>
-            {{
-              data.data.marketMetrics.totalMarketCapPercentageChange.toFixed(2)
-            }}%
+            {{ marketMetrics.totalMarketCapPercentageChange.toFixed(2) }}%
           </div>
           <div
             v-else
@@ -85,9 +83,7 @@
             <span class="sr-only">
               {{ $t('pages.dashboard.marketData.decreased') }}
             </span>
-            {{
-              data.data.marketMetrics.totalMarketCapPercentageChange.toFixed(2)
-            }}%
+            {{ marketMetrics.totalMarketCapPercentageChange.toFixed(2) }}%
           </div>
         </dd>
       </div>
@@ -99,11 +95,11 @@
         </dt>
         <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
           <div class="flex items-baseline text-sm text-gray-500">
-            {{ data.data.marketMetrics.btcDominance.toFixed(2) }}%
+            {{ marketMetrics.btcDominance.toFixed(2) }}%
           </div>
 
           <div
-            v-if="data.data.marketMetrics.btcDominancePercentageChange > 0.0"
+            v-if="marketMetrics.btcDominancePercentageChange > 0.0"
             class="inline-flex items-baseline rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 md:mt-2 lg:mt-0"
           >
             <svg
@@ -121,9 +117,7 @@
             <span class="sr-only">
               {{ $t('pages.dashboard.marketData.increased') }}
             </span>
-            {{
-              data.data.marketMetrics.btcDominancePercentageChange.toFixed(2)
-            }}%
+            {{ marketMetrics.btcDominancePercentageChange.toFixed(2) }}%
           </div>
           <div
             v-else
@@ -144,9 +138,7 @@
             <span class="sr-only">
               {{ $t('pages.dashboard.marketData.decreased') }}
             </span>
-            {{
-              data.data.marketMetrics.btcDominancePercentageChange.toFixed(2)
-            }}%
+            {{ marketMetrics.btcDominancePercentageChange.toFixed(2) }}%
           </div>
         </dd>
       </div>
@@ -158,11 +150,11 @@
         </dt>
         <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
           <div class="flex items-baseline text-sm text-gray-500">
-            {{ data.data.marketMetrics.ethDominance.toFixed(2) }}%
+            {{ marketMetrics.ethDominance.toFixed(2) }}%
           </div>
 
           <div
-            v-if="data.data.marketMetrics.ethDominancePercentageChange > 0.0"
+            v-if="marketMetrics.ethDominancePercentageChange > 0.0"
             class="inline-flex items-baseline rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 md:mt-2 lg:mt-0"
           >
             <svg
@@ -180,9 +172,7 @@
             <span class="sr-only">
               {{ $t('pages.dashboard.marketData.increased') }}
             </span>
-            {{
-              data.data.marketMetrics.ethDominancePercentageChange.toFixed(2)
-            }}%
+            {{ marketMetrics.ethDominancePercentageChange.toFixed(2) }}%
           </div>
           <div
             v-else
@@ -203,9 +193,7 @@
             <span class="sr-only">
               {{ $t('pages.dashboard.marketData.decreased') }}
             </span>
-            {{
-              data.data.marketMetrics.ethDominancePercentageChange.toFixed(2)
-            }}%
+            {{ marketMetrics.ethDominancePercentageChange.toFixed(2) }}%
           </div>
         </dd>
       </div>
@@ -214,7 +202,7 @@
     <!-- skeleton loader -->
     <dl
       v-else
-      class="mb-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0"
+      class="mb-7 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0"
     >
       <div
         v-for="n in 3"
@@ -281,11 +269,11 @@
     </div>
 
     <div
-      v-if="data"
+      v-if="featuredTokens"
       class="xxl:grid-cols-4 grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3"
     >
       <div
-        v-for="token in data.data.topCrypto"
+        v-for="token in featuredTokens"
         :key="token.id"
         class="relative flex items-center space-x-3 rounded border border-gray-200 bg-white px-3 py-2.5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400 sm:rounded-lg md:px-6 md:py-5"
       >
@@ -322,14 +310,29 @@
 </template>
 
 <script setup lang="ts">
-import { useAsync, useContext } from '@nuxtjs/composition-api'
+import { ref, useAsync, useContext, watch } from '@nuxtjs/composition-api'
 import { DashboardIndexResponse } from '~/types/http/Responses'
+import { DashboardMarketMetrics, DashboardToken } from '~/types/http/Entities'
 
 const { $repositories } = useContext()
+
+const marketMetrics = ref<null | DashboardMarketMetrics>(null)
+const featuredTokens = ref<null | DashboardToken[]>(null)
 
 const data = useAsync<DashboardIndexResponse>(async () => {
   return await $repositories.dashboard.index().then((response) => response.data)
 }, 'dashboard')
+
+watch(
+  () => data.value,
+  function (val: DashboardIndexResponse | null): void {
+    marketMetrics.value = val?.data?.marketMetrics || null
+    featuredTokens.value = val?.data?.topCrypto || null
+  },
+  {
+    immediate: true
+  }
+)
 </script>
 
 <script lang="ts">
