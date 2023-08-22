@@ -58,7 +58,7 @@
               />
               <div class="flex min-w-0 flex-auto items-center sm:block">
                 <p class="text-sm font-semibold leading-6 text-gray-900">
-                  <a href="#">
+                  <a href="#" @click.prevent="redirectToDetail(result)">
                     <span class="absolute inset-x-0 -top-px bottom-0"></span>
                     {{ result.symbol }} - {{ result.name }}
                   </a>
@@ -74,12 +74,7 @@
             <div class="flex shrink-0 items-center gap-x-4">
               <div class="sm:flex sm:flex-col sm:items-end">
                 <p class="text-sm leading-6 text-gray-900">
-                  {{
-                    $formatter.formatCurrency(
-                      result.price,
-                      result.priceCurrency
-                    )
-                  }}
+                  {{ formatCurrency(result.price, result.priceCurrency) }}
                 </p>
               </div>
               <svg
@@ -108,14 +103,18 @@ import {
   ref,
   useContext,
   useRoute,
+  useRouter,
   watch
 } from '@nuxtjs/composition-api'
 import { useLoading } from '~/composables/loading'
 import { SearchResult } from '~/types/http/Entities'
+import { useFormat } from '~/composables/format'
 
 const { $repositories, $toast, i18n } = useContext()
 const { isLoading, setIsLoading } = useLoading()
 const route = useRoute()
+const router = useRouter()
+const { formatCurrency } = useFormat()
 
 const results = ref<SearchResult[] | null>(null)
 
@@ -148,6 +147,10 @@ watch(
     immediate: true
   }
 )
+
+async function redirectToDetail(result: SearchResult): Promise<void> {
+  await router.push({ path: `/app/cryptocurrencies/${result.id}` })
+}
 </script>
 
 <script lang="ts">

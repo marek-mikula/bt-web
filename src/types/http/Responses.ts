@@ -7,7 +7,8 @@ import {
   Pagination,
   QuizQuestion,
   User,
-  SearchResult
+  SearchResult,
+  Cryptocurrency
 } from '~/types/http/Entities'
 
 export interface JsonResponse {
@@ -90,5 +91,19 @@ export interface SearchResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
     results: SearchResult[]
+  }
+}
+
+export interface CryptocurrencyIndexResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    cryptocurrencies: {
+      data: Cryptocurrency[]
+      meta: {
+        page: number
+        perPage: number
+        end: boolean
+      }
+    }
   }
 }

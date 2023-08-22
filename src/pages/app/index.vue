@@ -36,7 +36,7 @@
         <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
           <div class="flex items-baseline text-sm text-gray-500">
             {{
-              $formatter.formatCurrency(
+              formatCurrency(
                 marketMetrics.totalMarketCap,
                 marketMetrics.totalMarketCapCurrency
               )
@@ -285,13 +285,15 @@
           />
         </div>
         <div class="min-w-0 flex-1">
-          <a href="#" class="focus:outline-none">
+          <a
+            href="#"
+            class="focus:outline-none"
+            @click.prevent="redirectToDetail(token)"
+          >
             <span class="absolute inset-0" aria-hidden="true"></span>
             <p class="text-sm font-medium text-gray-900">{{ token.name }}</p>
             <p class="truncate text-xs text-gray-500 md:text-sm">
-              {{
-                $formatter.formatCurrency(token.quotePrice, token.quoteCurrency)
-              }}
+              {{ formatCurrency(token.quotePrice, token.quoteCurrency) }}
             </p>
           </a>
         </div>
@@ -310,11 +312,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useAsync, useContext, watch } from '@nuxtjs/composition-api'
+import {
+  ref,
+  useAsync,
+  useContext,
+  useRouter,
+  watch
+} from '@nuxtjs/composition-api'
 import { DashboardIndexResponse } from '~/types/http/Responses'
 import { DashboardMarketMetrics, DashboardToken } from '~/types/http/Entities'
+import { useFormat } from '~/composables/format'
 
 const { $repositories } = useContext()
+const router = useRouter()
+const { formatCurrency } = useFormat()
 
 const marketMetrics = ref<null | DashboardMarketMetrics>(null)
 const featuredTokens = ref<null | DashboardToken[]>(null)
@@ -333,11 +344,15 @@ watch(
     immediate: true
   }
 )
+
+async function redirectToDetail(token: DashboardToken): Promise<void> {
+  await router.push({ path: `/app/cryptocurrencies/${token.id}` })
+}
 </script>
 
 <script lang="ts">
 export default {
-  name: 'AppHome',
+  name: 'AppHomePage',
   layout: 'app'
 }
 </script>

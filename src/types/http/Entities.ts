@@ -80,7 +80,17 @@ export interface DashboardMarketMetrics {
   totalMarketCapCurrency: string
 }
 
-export interface SearchResultUrls {}
+export interface SearchResultUrls {
+  website: string[]
+  twitter: string[]
+  message_board: string[]
+  chat: string[]
+  facebook: string[]
+  reddit: string[]
+  technical_doc: string[]
+  source_code: string[]
+  announcement: string[]
+}
 
 export interface SearchResult {
   id: number
@@ -91,4 +101,25 @@ export interface SearchResult {
   urls: SearchResultUrls
   price: number
   priceCurrency: string
+}
+
+export interface Cryptocurrency {
+  id: number
+  name: string
+  symbol: string
+  iconUrl: string
+  infiniteSupply: boolean
+  totalSupply: number
+  maxSupply: number
+  price: number
+  priceChange1h: number
+  priceChange24h: number
+  priceChange7d: number
+  priceChange30d: number
+  priceChange60d: number
+  priceChange90d: number
+  marketCap: number
+  volume24h: number
+  volumeChange24h: number
+  currency: string
 }

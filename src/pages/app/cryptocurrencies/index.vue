@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Cryptocurrencies</p>
+    <CryptocurrencyTable />
   </div>
 </template>
 

@@ -4,7 +4,6 @@ import 'axios'
 import { Toast } from '~/plugins/toast'
 import { Repositories } from '~/repositories/repositories'
 import { Configs } from '~/configs/configs'
-import { Formatter } from '~/plugins/formatter'
 
 declare module '@nuxt/types' {
   interface Context {
@@ -17,8 +16,6 @@ declare module '@nuxt/types' {
     $toast: Toast
 
     $cookies: Cookies.CookiesStatic
-
-    $formatter: Formatter
   }
 }
 
