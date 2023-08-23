@@ -291,7 +291,14 @@
             @click.prevent="redirectToDetail(token)"
           >
             <span class="absolute inset-0" aria-hidden="true"></span>
-            <p class="text-sm font-medium text-gray-900">{{ token.name }}</p>
+            <p class="text-sm">
+              <span class="font-medium text-gray-900">
+                {{ token.name }}
+              </span>
+              <span class="ml-1 text-gray-300">
+                {{ token.symbol.toUpperCase() }}
+              </span>
+            </p>
             <p class="truncate text-xs text-gray-500 md:text-sm">
               {{ formatCurrency(token.quotePrice, token.quoteCurrency) }}
             </p>
