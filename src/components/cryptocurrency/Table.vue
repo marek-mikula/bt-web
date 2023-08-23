@@ -174,7 +174,7 @@
                         color="primary"
                         @click="fetchCryptocurrencies"
                       >
-                        Load more
+                        {{ $t('common.buttons.loadMore') }}
                       </CommonButton>
                     </div>
                   </td>
