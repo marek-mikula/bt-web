@@ -13,49 +13,51 @@
                     scope="col"
                     class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                   >
-                    Name
+                    {{ $t('pages.cryptocurrency.list.table.name') }}
                   </th>
                   <th
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Price
+                    {{ $t('pages.cryptocurrency.list.table.price') }}
                   </th>
                   <th
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    1h %
+                    {{ $t('pages.cryptocurrency.list.table.1hChange') }}
                   </th>
                   <th
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    24h %
+                    {{ $t('pages.cryptocurrency.list.table.24hChange') }}
                   </th>
                   <th
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    7d %
+                    {{ $t('pages.cryptocurrency.list.table.7dChange') }}
                   </th>
                   <th
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Market cap
+                    {{ $t('pages.cryptocurrency.list.table.marketCap') }}
                   </th>
                   <th
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Volume (24h)
+                    {{ $t('pages.cryptocurrency.list.table.volume24h') }}
                   </th>
                   <th
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Circulating supply
+                    {{
+                      $t('pages.cryptocurrency.list.table.circulatingSupply')
+                    }}
                   </th>
                 </tr>
               </thead>
