@@ -117,7 +117,8 @@ export default {
     '~/plugins/lodash.ts',
     '~/plugins/cookies.ts',
     { src: '~/plugins/components.ts', mode: 'client' },
-    { src: '~/plugins/toast.ts', mode: 'client' }
+    { src: '~/plugins/toast.ts', mode: 'client' },
+    { src: '~/plugins/directives.ts', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -42,49 +42,9 @@
               )
             }}
           </div>
-
-          <div
-            v-if="marketMetrics.totalMarketCapPercentageChange > 0.0"
-            class="inline-flex items-baseline rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 md:mt-2 lg:mt-0"
-          >
-            <svg
-              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-green-500"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="sr-only">
-              {{ $t('pages.dashboard.marketData.increased') }}
-            </span>
-            {{ marketMetrics.totalMarketCapPercentageChange.toFixed(2) }}%
-          </div>
-          <div
-            v-else
-            class="inline-flex items-baseline rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800 md:mt-2 lg:mt-0"
-          >
-            <svg
-              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-red-500"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="sr-only">
-              {{ $t('pages.dashboard.marketData.decreased') }}
-            </span>
-            {{ marketMetrics.totalMarketCapPercentageChange.toFixed(2) }}%
-          </div>
+          <CryptocurrencyChangeBadge
+            :value="marketMetrics.totalMarketCapPercentageChange"
+          />
         </dd>
       </div>
 
@@ -95,51 +55,11 @@
         </dt>
         <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
           <div class="flex items-baseline text-sm text-gray-500">
-            {{ marketMetrics.btcDominance.toFixed(2) }}%
+            {{ formatPercent(marketMetrics.btcDominance) }}
           </div>
-
-          <div
-            v-if="marketMetrics.btcDominancePercentageChange > 0.0"
-            class="inline-flex items-baseline rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 md:mt-2 lg:mt-0"
-          >
-            <svg
-              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-green-500"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="sr-only">
-              {{ $t('pages.dashboard.marketData.increased') }}
-            </span>
-            {{ marketMetrics.btcDominancePercentageChange.toFixed(2) }}%
-          </div>
-          <div
-            v-else
-            class="inline-flex items-baseline rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800 md:mt-2 lg:mt-0"
-          >
-            <svg
-              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-red-500"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="sr-only">
-              {{ $t('pages.dashboard.marketData.decreased') }}
-            </span>
-            {{ marketMetrics.btcDominancePercentageChange.toFixed(2) }}%
-          </div>
+          <CryptocurrencyChangeBadge
+            :value="marketMetrics.btcDominancePercentageChange"
+          />
         </dd>
       </div>
 
@@ -150,51 +70,11 @@
         </dt>
         <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
           <div class="flex items-baseline text-sm text-gray-500">
-            {{ marketMetrics.ethDominance.toFixed(2) }}%
+            {{ formatPercent(marketMetrics.ethDominance) }}
           </div>
-
-          <div
-            v-if="marketMetrics.ethDominancePercentageChange > 0.0"
-            class="inline-flex items-baseline rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 md:mt-2 lg:mt-0"
-          >
-            <svg
-              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-green-500"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="sr-only">
-              {{ $t('pages.dashboard.marketData.increased') }}
-            </span>
-            {{ marketMetrics.ethDominancePercentageChange.toFixed(2) }}%
-          </div>
-          <div
-            v-else
-            class="inline-flex items-baseline rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800 md:mt-2 lg:mt-0"
-          >
-            <svg
-              class="-ml-1 mr-0.5 h-4 w-4 flex-shrink-0 self-center text-red-500"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="sr-only">
-              {{ $t('pages.dashboard.marketData.decreased') }}
-            </span>
-            {{ marketMetrics.ethDominancePercentageChange.toFixed(2) }}%
-          </div>
+          <CryptocurrencyChangeBadge
+            :value="marketMetrics.ethDominancePercentageChange"
+          />
         </dd>
       </div>
     </dl>
@@ -332,7 +212,7 @@ import { useFormat } from '~/composables/format'
 
 const { $repositories } = useContext()
 const router = useRouter()
-const { formatCurrency } = useFormat()
+const { formatCurrency, formatPercent } = useFormat()
 
 const marketMetrics = ref<null | DashboardMarketMetrics>(null)
 const featuredTokens = ref<null | DashboardToken[]>(null)

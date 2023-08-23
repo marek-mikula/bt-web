@@ -10,6 +10,13 @@
       "backToLogin": "Back to login",
       "loading": "Loading",
       "showAll": "Show all"
+    },
+    "change": {
+      "badge": {
+        "increased": "Increased by",
+        "decreased": "Decreased by",
+        "notChanged": "Not changed"
+      }
     }
   },
   "forms": {
@@ -128,9 +135,7 @@
           "totalMarketCap": "Total market cap",
           "btcDominance": "Bitcoin dominance",
           "ethDominance": "Ethereum dominance"
-        },
-        "decreased": "Decreased by",
-        "increased": "Increased by"
+        }
       }
     },
     "search": {
