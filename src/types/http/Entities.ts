@@ -110,6 +110,7 @@ export interface Cryptocurrency {
   iconUrl: string
   infiniteSupply: boolean
   totalSupply: number
+  circulatingSupply: number
   maxSupply: number
   price: number
   priceChange1h: number

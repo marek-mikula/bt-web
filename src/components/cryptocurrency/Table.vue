@@ -25,6 +25,24 @@
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
+                    1h %
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
+                    24h %
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
+                    7d %
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
                     Market cap
                   </th>
                   <th
@@ -32,6 +50,12 @@
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
                     Volume (24h)
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
+                    Circulating supply
                   </th>
                 </tr>
               </thead>
@@ -81,6 +105,30 @@
                     <td
                       class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                     >
+                      <CryptocurrencyChangeBadge
+                        :value="cryptocurrency.priceChange1h"
+                      />
+                    </td>
+
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                    >
+                      <CryptocurrencyChangeBadge
+                        :value="cryptocurrency.priceChange24h"
+                      />
+                    </td>
+
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                    >
+                      <CryptocurrencyChangeBadge
+                        :value="cryptocurrency.priceChange7d"
+                      />
+                    </td>
+
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                    >
                       {{
                         formatCurrency(
                           cryptocurrency.marketCap,
@@ -98,13 +146,28 @@
                           cryptocurrency.currency
                         )
                       }}
+                      <CryptocurrencyChangeBadge
+                        class="ml-1"
+                        :value="cryptocurrency.volumeChange24h"
+                      />
+                    </td>
+
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                    >
+                      {{
+                        formatCryptocurrency(
+                          cryptocurrency.circulatingSupply,
+                          cryptocurrency.symbol
+                        )
+                      }}
                     </td>
                   </tr>
                 </template>
 
                 <!-- loading button -->
                 <tr>
-                  <td colspan="4">
+                  <td colspan="8">
                     <div class="flex items-center justify-center p-4">
                       <CommonButton
                         :is-loading="isLoading"
@@ -135,7 +198,7 @@ import { useFormat } from '~/composables/format'
 const { isLoading, setIsLoading } = useLoading()
 const { $repositories } = useContext()
 const router = useRouter()
-const { formatCurrency } = useFormat()
+const { formatCurrency, formatCryptocurrency } = useFormat()
 
 const page = ref<number>(0)
 const end = ref<boolean>(false)

@@ -6,6 +6,11 @@ export function useFormat() {
   }>({})
 
   function getFractionDigits(value: number): number {
+    // whole numbers
+    if (value % 1 === 0) {
+      return 0
+    }
+
     if (value === 0.0) {
       return 2
     }
@@ -61,6 +66,18 @@ export function useFormat() {
     )
   }
 
+  function getNumberFormatter(
+    fractionDigits: number
+  ): ReturnType<typeof Intl.NumberFormat> {
+    return getFormatter(
+      `number-${fractionDigits}`,
+      () =>
+        new Intl.NumberFormat('en-US', {
+          minimumFractionDigits: fractionDigits
+        })
+    )
+  }
+
   function formatCurrency(value: number, currency: string): string {
     return getCurrencyFormatter(currency, getFractionDigits(value)).format(
       value
@@ -68,11 +85,19 @@ export function useFormat() {
   }
 
   function formatPercent(value: number): string {
-    return getPercentageFormatter(getFractionDigits(value)).format(value)
+    return getPercentageFormatter(getFractionDigits(value * 100)).format(value)
+  }
+
+  function formatCryptocurrency(value: number, currency: string): string {
+    return (
+      getNumberFormatter(getFractionDigits(value)).format(value) +
+      ` ${currency.toUpperCase()}`
+    )
   }
 
   return {
     formatCurrency,
-    formatPercent
+    formatPercent,
+    formatCryptocurrency
   }
 }
