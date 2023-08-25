@@ -6,46 +6,33 @@
       class="block text-sm font-medium leading-6 text-gray-900"
       v-html="renderLabel(label, required)"
     ></label>
-    <div :class="['mt-2', { 'relative rounded-md shadow-sm': hasError }]">
-      <textarea
-        :id="id"
-        :name="name"
-        :required="required"
-        :readonly="readonly"
-        :disabled="disabled"
-        :maxlength="maxlength"
-        :autocomplete="autocomplete"
-        :placeholder="placeholder"
-        :rows="rows"
-        :class="[
-          'block w-full resize-none  rounded-md border-0 text-gray-900 shadow-sm sm:py-1.5 sm:text-sm sm:leading-6',
-          {
-            'pr-10 ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600':
-              hasError,
-            'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600':
-              !hasError
-          }
-        ]"
-        @input="handleInput"
-      ></textarea>
-      <div
-        v-if="hasError"
-        class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
+    <select
+      :id="id"
+      :name="name"
+      :autocomplete="autocomplete"
+      :required="required"
+      :disabled="disabled"
+      :readonly="readonly"
+      :class="[
+        'mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 sm:text-sm sm:leading-6',
+        {
+          'text-red-900 ring-1 ring-inset ring-red-300 focus:ring-2 focus:ring-inset focus:ring-red-600':
+            hasError,
+          'text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 ':
+            !hasError
+        }
+      ]"
+      @input="handleInput"
+    >
+      <option
+        v-for="v in values"
+        :key="v.value"
+        :value="v.value"
+        :selected="value === v.value"
       >
-        <svg
-          class="h-5 w-5 text-red-500"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </div>
-    </div>
+        {{ v.label }}
+      </option>
+    </select>
     <p v-if="hasError" :id="errorId" class="mt-2 text-sm text-red-500">
       {{ error }}
     </p>
@@ -64,6 +51,10 @@ const { renderLabel } = useField()
 const props = withDefaults(
   defineProps<{
     name: string
+    values: {
+      value: string | number
+      label: string | number
+    }[]
     value?: string | number | null // value bind using v-model
     id?: string | null
     label?: string | null
@@ -71,10 +62,7 @@ const props = withDefaults(
     disabled?: boolean
     readonly?: boolean
     autocomplete?: string
-    maxlength?: number | null
     hint?: string | null
-    placeholder?: string | null
-    rows?: number | null
     error?: string | null
   }>(),
   {
@@ -85,10 +73,7 @@ const props = withDefaults(
     disabled: false,
     readonly: false,
     autocomplete: 'off',
-    maxlength: null,
     hint: null,
-    placeholder: null,
-    rows: 5,
     error: null
   }
 )
@@ -109,6 +94,6 @@ function handleInput(event: Event): void {
 
 <script lang="ts">
 export default {
-  name: 'FormTextarea'
+  name: 'FormSelect'
 }
 </script>

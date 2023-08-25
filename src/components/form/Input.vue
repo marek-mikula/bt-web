@@ -6,7 +6,7 @@
       class="block text-sm font-medium leading-6 text-gray-900"
       v-html="renderLabel(label, required)"
     ></label>
-    <div :class="['mt-2', { 'relative mt-2 rounded-md shadow-sm': hasError }]">
+    <div :class="['mt-2', { 'relative rounded-md shadow-sm': hasError }]">
       <input
         :id="id"
         :name="name"
