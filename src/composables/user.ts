@@ -1,4 +1,10 @@
-import { useContext, useRouter, useStore } from '@nuxtjs/composition-api'
+import {
+  computed,
+  useContext,
+  useRouter,
+  useStore
+} from '@nuxtjs/composition-api'
+import { ComputedRef } from 'vue/types/v3-generated'
 import { User } from '~/types/http/Entities'
 
 export function useUser() {
@@ -6,14 +12,14 @@ export function useUser() {
   const router = useRouter()
   const store = useStore()
 
-  function getUser(): User {
+  function getUser(): ComputedRef<User> {
     if (!store.getters['auth/loggedIn']) {
       throw new Error(
         'Cannot use useUser composable when user is not logged in!'
       )
     }
 
-    return store.getters['auth/user'] as any as User
+    return computed<User>(() => store.getters['auth/user'] as any as User)
   }
 
   async function logout(): Promise<void> {

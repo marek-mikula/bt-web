@@ -148,7 +148,7 @@ function closePanel(): void {
 }
 
 async function fetchNotifications(refresh: boolean = false): Promise<void> {
-  setIsLoading(true, 'notifications')
+  setIsLoading('notifications', true)
 
   if (refresh) {
     page.value = 0
@@ -177,7 +177,7 @@ async function fetchNotifications(refresh: boolean = false): Promise<void> {
   } catch (e) {
     error.value = true
   } finally {
-    setIsLoading(false, 'notifications')
+    setIsLoading('notifications', false)
   }
 }
 
@@ -213,7 +213,7 @@ async function markAsRead(uuid: string): Promise<void> {
 }
 
 async function markAllAsRead(): Promise<void> {
-  setIsLoading(true, 'button')
+  setIsLoading('button', true)
 
   try {
     await $repositories.userNotification.markAsRead()
@@ -228,7 +228,7 @@ async function markAllAsRead(): Promise<void> {
       title: i18n.t('toasts.common.somethingWentWrong').toString()
     })
   } finally {
-    setIsLoading(false, 'button')
+    setIsLoading('button', false)
   }
 }
 

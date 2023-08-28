@@ -219,7 +219,8 @@ export default {
   router: {
     middleware: [
       'auth', // middleware for authentication
-      'quiz' // middleware to check if user passed the entry quiz
+      'quiz', // middleware to check if user passed the entry quiz
+      'redirect'
     ]
   },
 

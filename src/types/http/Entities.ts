@@ -49,6 +49,7 @@ export interface User {
   id: number
   firstname: string
   lastname: string
+  birthDate: string
   fullName: string
   email: string
   quizTaken: boolean

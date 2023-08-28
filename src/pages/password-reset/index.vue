@@ -18,7 +18,7 @@
           @submit.prevent="sendEmail"
         >
           <FormInput
-            v-model="form.email"
+            v-model="form.data.email"
             :name="'email'"
             :type="'email'"
             :label="$t('forms.passwordReset.email').toString()"
@@ -50,20 +50,21 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, useContext, useRouter } from '@nuxtjs/composition-api'
+import { useContext, useRouter } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
-import { useForm } from '~/composables/forms/form'
+import { useForm, useFormData } from '~/composables/forms/form'
 import { useLoading } from '~/composables/loading'
 import { PasswordResetEmailForm } from '~/types/forms/PasswordReset'
 import { InvalidContentResponse, JsonResponse } from '~/types/http/Responses'
 
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
+const { createForm } = useFormData()
 const { isLoading, setIsLoading } = useLoading()
 const router = useRouter()
 
-const form: PasswordResetEmailForm = reactive<PasswordResetEmailForm>({
+const form = createForm<PasswordResetEmailForm>({
   email: null
 })
 
@@ -71,7 +72,7 @@ async function sendEmail(): Promise<void> {
   setIsLoading(true)
 
   try {
-    await $repositories.passwordReset.sendEmail(form)
+    await $repositories.passwordReset.sendEmail(form.data)
 
     clearErrors()
 

@@ -18,7 +18,7 @@
           @submit.prevent="resetPassword"
         >
           <FormInput
-            v-model="form.code"
+            v-model="form.data.code"
             :name="'code'"
             :type="'text'"
             :label="$t('forms.mfa.verificationCode.label').toString()"
@@ -30,7 +30,7 @@
           />
 
           <FormInput
-            v-model="form.password"
+            v-model="form.data.password"
             :name="'password'"
             :type="'password'"
             :label="$t('forms.mfa.passwordReset.password.label').toString()"
@@ -43,7 +43,7 @@
 
           <FormInput
             :id="'password-confirm'"
-            v-model="form.passwordConfirm"
+            v-model="form.data.passwordConfirm"
             :name="'passwordConfirm'"
             :type="'password'"
             :label="$t('forms.mfa.passwordReset.passwordConfirm').toString()"
@@ -75,15 +75,10 @@
 </template>
 
 <script setup lang="ts">
-import {
-  reactive,
-  useContext,
-  useRoute,
-  useRouter
-} from '@nuxtjs/composition-api'
+import { useContext, useRoute, useRouter } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
-import { useForm } from '~/composables/forms/form'
+import { useForm, useFormData } from '~/composables/forms/form'
 import { useLoading } from '~/composables/loading'
 import { ResetPasswordForm } from '~/types/forms/Mfa'
 import { InvalidContentResponse, JsonResponse } from '~/types/http/Responses'
@@ -92,9 +87,10 @@ const route = useRoute()
 const router = useRouter()
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
+const { createForm } = useFormData()
 const { isLoading, setIsLoading } = useLoading()
 
-const form: ResetPasswordForm = reactive<ResetPasswordForm>({
+const form = createForm<ResetPasswordForm>({
   code: null,
   password: null,
   passwordConfirm: null
@@ -106,7 +102,7 @@ async function resetPassword(): Promise<void> {
   try {
     await $repositories.mfa.resetPassword(
       route.value.query.token as string,
-      form
+      form.data
     )
 
     clearErrors()

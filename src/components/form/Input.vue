@@ -3,7 +3,10 @@
     <label
       v-if="label"
       :for="id"
-      class="block text-sm font-medium leading-6 text-gray-900"
+      :class="{
+        'block text-sm font-medium leading-6 text-gray-900': !labelHidden,
+        'sr-only': labelHidden
+      }"
       v-html="renderLabel(label, required)"
     ></label>
     <div :class="['mt-2', { 'relative rounded-md shadow-sm': hasError }]">
@@ -98,6 +101,7 @@ const props = withDefaults(
     placeholder?: string | null
     error?: string | null
     showPasswordMeter?: boolean
+    labelHidden?: boolean
   }>(),
   {
     value: null,
@@ -113,7 +117,8 @@ const props = withDefaults(
     hint: null,
     placeholder: null,
     error: null,
-    showPasswordMeter: false
+    showPasswordMeter: false,
+    labelHidden: false
   }
 )
 

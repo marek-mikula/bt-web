@@ -18,7 +18,7 @@
           @submit.prevent="verify"
         >
           <FormInput
-            v-model="form.code"
+            v-model="form.data.code"
             :name="'code'"
             :type="'text'"
             :label="$t('forms.mfa.verificationCode.label').toString()"
@@ -52,15 +52,10 @@
 </template>
 
 <script setup lang="ts">
-import {
-  reactive,
-  useContext,
-  useRoute,
-  useRouter
-} from '@nuxtjs/composition-api'
+import { useContext, useRoute, useRouter } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
-import { useForm } from '~/composables/forms/form'
+import { useForm, useFormData } from '~/composables/forms/form'
 import { useLoading } from '~/composables/loading'
 import { VerifyForm } from '~/types/forms/Mfa'
 import { InvalidContentResponse, JsonResponse } from '~/types/http/Responses'
@@ -69,9 +64,10 @@ const route = useRoute()
 const router = useRouter()
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
+const { createForm } = useFormData()
 const { isLoading, setIsLoading } = useLoading()
 
-const form: VerifyForm = reactive<VerifyForm>({
+const form = createForm<VerifyForm>({
   code: null
 })
 
@@ -79,7 +75,10 @@ async function verify(): Promise<void> {
   setIsLoading(true)
 
   try {
-    await $repositories.mfa.verifyEmail(route.value.query.token as string, form)
+    await $repositories.mfa.verifyEmail(
+      route.value.query.token as string,
+      form.data
+    )
 
     clearErrors()
 

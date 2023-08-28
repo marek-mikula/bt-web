@@ -3,13 +3,17 @@
     <label
       v-if="label"
       :for="id"
-      class="block text-sm font-medium leading-6 text-gray-900"
+      :class="{
+        'block text-sm font-medium leading-6 text-gray-900': !labelHidden,
+        'sr-only': labelHidden
+      }"
       v-html="renderLabel(label, required)"
     ></label>
     <div :class="['mt-2', { 'relative rounded-md shadow-sm': hasError }]">
       <textarea
         :id="id"
         :name="name"
+        :value="value"
         :required="required"
         :readonly="readonly"
         :disabled="disabled"
@@ -76,6 +80,7 @@ const props = withDefaults(
     placeholder?: string | null
     rows?: number | null
     error?: string | null
+    labelHidden?: boolean
   }>(),
   {
     value: null,
@@ -89,7 +94,8 @@ const props = withDefaults(
     hint: null,
     placeholder: null,
     rows: 5,
-    error: null
+    error: null,
+    labelHidden: false
   }
 )
 

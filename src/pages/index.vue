@@ -15,7 +15,7 @@
           @submit.prevent="login"
         >
           <FormInput
-            v-model="form.email"
+            v-model="form.data.email"
             :name="'email'"
             :type="'email'"
             :label="$t('forms.login.email').toString()"
@@ -25,7 +25,7 @@
           />
 
           <FormInput
-            v-model="form.password"
+            v-model="form.data.password"
             :name="'password'"
             :type="'password'"
             :label="$t('forms.login.password').toString()"
@@ -37,7 +37,7 @@
           <div class="flex items-center justify-between">
             <FormCheckbox
               :id="'remember-me'"
-              v-model="form.rememberMe"
+              v-model="form.data.rememberMe"
               :name="'rememberMe'"
               :label="$t('forms.login.rememberMe').toString()"
               :error="fieldError('rememberMe')"
@@ -76,15 +76,10 @@
 </template>
 
 <script setup lang="ts">
-import {
-  reactive,
-  useContext,
-  useRouter,
-  useStore
-} from '@nuxtjs/composition-api'
+import { useContext, useRouter, useStore } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
-import { useForm } from '~/composables/forms/form'
+import { useForm, useFormData } from '~/composables/forms/form'
 import { useLoading } from '~/composables/loading'
 import { LoginForm } from '~/types/forms/Auth'
 import {
@@ -95,12 +90,13 @@ import {
 
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
+const { createForm } = useFormData()
 const { isLoading, setIsLoading } = useLoading()
 const store = useStore()
 
 const router = useRouter()
 
-const form: LoginForm = reactive<LoginForm>({
+const form = createForm<LoginForm>({
   email: null,
   password: null,
   rememberMe: false
@@ -110,7 +106,7 @@ async function login(): Promise<void> {
   setIsLoading(true)
 
   try {
-    const response = await $repositories.auth.login(form)
+    const response = await $repositories.auth.login(form.data)
 
     clearErrors()
 

@@ -167,15 +167,33 @@
                 <!--                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"-->
                 <!--                  alt=""-->
                 <!--                />-->
-                <span class="hidden lg:flex lg:items-center">
+                <span class="flex items-center">
                   <!-- ml-4 with profile pic -->
+                  <span class="inline-block text-gray-400 lg:hidden">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="h-6 w-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                  </span>
+
                   <span
-                    class="text-sm font-semibold leading-6 text-gray-900"
+                    class="hidden text-sm font-semibold leading-6 text-gray-900 lg:block"
                     aria-hidden="true"
                     >{{ user.fullName }}</span
                   >
+
                   <svg
-                    class="ml-2 h-5 w-5 text-gray-400"
+                    class="hidden h-5 w-5 text-gray-400 lg:ml-2 lg:block"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     aria-hidden="true"
@@ -211,6 +229,7 @@
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     role="menuitem"
                     tabindex="-1"
+                    @click.prevent="redirectToSettings"
                     >Account settings</a
                   >
                 </div>
@@ -296,6 +315,7 @@ import {
   ref,
   useContext,
   useRoute,
+  useRouter,
   useStore,
   watch
 } from '@nuxtjs/composition-api'
@@ -307,6 +327,7 @@ import { StringMap } from '~/types/common/Common'
 const { getUser, logout } = useUser()
 const user = getUser()
 const route = useRoute()
+const router = useRouter()
 const { getDropdown } = useDropdown()
 const store = useStore()
 const context = useContext()
@@ -364,7 +385,7 @@ async function closePanel(): Promise<void> {
 function initNotificationInterval(): void {
   notificationInterval.value = window.setInterval(async (): Promise<void> => {
     await store.dispatch('notification/fetchUnreadNotifications', context)
-  }, 3 * 60 * 1000) // every 3 minutes
+  }, 60 * 1000) // every minute
 }
 
 function destroyNotificationInterval(): void {
@@ -373,6 +394,10 @@ function destroyNotificationInterval(): void {
   }
 
   window.clearInterval(notificationInterval.value)
+}
+
+async function redirectToSettings(): Promise<void> {
+  await router.push({ path: '/app/settings' })
 }
 
 // close menu on route change

@@ -3,12 +3,16 @@
     <label
       v-if="label"
       :for="id"
-      class="block text-sm font-medium leading-6 text-gray-900"
+      :class="{
+        'block text-sm font-medium leading-6 text-gray-900': !labelHidden,
+        'sr-only': labelHidden
+      }"
       v-html="renderLabel(label, required)"
     ></label>
     <select
       :id="id"
       :name="name"
+      :value="value"
       :autocomplete="autocomplete"
       :required="required"
       :disabled="disabled"
@@ -23,14 +27,14 @@
         }
       ]"
       @input="handleInput"
+      @change="handleChange"
     >
       <option
-        v-for="v in values"
-        :key="v.value"
-        :value="v.value"
-        :selected="value === v.value"
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
       >
-        {{ v.label }}
+        {{ option.label }}
       </option>
     </select>
     <p v-if="hasError" :id="errorId" class="mt-2 text-sm text-red-500">
@@ -45,16 +49,14 @@
 <script setup lang="ts">
 import { computed } from '@nuxtjs/composition-api'
 import { useField } from '~/composables/forms/field'
+import { FormSelectOption } from '~/types/common/Form'
 
 const { renderLabel } = useField()
 
 const props = withDefaults(
   defineProps<{
     name: string
-    values: {
-      value: string | number
-      label: string | number
-    }[]
+    options: FormSelectOption[]
     value?: string | number | null // value bind using v-model
     id?: string | null
     label?: string | null
@@ -64,6 +66,7 @@ const props = withDefaults(
     autocomplete?: string
     hint?: string | null
     error?: string | null
+    labelHidden?: boolean
   }>(),
   {
     value: null,
@@ -74,12 +77,14 @@ const props = withDefaults(
     readonly: false,
     autocomplete: 'off',
     hint: null,
-    error: null
+    error: null,
+    labelHidden: false
   }
 )
 
 const emit = defineEmits<{
   (e: 'input', value: string | number | null): void
+  (e: 'change', value: string | number | null): void
 }>()
 
 const id = computed<string>((): string => props.id ?? props.name)
@@ -89,6 +94,10 @@ const hasError = computed<boolean>((): boolean => !!props.error)
 
 function handleInput(event: Event): void {
   emit('input', (event.target as HTMLInputElement).value)
+}
+
+function handleChange(event: Event): void {
+  emit('change', (event.target as HTMLInputElement).value)
 }
 </script>
 
