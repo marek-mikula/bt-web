@@ -6,7 +6,9 @@ import {
   Notification,
   Pagination,
   QuizQuestion,
-  User
+  User,
+  SearchResult,
+  Cryptocurrency
 } from '~/types/http/Entities'
 
 export interface JsonResponse {
@@ -82,5 +84,26 @@ export interface DashboardIndexResponse extends JsonResponse {
   data: {
     topCrypto: DashboardToken[]
     marketMetrics: DashboardMarketMetrics
+  }
+}
+
+export interface SearchResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    results: SearchResult[]
+  }
+}
+
+export interface CryptocurrencyIndexResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    cryptocurrencies: {
+      data: Cryptocurrency[]
+      meta: {
+        page: number
+        perPage: number
+        end: boolean
+      }
+    }
   }
 }

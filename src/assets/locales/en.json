@@ -9,7 +9,15 @@
       "cancel": "Cancel",
       "backToLogin": "Back to login",
       "loading": "Loading",
-      "showAll": "Show all"
+      "showAll": "Show all",
+      "loadMore": "Load more"
+    },
+    "change": {
+      "badge": {
+        "increased": "Increased by",
+        "decreased": "Decreased by",
+        "notChanged": "Not changed"
+      }
     }
   },
   "forms": {
@@ -53,9 +61,45 @@
       "verifyEmail": {
         "submit": "Verify email"
       }
+    },
+    "user": {
+      "settings": {
+        "account": {
+          "personal": {
+            "firstname": "First name",
+            "lastname": "Last name",
+            "birthdate": "Birth date"
+          },
+          "password": {
+            "oldPassword": "Old password",
+            "newPassword": {
+              "label": "New password",
+              "hint": "Min. 8 characters. Must contain at least one symbol, number and mixed case letters."
+            },
+            "newPasswordConfirm": "New password confirmation"
+          }
+        }
+      }
     }
   },
   "pages": {
+    "user": {
+      "settings": {
+        "account": {
+          "personal": "Personal information",
+          "passwords": "Passwords",
+          "keys": "Binance keys"
+        }
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "tabs": {
+        "account": "My account",
+        "notifications": "Notifications",
+        "limits": "Limits"
+      }
+    },
     "quiz": {
       "start": {
         "header": "Informational entry quiz",
@@ -98,7 +142,7 @@
         "personal": "Personal information",
         "passwords": "Passwords",
         "keys": {
-          "label": "Keys",
+          "label": "Binance keys",
           "hint": "Paste your Binance API keys here. They will be encrypted and kept in safety. We will use the to communicate with Binance API."
         }
       }
@@ -128,9 +172,25 @@
           "totalMarketCap": "Total market cap",
           "btcDominance": "Bitcoin dominance",
           "ethDominance": "Ethereum dominance"
-        },
-        "decreased": "Decreased by",
-        "increased": "Increased by"
+        }
+      }
+    },
+    "search": {
+      "empty": "No search results for \"{query}\". Try changing the search query.",
+      "result": "Found {count} result. | Found {count} results."
+    },
+    "cryptocurrency": {
+      "list": {
+        "table": {
+          "name": "Name",
+          "price": "Price",
+          "1hChange": "1h %",
+          "24hChange": "24h %",
+          "7dChange": "7d %",
+          "marketCap": "Market cap",
+          "volume24h": "Volume (24h)",
+          "circulatingSupply": "Circulating supply"
+        }
       }
     }
   },
@@ -167,6 +227,21 @@
     },
     "quiz": {
       "success": "Entry quiz has been successfully completed."
+    },
+    "user": {
+      "settings": {
+        "account": {
+          "personal": {
+            "success": "Your personal information has been successfully updated."
+          },
+          "password": {
+            "success": "Your password has been successfully changed."
+          },
+          "keys": {
+            "success": "Your Binance keys have been successfully saved."
+          }
+        }
+      }
     }
   },
   "messages": {

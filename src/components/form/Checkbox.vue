@@ -13,7 +13,10 @@
     />
     <label
       :for="id"
-      class="ml-2 block text-sm text-gray-900"
+      :class="{
+        'ml-2 block text-sm text-gray-900': !labelHidden,
+        'sr-only': labelHidden
+      }"
       v-html="renderLabel(label, required)"
     ></label>
   </div>
@@ -34,13 +37,15 @@ const props = withDefaults(
     required?: boolean
     disabled?: boolean
     readonly?: boolean
+    labelHidden?: boolean
   }>(),
   {
     value: false,
     id: null,
     required: false,
     disabled: false,
-    readonly: false
+    readonly: false,
+    labelHidden: false
   }
 )
 

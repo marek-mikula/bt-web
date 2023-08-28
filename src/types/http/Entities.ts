@@ -49,6 +49,7 @@ export interface User {
   id: number
   firstname: string
   lastname: string
+  birthDate: string
   fullName: string
   email: string
   quizTaken: boolean
@@ -78,4 +79,49 @@ export interface DashboardMarketMetrics {
   totalMarketCapYesterday: number
   totalMarketCapPercentageChange: number
   totalMarketCapCurrency: string
+}
+
+export interface SearchResultUrls {
+  website: string[]
+  twitter: string[]
+  message_board: string[]
+  chat: string[]
+  facebook: string[]
+  reddit: string[]
+  technical_doc: string[]
+  source_code: string[]
+  announcement: string[]
+}
+
+export interface SearchResult {
+  id: number
+  name: string
+  symbol: string
+  description: string
+  logo: string
+  urls: SearchResultUrls
+  price: number
+  priceCurrency: string
+}
+
+export interface Cryptocurrency {
+  id: number
+  name: string
+  symbol: string
+  iconUrl: string
+  infiniteSupply: boolean
+  totalSupply: number
+  circulatingSupply: number
+  maxSupply: number
+  price: number
+  priceChange1h: number
+  priceChange24h: number
+  priceChange7d: number
+  priceChange30d: number
+  priceChange60d: number
+  priceChange90d: number
+  marketCap: number
+  volume24h: number
+  volumeChange24h: number
+  currency: string
 }

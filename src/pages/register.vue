@@ -41,7 +41,7 @@
                 class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
               >
                 <FormInput
-                  v-model="form.firstname"
+                  v-model="form.data.firstname"
                   :name="'firstname'"
                   :type="'text'"
                   :label="$t('forms.register.firstname').toString()"
@@ -52,7 +52,7 @@
                 />
 
                 <FormInput
-                  v-model="form.lastname"
+                  v-model="form.data.lastname"
                   :name="'lastname'"
                   :type="'text'"
                   :label="$t('forms.register.lastname').toString()"
@@ -63,7 +63,7 @@
                 />
 
                 <FormInput
-                  v-model="form.email"
+                  v-model="form.data.email"
                   :name="'email'"
                   :type="'email'"
                   :label="$t('forms.register.email').toString()"
@@ -75,7 +75,7 @@
 
                 <FormInput
                   :id="'birth-date'"
-                  v-model="form.birthDate"
+                  v-model="form.data.birthDate"
                   :name="'birthDate'"
                   :type="'date'"
                   :label="$t('forms.register.birthdate').toString()"
@@ -104,7 +104,7 @@
                 class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
               >
                 <FormInput
-                  v-model="form.password"
+                  v-model="form.data.password"
                   :name="'password'"
                   :type="'password'"
                   :label="$t('forms.register.password.label').toString()"
@@ -118,7 +118,7 @@
 
                 <FormInput
                   :id="'password-confirm'"
-                  v-model="form.passwordConfirm"
+                  v-model="form.data.passwordConfirm"
                   :name="'passwordConfirm'"
                   :type="'password'"
                   :label="$t('forms.register.passwordConfirm').toString()"
@@ -151,22 +151,24 @@
               >
                 <FormTextarea
                   :id="'public-key'"
-                  v-model="form.publicKey"
+                  v-model="form.data.publicKey"
                   :name="'publicKey'"
                   :label="$t('forms.register.publicKey').toString()"
                   :placeholder="'mpX28HOXXSzKVKAc4zI6xHfC1Wp9rTTInPgxTdphmsDNTL3rVouMpJnI8VfdXy0x'"
                   :error="fieldError('publicKey')"
+                  :rows="3"
                   class="col-span-full"
                   required
                 />
 
                 <FormTextarea
                   :id="'secret-key'"
-                  v-model="form.secretKey"
+                  v-model="form.data.secretKey"
                   :name="'secretKey'"
                   :label="$t('forms.register.secretKey').toString()"
                   :placeholder="'oB8yyGiCwyL3qRbEfI0hy7l9e8m1mnJtbLMEEkH5LK8K1M18XbKqD5YfKCmUiNIw'"
                   :error="fieldError('secretKey')"
+                  :rows="3"
                   class="col-span-full"
                   required
                 />
@@ -190,20 +192,21 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, useContext, useRouter } from '@nuxtjs/composition-api'
+import { useContext, useRouter } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
-import { useForm } from '~/composables/forms/form'
+import { useForm, useFormData } from '~/composables/forms/form'
 import { useLoading } from '~/composables/loading'
 import { RegisterForm } from '~/types/forms/Auth'
 import { InvalidContentResponse, JsonResponse } from '~/types/http/Responses'
 
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
+const { createForm } = useFormData()
 const { isLoading, setIsLoading } = useLoading()
 const router = useRouter()
 
-const form: RegisterForm = reactive<RegisterForm>({
+const form = createForm<RegisterForm>({
   firstname: null,
   lastname: null,
   email: null,
@@ -218,7 +221,7 @@ async function register(): Promise<void> {
   setIsLoading(true)
 
   try {
-    const response = await $repositories.auth.register(form)
+    const response = await $repositories.auth.register(form.data)
 
     clearErrors()
 

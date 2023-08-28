@@ -25,8 +25,8 @@ import { computed } from '@nuxtjs/composition-api'
 
 const props = withDefaults(
   defineProps<{
-    type?: 'success' | 'danger' | 'warning' | 'info' | 'default'
-    size?: 4 | 6 | 8 | 10
+    type?: 'success' | 'danger' | 'warning' | 'info' | 'default' | 'primary'
+    size?: 4 | 6 | 8 | 10 | 12 | 14 | 20 | 32
   }>(),
   {
     type: 'default',
@@ -35,23 +35,26 @@ const props = withDefaults(
 )
 
 const classList = computed<string>((): string => {
-  let classes = 'text-gray-200 animate-spin'
+  let classes = 'animate-spin'
 
   switch (props.type) {
     case 'warning':
-      classes += ' fill-yellow-500'
+      classes += ' text-yellow-200 fill-yellow-500'
       break
     case 'danger':
-      classes += ' fill-red-500'
+      classes += ' text-red-200 fill-red-500'
       break
     case 'default':
-      classes += ' fill-gray-500'
+      classes += ' text-gray-200 fill-gray-500'
       break
     case 'info':
-      classes += ' fill-blue-500'
+      classes += ' text-blue-200 fill-blue-500'
       break
     case 'success':
-      classes += ' fill-green-500'
+      classes += ' text-green-200 fill-green-500'
+      break
+    case 'primary':
+      classes += ' text-indigo-200 fill-indigo-500'
       break
   }
 
@@ -67,6 +70,18 @@ const classList = computed<string>((): string => {
       break
     case 10:
       classes += ' w-10 h-10'
+      break
+    case 12:
+      classes += ' w-12 h-12'
+      break
+    case 14:
+      classes += ' w-14 h-14'
+      break
+    case 20:
+      classes += ' w-20 h-20'
+      break
+    case 32:
+      classes += ' w-32 h-32'
       break
   }
 

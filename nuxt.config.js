@@ -116,9 +116,9 @@ export default {
     '~/plugins/configs.ts',
     '~/plugins/lodash.ts',
     '~/plugins/cookies.ts',
-    '~/plugins/formatter.ts',
     { src: '~/plugins/components.ts', mode: 'client' },
-    { src: '~/plugins/toast.ts', mode: 'client' }
+    { src: '~/plugins/toast.ts', mode: 'client' },
+    { src: '~/plugins/directives.ts', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -219,7 +219,8 @@ export default {
   router: {
     middleware: [
       'auth', // middleware for authentication
-      'quiz' // middleware to check if user passed the entry quiz
+      'quiz', // middleware to check if user passed the entry quiz
+      'redirect'
     ]
   },
 
