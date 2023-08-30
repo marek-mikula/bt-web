@@ -56,7 +56,7 @@ const classList = [
   // 'py-2',
   'shadow-lg',
   'ring-1',
-  'ring-gray-900/5',
+  'ring-gray-200',
   'focus:outline-none',
   positionClass
 ]

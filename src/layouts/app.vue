@@ -211,7 +211,7 @@
                 :model="userDropdown"
                 horizontal="right"
                 vertical="bottom"
-                class="divide-y divide-gray-100"
+                class="divide-y divide-gray-200"
               >
                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                 <div class="py-1" role="none">

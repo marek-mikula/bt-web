@@ -97,7 +97,8 @@
       "tabs": {
         "account": "My account",
         "notifications": "Notifications",
-        "limits": "Limits"
+        "limits": "Limits",
+        "alerts": "Alerts"
       }
     },
     "quiz": {

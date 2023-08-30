@@ -119,13 +119,13 @@ const props = withDefaults(
 const containerClass = computed<string>((): string => {
   switch (props.type) {
     case 'danger':
-      return 'bg-red-50'
+      return 'ring-2 ring-red-100 bg-red-50'
     case 'warning':
-      return 'bg-yellow-50'
+      return 'ring-2 ring-yellow-100 bg-yellow-50'
     case 'info':
-      return 'bg-blue-50'
+      return 'ring-2 ring-blue-100 bg-blue-50'
     default:
-      return 'bg-green-50'
+      return 'ring-2 ring-green-100 bg-green-50'
   }
 })
 

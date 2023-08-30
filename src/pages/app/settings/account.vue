@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="space-y-10 divide-y divide-gray-900/10">
+    <div class="space-y-10 divide-y divide-gray-200">
       <div class="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-4">
         <div>
           <h2 class="text-base font-semibold leading-7 text-gray-900">

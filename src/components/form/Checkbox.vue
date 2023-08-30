@@ -12,6 +12,7 @@
       @change="handleInput"
     />
     <label
+      v-if="label"
       :for="id"
       :class="{
         'ml-2 block text-sm text-gray-900': !labelHidden,
@@ -31,7 +32,7 @@ const { renderLabel } = useField()
 const props = withDefaults(
   defineProps<{
     name: string
-    label: string
+    label?: string | null
     value?: boolean // value bind using v-model
     id?: string | null
     required?: boolean
@@ -40,6 +41,7 @@ const props = withDefaults(
     labelHidden?: boolean
   }>(),
   {
+    label: null,
     value: false,
     id: null,
     required: false,
