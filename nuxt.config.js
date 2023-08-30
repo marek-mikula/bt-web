@@ -92,7 +92,7 @@ export default {
       addMeta: false,
       policies: {
         'default-src': ["'none'"],
-        'img-src': ["'self'", 'tailwindui.com'],
+        'img-src': ["'self'", 'tailwindui.com', 's2.coinmarketcap.com'],
         'connect-src': ["'self'"],
         'manifest-src': ["'self'"],
         'style-src': ["'self'", "'unsafe-inline'"]
