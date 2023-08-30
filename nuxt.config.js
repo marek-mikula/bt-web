@@ -85,6 +85,21 @@ export default {
   // enable server-side rendering
   ssr: true,
 
+  render: {
+    csp: {
+      hashAlgorithm: 'sha256',
+      reportOnly: false,
+      addMeta: false,
+      policies: {
+        'default-src': ["'none'"],
+        'img-src': ["'self'", 'tailwindui.com'],
+        'connect-src': ["'self'"],
+        'manifest-src': ["'self'"],
+        'style-src': ["'self'", "'unsafe-inline'"]
+      }
+    }
+  },
+
   // All options for tailwindcss - https://tailwindcss.nuxtjs.org/options
   tailwindcss: {
     cssPath: '~~/assets/css/tailwind.css',
@@ -215,6 +230,8 @@ export default {
     },
     withCredentials: true
   },
+
+  serverMiddleware: ['~/server-middleware/security-headers.ts'],
 
   router: {
     middleware: [
