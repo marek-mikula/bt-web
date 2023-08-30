@@ -10,7 +10,7 @@
     </div>
 
     <!-- nav pills navigation -->
-    <div>
+    <div class="mb-5">
       <div class="sm:hidden">
         <FormSelect
           :id="'settings-tab'"
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <div class="py-4">
+    <div>
       <NuxtChild keep-alive />
     </div>
   </div>
