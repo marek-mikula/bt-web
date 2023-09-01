@@ -75,8 +75,8 @@ function closeIfNeeded(e: Event): void {
 
 // watch state change, when the dropdown shows, attach
 // event so when user clicks outside, the dropdown gets closed
-watch<boolean, boolean>(
-  (): boolean => props.model.state.value,
+watch(
+  () => props.model.state.value,
   (val: boolean) => {
     if (val) {
       // delay event attaching, so it does not get closed

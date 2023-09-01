@@ -129,7 +129,7 @@ async function fetchResults(): Promise<void> {
     results.value = await $repositories.search
       .search(query.value)
       .then((response) => response.data.data.results)
-  } catch (e) {
+  } catch (e: any) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
     })

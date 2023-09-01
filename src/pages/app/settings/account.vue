@@ -310,7 +310,7 @@ async function savePasswordForm(): Promise<void> {
       title: i18n.t('toasts.user.settings.account.password.success').toString()
     })
 
-    passwordForm.clear()
+    passwordForm.reset()
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 
@@ -346,7 +346,7 @@ async function saveKeysForm(): Promise<void> {
       title: i18n.t('toasts.user.settings.account.keys.success').toString()
     })
 
-    keysForm.clear()
+    keysForm.reset()
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 

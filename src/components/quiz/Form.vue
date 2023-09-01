@@ -152,7 +152,7 @@ async function finish(): Promise<void> {
     })
 
     await router.push({ path: '/app' })
-  } catch (e) {
+  } catch (e: any) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
     })

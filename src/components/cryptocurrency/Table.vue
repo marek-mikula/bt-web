@@ -226,7 +226,7 @@ async function fetchCryptocurrencies(): Promise<void> {
     }
 
     end.value = meta.end
-  } catch (e) {
+  } catch (e: any) {
     // todo
   } finally {
     setIsLoading(false)

@@ -132,7 +132,13 @@ const errorId = computed<string>((): string => `${id.value}-error`)
 const hasError = computed<boolean>((): boolean => !!props.error)
 
 function handleInput(event: Event): void {
-  emit('input', (event.target as HTMLInputElement).value)
+  if (props.type === 'number') {
+    const value = (event.target as HTMLInputElement).valueAsNumber
+    emit('input', isNaN(value) ? null : value)
+  } else {
+    const value = (event.target as HTMLInputElement).value
+    emit('input', value || null)
+  }
 }
 </script>
 

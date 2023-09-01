@@ -1,5 +1,5 @@
 <template>
-  <div ref="element" :class="['rounded-md p-4', containerClass]">
+  <div ref="element" :class="['rounded p-4 md:rounded-lg', containerClass]">
     <div class="flex">
       <div class="flex-shrink-0">
         <svg

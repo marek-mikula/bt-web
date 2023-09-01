@@ -126,8 +126,8 @@ const classList = computed<string[]>((): string[] => {
 })
 
 if (process.browser) {
-  watch<boolean, boolean>(
-    (): boolean => props.isLoading,
+  watch(
+    () => props.isLoading,
     (current: boolean) => {
       if (current) {
         loadingInterval.value = window.setInterval(() => {

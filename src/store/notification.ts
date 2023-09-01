@@ -62,7 +62,7 @@ export const actions: ActionTree<NotificationState, NotificationState> = {
       if (state.firstLoad) {
         await commit('setFirstLoad', false)
       }
-    } catch (e) {
+    } catch (e: any) {
       await commit('setUnread', 0)
     }
   }
