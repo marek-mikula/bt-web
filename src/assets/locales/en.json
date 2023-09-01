@@ -64,6 +64,41 @@
     },
     "user": {
       "settings": {
+        "limits": {
+          "trade": {
+            "title": {
+              "label": "Number of trades",
+              "hint": "Maintain a balanced trading strategy by staying within the suggested trade limits for daily, weekly, and monthly periods."
+            },
+            "daily": "Number of daily trades",
+            "weekly": "Number of weekly trades",
+            "monthly": "Number of monthly trades"
+          },
+          "cryptocurrency": {
+            "title": {
+              "label": "Number of cryptocurrencies",
+              "hint": "Ensure a diversified portfolio by adhering to the maximum or minimum limit on the number of cryptocurrencies in your wallet."
+            },
+            "min": "Minimum number of cryptocurrencies",
+            "max": "Maximum number of cryptocurrencies"
+          },
+          "marketCap": {
+            "title": {
+              "label": "Market cap",
+              "hint": "Optimize your portfolio's resilience by aligning your cryptocurrencies with specified market cap groups."
+            },
+            "margin": {
+              "label": "Safety margin",
+              "hint": "Safety margin represents a value that indicates the range in which the real value of the given group must occur. If the value of the margin is 5% and the resulting weight of the group in the portfolio is 15%, then the real value must be in the range of 10% - 20%. This gives us more safe space to trigger warnings in your portfolio. Min. value is {min}%."
+            },
+            "micro": "Micro market cap (< 250m $)",
+            "small": "Small market cap (>= 250m $ and < 2b $)",
+            "mid": "Mid market cap (>= 2b $ and < 10b $)",
+            "large": "Large market cap (>= 10b and < 200b $)",
+            "mega": "Mega market cap (>= 200b $)",
+            "sliderHint": "The monitored value will have to be in the range of {min}% - {max}%."
+          }
+        },
         "account": {
           "personal": {
             "firstname": "First name",
@@ -89,6 +124,9 @@
           "personal": "Personal information",
           "passwords": "Passwords",
           "keys": "Binance keys"
+        },
+        "limits": {
+          "alert": "Limits can be updated only once in 3 days for security reasons. Please be cautious while updating them."
         }
       }
     },

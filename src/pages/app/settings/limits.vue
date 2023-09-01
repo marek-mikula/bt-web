@@ -12,12 +12,13 @@
             :id="'trade-enabled'"
             v-model="form.data.trade.enabled"
             :name="'trade[enabled]'"
-            :label="'Number of trades'"
+            :label="
+              $t('forms.user.settings.limits.trade.title.label').toString()
+            "
           />
         </h3>
         <p class="mt-1 text-sm text-gray-500">
-          Maintain a balanced trading strategy by staying within the suggested
-          trade limits for daily, weekly, and monthly periods.
+          {{ $t('forms.user.settings.limits.trade.title.hint') }}
         </p>
       </div>
       <div
@@ -31,7 +32,7 @@
             :name="'trade[daily]'"
             :type="'number'"
             :min="0"
-            :label="'Number of daily trades'"
+            :label="$t('forms.user.settings.limits.trade.daily').toString()"
             :error="fieldError('trade.daily')"
             class="md:col-span-2"
           />
@@ -42,7 +43,7 @@
             :name="'trade[weekly]'"
             :type="'number'"
             :min="0"
-            :label="'Number of weekly trades'"
+            :label="$t('forms.user.settings.limits.trade.weekly').toString()"
             :error="fieldError('trade.weekly')"
             class="md:col-span-2"
           />
@@ -53,7 +54,7 @@
             :name="'trade[monthly]'"
             :type="'number'"
             :min="0"
-            :label="'Number of monthly trades'"
+            :label="$t('forms.user.settings.limits.trade.monthly').toString()"
             :error="fieldError('trade.monthly')"
             class="md:col-span-2"
           />
@@ -68,12 +69,15 @@
             :id="'cryptocurrency-enabled'"
             v-model="form.data.cryptocurrency.enabled"
             :name="'cryptocurrency[enabled]'"
-            :label="'Number of cryptocurrencies'"
+            :label="
+              $t(
+                'forms.user.settings.limits.cryptocurrency.title.label'
+              ).toString()
+            "
           />
         </h3>
         <p class="mt-1 text-sm text-gray-500">
-          Ensure a diversified portfolio by adhering to the maximum or minimum
-          limit on the number of cryptocurrencies in your wallet.
+          {{ $t('forms.user.settings.limits.cryptocurrency.title.hint') }}
         </p>
       </div>
       <div
@@ -87,7 +91,9 @@
             :name="'cryptocurrency[min]'"
             :type="'number'"
             :min="0"
-            :label="'Minimum number of cryptocurrencies'"
+            :label="
+              $t('forms.user.settings.limits.cryptocurrency.min').toString()
+            "
             :error="fieldError('cryptocurrency.min')"
             class="md:col-span-3"
           />
@@ -98,7 +104,9 @@
             :name="'cryptocurrency[max]'"
             :type="'number'"
             :min="0"
-            :label="'Maximum number of cryptocurrencies'"
+            :label="
+              $t('forms.user.settings.limits.cryptocurrency.max').toString()
+            "
             :error="fieldError('cryptocurrency.max')"
             class="md:col-span-3"
           />
@@ -113,12 +121,13 @@
             :id="'market-cap-enabled'"
             v-model="form.data.marketCap.enabled"
             :name="'marketCap[enabled]'"
-            :label="'Market cap'"
+            :label="
+              $t('forms.user.settings.limits.marketCap.title.label').toString()
+            "
           />
         </h3>
         <p class="mt-1 text-sm text-gray-500">
-          Optimize your portfolio's resilience by aligning your cryptocurrencies
-          with specified market cap groups.
+          {{ $t('forms.user.settings.limits.marketCap.title.hint') }}
         </p>
       </div>
       <div
@@ -130,12 +139,20 @@
             <FormSlider
               v-model="form.data.marketCap.margin"
               :name="'marketCap[margin]'"
-              :label="'Margin'"
+              :label="
+                $t(
+                  'forms.user.settings.limits.marketCap.margin.label'
+                ).toString()
+              "
               :min="3"
               :max="15"
               :step="1"
               :unit="'%'"
-              :hint="'Margin represents a value that indicates the range in which the real value of the given group must occur. If the value of the margin is 2% and the resulting weight of the group in the portfolio is 15%, then the real value must be in the range of 13% - 17%. This gives us more safe space to trigger warnings in your portfolio. Min. value is 3%.'"
+              :hint="
+                $t('forms.user.settings.limits.marketCap.margin.hint', {
+                  min: 3
+                }).toString()
+              "
             />
           </div>
 
@@ -147,18 +164,28 @@
                 :id="'market-cap-micro-enabled'"
                 v-model="form.data.marketCap.microEnabled"
                 :name="'marketCap[microEnabled]'"
-                :label="'Micro market cap (< 250m $)'"
+                :label="
+                  $t('forms.user.settings.limits.marketCap.micro').toString()
+                "
               />
             </div>
             <FormSlider
               v-model="form.data.marketCap.micro"
               :name="'marketCap[micro]'"
-              :label="'Micro market cap (< 250m $)'"
+              :label="
+                $t('forms.user.settings.limits.marketCap.micro').toString()
+              "
               :min="0"
               :max="100"
               :step="5"
               :disabled="!form.data.marketCap.microEnabled"
               :unit="'%'"
+              :hint="
+                getSliderHint(
+                  form.data.marketCap.microEnabled,
+                  form.data.marketCap.micro
+                )
+              "
               label-hidden
             />
           </div>
@@ -171,18 +198,28 @@
                 :id="'market-cap-small-enabled'"
                 v-model="form.data.marketCap.smallEnabled"
                 :name="'marketCap[smallEnabled]'"
-                :label="'Small market cap (>= 250m $ and < 2b $)'"
+                :label="
+                  $t('forms.user.settings.limits.marketCap.small').toString()
+                "
               />
             </div>
             <FormSlider
               v-model="form.data.marketCap.small"
               :name="'marketCap[small]'"
-              :label="'Small market cap (>= 250m $ and < 2b $)'"
+              :label="
+                $t('forms.user.settings.limits.marketCap.small').toString()
+              "
               :min="0"
               :max="100"
               :step="5"
               :disabled="!form.data.marketCap.smallEnabled"
               :unit="'%'"
+              :hint="
+                getSliderHint(
+                  form.data.marketCap.smallEnabled,
+                  form.data.marketCap.small
+                )
+              "
               label-hidden
             />
           </div>
@@ -195,18 +232,26 @@
                 :id="'market-cap-mid-enabled'"
                 v-model="form.data.marketCap.midEnabled"
                 :name="'marketCap[midEnabled]'"
-                :label="'Mid market cap (>= 2b $ and < 10b $)'"
+                :label="
+                  $t('forms.user.settings.limits.marketCap.mid').toString()
+                "
               />
             </div>
             <FormSlider
               v-model="form.data.marketCap.mid"
               :name="'marketCap[mid]'"
-              :label="'Mid market cap (>= 2b $ and < 10b $)'"
+              :label="$t('forms.user.settings.limits.marketCap.mid').toString()"
               :min="0"
               :max="100"
               :step="5"
               :disabled="!form.data.marketCap.midEnabled"
               :unit="'%'"
+              :hint="
+                getSliderHint(
+                  form.data.marketCap.midEnabled,
+                  form.data.marketCap.mid
+                )
+              "
               label-hidden
             />
           </div>
@@ -219,18 +264,28 @@
                 :id="'market-cap-large-enabled'"
                 v-model="form.data.marketCap.largeEnabled"
                 :name="'marketCap[largeEnabled]'"
-                :label="'Large market cap (>= 10b and < 200b $)'"
+                :label="
+                  $t('forms.user.settings.limits.marketCap.large').toString()
+                "
               />
             </div>
             <FormSlider
               v-model="form.data.marketCap.large"
               :name="'marketCap[large]'"
-              :label="'Large market cap (>= 10b and < 200b $)'"
+              :label="
+                $t('forms.user.settings.limits.marketCap.large').toString()
+              "
               :min="0"
               :max="100"
               :step="5"
               :disabled="!form.data.marketCap.largeEnabled"
               :unit="'%'"
+              :hint="
+                getSliderHint(
+                  form.data.marketCap.largeEnabled,
+                  form.data.marketCap.large
+                )
+              "
               label-hidden
             />
           </div>
@@ -243,18 +298,28 @@
                 :id="'market-cap-mega-enabled'"
                 v-model="form.data.marketCap.megaEnabled"
                 :name="'marketCap[megaEnabled]'"
-                :label="'Mega market cap (>= 200b $)'"
+                :label="
+                  $t('forms.user.settings.limits.marketCap.mega').toString()
+                "
               />
             </div>
             <FormSlider
               v-model="form.data.marketCap.mega"
               :name="'marketCap[mega]'"
-              :label="'Mega market cap (>= 200b $)'"
+              :label="
+                $t('forms.user.settings.limits.marketCap.mega').toString()
+              "
               :min="0"
               :max="100"
               :step="5"
               :disabled="!form.data.marketCap.megaEnabled"
               :unit="'%'"
+              :hint="
+                getSliderHint(
+                  form.data.marketCap.megaEnabled,
+                  form.data.marketCap.mega
+                )
+              "
               label-hidden
             />
           </div>
@@ -269,7 +334,7 @@ import { useContext, watch } from '@nuxtjs/composition-api'
 import { useForm, useFormData } from '~/composables/forms/form'
 import { LimitsForm, LimitsMarketCapForm } from '~/types/forms/Limits'
 
-const { $_ } = useContext()
+const { $_, i18n } = useContext()
 const { fieldError } = useForm()
 const { createForm } = useFormData()
 
@@ -329,7 +394,7 @@ watch(() => form.data.marketCap.midEnabled, makeCheckboxWatcher('mid'))
 watch(() => form.data.marketCap.largeEnabled, makeCheckboxWatcher('large'))
 watch(() => form.data.marketCap.megaEnabled, makeCheckboxWatcher('mega'))
 
-const makeSliderWatcher = (watchedProp: keyof LimitsMarketCapForm) => () => {
+const makeSliderWatcher = (prop: keyof LimitsMarketCapForm) => () => {
   const props: (keyof LimitsMarketCapForm)[] = [
     'micro',
     'small',
@@ -352,22 +417,24 @@ const makeSliderWatcher = (watchedProp: keyof LimitsMarketCapForm) => () => {
 
   let valueToSubtract = totalValue - 100
 
-  for (const prop of props) {
-    if (prop === watchedProp) {
+  for (const p of props) {
+    // do not subtract anything from currently
+    // changed value
+    if (p === prop) {
       continue
     }
 
-    const value = ($_.get(form.data.marketCap, prop) ?? 0) as number
+    const value = ($_.get(form.data.marketCap, p) ?? 0) as number
 
     if (valueToSubtract > value) {
       valueToSubtract -= value
 
-      $_.set(form.data.marketCap, prop, 0)
+      $_.set(form.data.marketCap, p, 0)
 
       continue
     }
 
-    $_.set(form.data.marketCap, prop, value - valueToSubtract)
+    $_.set(form.data.marketCap, p, value - valueToSubtract)
 
     break
   }
@@ -378,6 +445,27 @@ watch(() => form.data.marketCap.small, makeSliderWatcher('small'))
 watch(() => form.data.marketCap.mid, makeSliderWatcher('mid'))
 watch(() => form.data.marketCap.large, makeSliderWatcher('large'))
 watch(() => form.data.marketCap.mega, makeSliderWatcher('mega'))
+
+function getSliderHint(enabled: boolean, value: number | null): string | null {
+  if (!enabled || value === null) {
+    return null
+  }
+
+  let min = value - (form.data.marketCap.margin ?? 0)
+  let max = value + (form.data.marketCap.margin ?? 0)
+
+  if (min < 0) {
+    min = 0
+  }
+
+  if (max > 100) {
+    max = 100
+  }
+
+  return i18n
+    .t('forms.user.settings.limits.marketCap.sliderHint', { min, max })
+    .toString()
+}
 </script>
 
 <script lang="ts">
