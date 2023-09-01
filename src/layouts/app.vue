@@ -218,7 +218,7 @@
                   <a
                     id="menu-item-4"
                     href="#"
-                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-indigo-700"
                     role="menuitem"
                     tabindex="-1"
                     >Your profile</a
@@ -226,7 +226,7 @@
                   <a
                     id="menu-item-5"
                     href="#"
-                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-indigo-700"
                     role="menuitem"
                     tabindex="-1"
                     @click.prevent="redirectToSettings"
@@ -237,7 +237,7 @@
                   <a
                     id="menu-item-6"
                     href="#"
-                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-indigo-700"
                     role="menuitem"
                     tabindex="-1"
                     @click.prevent="logout"
