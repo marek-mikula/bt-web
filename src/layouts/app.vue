@@ -214,11 +214,11 @@
                 class="divide-y divide-gray-200"
               >
                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                <div class="py-1" role="none">
+                <div class="p-1" role="none">
                   <a
                     id="menu-item-4"
                     href="#"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     role="menuitem"
                     tabindex="-1"
                     >Your profile</a
@@ -226,18 +226,18 @@
                   <a
                     id="menu-item-5"
                     href="#"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     role="menuitem"
                     tabindex="-1"
                     @click.prevent="redirectToSettings"
                     >Account settings</a
                   >
                 </div>
-                <div class="py-1" role="none">
+                <div class="p-1" role="none">
                   <a
                     id="menu-item-6"
                     href="#"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     role="menuitem"
                     tabindex="-1"
                     @click.prevent="logout"
