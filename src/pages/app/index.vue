@@ -26,7 +26,7 @@
 
     <dl
       v-if="marketMetrics"
-      class="mb-7 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded border border-gray-200 bg-white shadow-sm sm:rounded-lg md:grid-cols-3 md:divide-x md:divide-y-0"
+      class="mb-7 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded border border-gray-200 bg-white shadow-sm md:grid-cols-3 md:divide-x md:divide-y-0 md:rounded-lg"
     >
       <!-- total market cap block -->
       <div class="px-4 py-5 sm:p-6">
@@ -82,7 +82,7 @@
     <!-- skeleton loader -->
     <dl
       v-else
-      class="mb-7 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0"
+      class="mb-7 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0 md:rounded-lg"
     >
       <div
         v-for="n in 3"
@@ -155,7 +155,7 @@
       <div
         v-for="token in featuredTokens"
         :key="token.id"
-        class="relative flex items-center space-x-3 rounded border border-gray-200 bg-white px-3 py-2.5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400 sm:rounded-lg md:px-6 md:py-5"
+        class="relative flex items-center space-x-3 rounded border border-gray-200 bg-white px-3 py-2.5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400 md:rounded-lg md:px-6 md:py-5"
       >
         <div class="flex-shrink-0">
           <img
@@ -192,7 +192,7 @@
       <div
         v-for="n in 5"
         :key="n"
-        class="h-20 animate-pulse rounded-lg border border-gray-200 bg-white bg-gray-200 px-3 py-2.5 shadow-sm md:px-6 md:py-5"
+        class="h-20 animate-pulse rounded border border-gray-200 bg-white bg-gray-200 px-3 py-2.5 shadow-sm md:rounded-lg md:px-6 md:py-5"
       ></div>
     </div>
   </div>

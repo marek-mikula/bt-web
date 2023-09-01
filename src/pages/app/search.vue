@@ -3,7 +3,7 @@
     <!-- loading spinner -->
     <div
       v-if="isLoading"
-      class="flex items-center justify-center rounded border-2 border-dashed border-indigo-50 p-5 sm:rounded-lg"
+      class="flex items-center justify-center rounded border-2 border-dashed border-indigo-50 p-5 md:rounded-lg"
     >
       <CommonSpinner :type="'primary'" :size="12" />
     </div>
@@ -18,7 +18,7 @@
 
       <ul
         role="list"
-        class="divide-y divide-gray-200 overflow-hidden rounded bg-white shadow-sm ring-1 ring-gray-200 sm:rounded-lg"
+        class="divide-y divide-gray-200 overflow-hidden rounded bg-white shadow-sm ring-1 ring-gray-200 md:rounded-lg"
       >
         <!-- empty state -->
         <li
