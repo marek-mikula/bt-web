@@ -220,6 +220,7 @@
     },
     "cryptocurrency": {
       "list": {
+        "title": "Cryptocurrencies",
         "table": {
           "name": "Name",
           "price": "Price",
