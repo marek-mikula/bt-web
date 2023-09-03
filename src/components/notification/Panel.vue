@@ -78,7 +78,7 @@
         <!-- notifications - empty state -->
         <template v-if="notifications?.length === 0">
           <p class="text-center text-sm text-gray-300">
-            {{ $t('notifications.panel.empty') }}
+            {{ $t('common.empty') }}
           </p>
         </template>
 

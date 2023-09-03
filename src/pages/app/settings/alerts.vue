@@ -8,23 +8,8 @@
 
     <div class="grid grid-cols-1 gap-5 md:grid-cols-6">
       <!-- loading state -->
-      <div
-        v-if="alerts === null"
-        class="order-2 col-span-full md:order-1 md:col-span-3 lg:col-span-4"
-      >
-        <div
-          class="flex items-center justify-center rounded bg-gray-100 p-8 md:rounded-lg"
-        >
-          <CommonSpinner :size="10" />
-        </div>
-      </div>
-
-      <!-- list of current alerts -->
-      <div
-        v-else
-        class="order-2 col-span-full md:order-1 md:col-span-3 lg:col-span-4"
-      >
-        <div class="mb-2 flex items-center justify-between">
+      <div class="order-2 col-span-full md:order-1 md:col-span-3 lg:col-span-4">
+        <div class="mb-3 flex items-center justify-between">
           <FormCheckbox
             :id="'alerts-only-active'"
             v-model="activeOnly"
@@ -33,18 +18,25 @@
             @change="reFetchAlerts"
           />
 
-          <p v-if="alerts.length > 0" class="text-xs text-gray-500">
+          <p v-if="alerts !== null" class="text-xs text-gray-500">
             {{ $tc('common.table.showing', alerts.length) }}
           </p>
         </div>
 
+        <div
+          v-if="alerts === null"
+          class="flex items-center justify-center rounded bg-gray-100 p-8 md:rounded-lg"
+        >
+          <CommonSpinner :size="10" />
+        </div>
+
         <!-- empty state -->
         <div
-          v-if="alerts.length === 0"
+          v-else-if="alerts.length === 0"
           class="rounded border border-gray-200 bg-white py-10 px-5 md:rounded-lg"
         >
           <p class="text-center text-sm text-gray-300">
-            {{ $t('pages.user.settings.alerts.empty') }}
+            {{ $t('common.empty') }}
           </p>
         </div>
 

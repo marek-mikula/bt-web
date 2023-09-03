@@ -25,7 +25,8 @@
         "decreased": "Decreased by",
         "notChanged": "Not changed"
       }
-    }
+    },
+    "empty": "Nothing is here."
   },
   "forms": {
     "login": {
@@ -153,7 +154,6 @@
         },
         "alerts": {
           "alert": "Alerts are simple messages which will remind you of anything you want. When the alert triggers, it will send you a notification message.",
-          "empty": "No alerts created yet!",
           "activeOnly": "Show only active"
         }
       }
@@ -315,8 +315,7 @@
   "notifications": {
     "panel": {
       "title": "Notifications",
-      "markAllAsRead": "Mark all as read",
-      "empty": "Nothing is here."
+      "markAllAsRead": "Mark all as read"
     },
     "domain": {
       "user": "User",
