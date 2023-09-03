@@ -125,3 +125,12 @@ export interface Cryptocurrency {
   volumeChange24h: number
   currency: string
 }
+
+export interface Alert {
+  id: number
+  userId: number
+  content: string
+  date: string
+  time: string | null
+  notifiedAt: string | null
+}

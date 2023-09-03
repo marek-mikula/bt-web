@@ -1,38 +1,57 @@
 <template>
-  <transition
-    enter-active-class="transition ease-out duration-100"
-    enter-class="transform opacity-0 scale-95"
-    enter-to-class="transform opacity-100 scale-100"
-    leave-active-class="transition ease-in duration-75"
-    leave-class="transform opacity-100 scale-100"
-    leave-to-class="transform opacity-0 scale-95"
-  >
-    <div
-      v-if="model.state.value"
-      ref="element"
-      :class="classList"
-      role="menu"
-      aria-orientation="vertical"
-      :aria-labelledby="model.labeledBy"
-      tabindex="-1"
+  <div>
+    <slot
+      name="button"
+      :toggle="toggle"
+      :state="state"
+      :identifier="identifier"
+    />
+    <transition
+      enter-active-class="transition ease-out duration-100"
+      enter-class="transform opacity-0 scale-95"
+      enter-to-class="transform opacity-100 scale-100"
+      leave-active-class="transition ease-in duration-75"
+      leave-class="transform opacity-100 scale-100"
+      leave-to-class="transform opacity-0 scale-95"
     >
-      <slot />
-    </div>
-  </transition>
+      <div
+        v-if="state"
+        ref="element"
+        :class="classList"
+        role="menu"
+        aria-orientation="vertical"
+        :aria-labelledby="identifier"
+        tabindex="-1"
+      >
+        <slot
+          name="list"
+          :toggle="toggle"
+          :state="state"
+          :identifier="identifier"
+        />
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { onBeforeUnmount, watch } from '@nuxtjs/composition-api'
 import { delay } from '~/helpers'
-import { Dropdown } from '~/types/common/Dropdown'
 
-const props = defineProps<{
-  model: Dropdown
-  horizontal: 'left' | 'right'
-  vertical: 'bottom' | 'top'
-}>()
+const props = withDefaults(
+  defineProps<{
+    identifier: string
+    horizontal: 'left' | 'right'
+    vertical: 'bottom' | 'top'
+    width?: 32 | 36 | 40 | 44 | 48
+  }>(),
+  {
+    width: 32
+  }
+)
 
+const state = ref<boolean>(false)
 const element = ref<HTMLElement | null>(null)
 
 let positionClass = ''
@@ -47,10 +66,17 @@ if (props.horizontal === 'left' && props.vertical === 'bottom') {
   positionClass = 'origin-bottom-right right-0 bottom-[100%] mb-2'
 }
 
+// w-32
+// w-36
+// w-40
+// w-44
+// w-48
+const widthClass = `w-${props.width}`
+
 const classList = [
   'absolute',
   'z-10',
-  'w-32',
+  widthClass,
   'rounded-md',
   'bg-white',
   // 'py-2',
@@ -61,22 +87,26 @@ const classList = [
   positionClass
 ]
 
+function toggle(value: boolean): void {
+  state.value = value
+}
+
 function closeIfNeeded(e: Event): void {
-  if (!props.model.state.value) {
+  if (!state.value) {
     return
   }
 
   const target = e.target as HTMLElement
 
   if (target !== element.value && !element.value?.contains(target)) {
-    props.model.hide()
+    toggle(false)
   }
 }
 
 // watch state change, when the dropdown shows, attach
 // event so when user clicks outside, the dropdown gets closed
 watch(
-  () => props.model.state.value,
+  () => state.value,
   (val: boolean) => {
     if (val) {
       // delay event attaching, so it does not get closed

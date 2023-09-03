@@ -8,7 +8,8 @@ import {
   QuizQuestion,
   User,
   SearchResult,
-  Cryptocurrency
+  Cryptocurrency,
+  Alert
 } from '~/types/http/Entities'
 
 export interface JsonResponse {
@@ -105,5 +106,19 @@ export interface CryptocurrencyIndexResponse extends JsonResponse {
         end: boolean
       }
     }
+  }
+}
+
+export interface AlertStoreResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    alert: Alert
+  }
+}
+
+export interface AlertIndexResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    alerts: Alert[]
   }
 }

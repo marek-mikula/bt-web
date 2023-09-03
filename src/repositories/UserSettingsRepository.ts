@@ -1,11 +1,17 @@
 import { AxiosResponse } from 'axios'
 import { BaseRepository } from '~/repositories/BaseRepository'
-import { SuccessResponse } from '~/types/http/Responses'
+import {
+  AlertIndexResponse,
+  AlertStoreResponse,
+  SuccessResponse
+} from '~/types/http/Responses'
 import {
   SettingsAccountKeysForm,
   SettingsAccountPasswordForm,
   SettingsAccountPersonalForm
 } from '~/types/forms/Settings'
+import { AlertForm } from '~/types/forms/Alerts'
+import { Alert } from '~/types/http/Entities'
 
 export default class UserSettingsRepository extends BaseRepository {
   saveAccountPersonal(
@@ -32,6 +38,23 @@ export default class UserSettingsRepository extends BaseRepository {
     return this.ctx.$axios.post<SuccessResponse>(
       `${this.prefix}/account/save-keys`,
       form
+    )
+  }
+
+  getAlerts(): Promise<AxiosResponse<AlertIndexResponse>> {
+    return this.ctx.$axios.get<AlertIndexResponse>(`${this.prefix}/alerts/`)
+  }
+
+  storeAlert(form: AlertForm): Promise<AxiosResponse<AlertStoreResponse>> {
+    return this.ctx.$axios.post<AlertStoreResponse>(
+      `${this.prefix}/alerts/`,
+      form
+    )
+  }
+
+  deleteAlert(alert: Alert): Promise<AxiosResponse<AlertStoreResponse>> {
+    return this.ctx.$axios.delete<AlertStoreResponse>(
+      `${this.prefix}/alerts/${alert.id}`
     )
   }
 }

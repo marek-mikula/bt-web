@@ -120,6 +120,13 @@
   "pages": {
     "user": {
       "settings": {
+        "title": "Settings",
+        "tabs": {
+          "account": "My account",
+          "notifications": "Notifications",
+          "limits": "Limits",
+          "alerts": "Alerts"
+        },
         "account": {
           "personal": "Personal information",
           "passwords": "Passwords",
@@ -127,16 +134,10 @@
         },
         "limits": {
           "alert": "Limits can be updated only once in 3 days for security reasons. Please be cautious while updating them."
+        },
+        "alerts": {
+          "alert": "Alerts are simple messages which will remind you of anything you want. When the alert triggers, it will send you a notification message."
         }
-      }
-    },
-    "settings": {
-      "title": "Settings",
-      "tabs": {
-        "account": "My account",
-        "notifications": "Notifications",
-        "limits": "Limits",
-        "alerts": "Alerts"
       }
     },
     "quiz": {
@@ -282,6 +283,11 @@
           }
         }
       }
+    },
+    "alerts": {
+      "delete": {
+        "success": "Alert has been successfully deleted."
+      }
     }
   },
   "messages": {
@@ -297,6 +303,15 @@
     },
     "domain": {
       "user": "User"
+    }
+  },
+  "template": {
+    "app": {
+      "userDropdown": {
+        "logout": "Sign out",
+        "settings": "Account settings",
+        "profile": "Your profile"
+      }
     }
   }
 }

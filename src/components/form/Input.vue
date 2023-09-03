@@ -22,6 +22,7 @@
         :maxlength="maxlength"
         :min="min"
         :max="max"
+        :step="step"
         :placeholder="placeholder"
         :class="[
           'block w-full rounded-md border-0 py-1.5 shadow-sm disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6',
@@ -73,7 +74,6 @@ const props = withDefaults(
     type:
       | 'color'
       | 'date'
-      | 'datetime'
       | 'email'
       | 'file'
       | 'image'
@@ -97,6 +97,7 @@ const props = withDefaults(
     maxlength?: number | null
     min?: number | string | null
     max?: number | string | null
+    step?: number | null
     hint?: string | null
     placeholder?: string | null
     error?: string | null
@@ -114,6 +115,7 @@ const props = withDefaults(
     maxlength: null,
     min: null,
     max: null,
+    step: null,
     hint: null,
     placeholder: null,
     error: null,

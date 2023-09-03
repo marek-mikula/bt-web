@@ -52,7 +52,7 @@ const classList = computed<string>((): string => {
   // text-blue-200 fill-blue-500
   // text-green-200 fill-green-500
   // text-indigo-200 fill-indigo-500
-  classes += ` text-${color}-200 fill-${color}-200`
+  classes += ` text-${color}-200 fill-${color}-500`
 
   // w-4 h-4
   // w-6 h-6

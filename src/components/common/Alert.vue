@@ -65,6 +65,22 @@
           </p>
           <slot v-else>Empty message</slot>
         </div>
+        <div v-if="actions.length > 0" class="mt-4">
+          <div class="-mx-2 -my-1.5 flex">
+            <button
+              v-for="(action, index) in actions"
+              :key="index"
+              type="button"
+              :class="[
+                'rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2',
+                actionButtonClass
+              ]"
+              @click.prevent="handleAction(action)"
+            >
+              {{ action.label }}
+            </button>
+          </div>
+        </div>
       </div>
       <div v-if="closable" class="ml-auto pl-3">
         <div class="-mx-1.5 -my-1.5">
@@ -97,6 +113,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from '@nuxtjs/composition-api'
 import { removeElement } from '~/helpers'
+import { AlertAction } from '~/types/common/Alert'
 
 const element = ref<HTMLElement | null>(null)
 const active = ref<boolean>(false)
@@ -107,12 +124,14 @@ const props = withDefaults(
     type?: 'success' | 'danger' | 'warning' | 'info'
     label?: string | null
     closable?: boolean
+    actions?: AlertAction[]
   }>(),
   {
     message: null,
     type: 'success',
     label: null,
-    closable: false
+    closable: false,
+    actions: () => []
   }
 )
 
@@ -168,6 +187,19 @@ const closeButtonClass = computed<string>((): string => {
   }
 })
 
+const actionButtonClass = computed<string>((): string => {
+  switch (props.type) {
+    case 'danger':
+      return 'bg-red-50 text-red-800 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50'
+    case 'warning':
+      return 'bg-yellow-50 text-yellow-800 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50'
+    case 'info':
+      return 'bg-blue-50 text-blue-800 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50'
+    default:
+      return 'bg-green-50 text-green-800 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50'
+  }
+})
+
 onMounted((): void => {
   active.value = true
 })
@@ -188,6 +220,10 @@ function handleRemove(): void {
   emit('removed')
 
   active.value = false
+}
+
+async function handleAction(action: AlertAction): Promise<void> {
+  await action.handler()
 }
 </script>
 

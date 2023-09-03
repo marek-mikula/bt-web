@@ -1,14 +1,15 @@
 <template>
-  <div class="space-y-4">
-    <CommonAlert
+  <div class="space-y-5">
+    <CommonAlertOnce
+      :identifier="'settings-limits-alert'"
       :type="'info'"
-      :message="'Limits can be updated only once in 3 days for security reasons. Please be cautious while updating them.'"
+      :message="$t('pages.user.settings.limits.alert').toString()"
     />
 
     <div
       class="overflow-hidden rounded border border-gray-200 bg-white md:rounded-lg"
     >
-      <div class="bg-white px-4 py-5 sm:px-6">
+      <div class="px-4 py-5 sm:px-6">
         <h3 class="mb-2 text-base font-semibold leading-6 text-gray-900">
           <FormCheckbox
             :id="'trade-enabled'"
@@ -67,7 +68,7 @@
     <div
       class="overflow-hidden rounded border border-gray-200 bg-white md:rounded-lg"
     >
-      <div class="bg-white px-4 py-5 sm:px-6">
+      <div class="px-4 py-5 sm:px-6">
         <h3 class="mb-2 text-base font-semibold leading-6 text-gray-900">
           <FormCheckbox
             :id="'cryptocurrency-enabled'"
@@ -121,7 +122,7 @@
     <div
       class="overflow-hidden rounded border border-gray-200 bg-white md:rounded-lg"
     >
-      <div class="bg-white px-4 py-5 sm:px-6">
+      <div class="px-4 py-5 sm:px-6">
         <h3 class="mb-2 text-base font-semibold leading-6 text-gray-900">
           <FormCheckbox
             :id="'market-cap-enabled'"

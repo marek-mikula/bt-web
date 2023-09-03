@@ -152,100 +152,106 @@
             ></div>
 
             <!-- Profile dropdown -->
-            <div class="relative">
-              <button
-                id="user-menu-button"
-                type="button"
-                class="-m-1.5 flex items-center p-1.5"
-                :aria-expanded="userDropdown.state.value ? 'true' : 'false'"
-                aria-haspopup="true"
-                @click.prevent="userDropdown.show"
-              >
-                <span class="sr-only">Open user menu</span>
-                <!--                <img-->
-                <!--                  class="h-8 w-8 rounded-full bg-gray-50"-->
-                <!--                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"-->
-                <!--                  alt=""-->
-                <!--                />-->
-                <span class="flex items-center">
-                  <!-- ml-4 with profile pic -->
-                  <span class="inline-block text-gray-400 lg:hidden">
+            <CommonDropdown
+              class="relative"
+              identifier="user-menu-button"
+              horizontal="right"
+              vertical="bottom"
+            >
+              <template #button="{ identifier, toggle, state }">
+                <button
+                  :id="identifier"
+                  type="button"
+                  class="-m-1.5 flex items-center p-1.5"
+                  :aria-expanded="state ? 'true' : 'false'"
+                  aria-haspopup="true"
+                  @click.prevent="toggle(true)"
+                >
+                  <span class="sr-only">Open user menu</span>
+                  <!--                <img-->
+                  <!--                  class="h-8 w-8 rounded-full bg-gray-50"-->
+                  <!--                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"-->
+                  <!--                  alt=""-->
+                  <!--                />-->
+                  <span class="flex items-center">
+                    <!-- ml-4 with profile pic -->
+                    <span class="inline-block text-gray-400 lg:hidden">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="h-6 w-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                    </span>
+
+                    <span
+                      class="hidden text-sm font-semibold leading-6 text-gray-900 lg:block"
+                      aria-hidden="true"
+                      >{{ user.fullName }}</span
+                    >
+
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="h-6 w-6"
+                      class="hidden h-5 w-5 text-gray-400 lg:ml-2 lg:block"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                        fill-rule="evenodd"
+                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                        clip-rule="evenodd"
                       />
                     </svg>
                   </span>
-
-                  <span
-                    class="hidden text-sm font-semibold leading-6 text-gray-900 lg:block"
-                    aria-hidden="true"
-                    >{{ user.fullName }}</span
-                  >
-
-                  <svg
-                    class="hidden h-5 w-5 text-gray-400 lg:ml-2 lg:block"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </span>
-              </button>
-
-              <CommonDropdown
-                :model="userDropdown"
-                horizontal="right"
-                vertical="bottom"
-                class="divide-y divide-gray-200"
-              >
+                </button>
+              </template>
+              <template #list="{ identifier }">
                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                <div class="p-1" role="none">
-                  <a
-                    id="menu-item-4"
-                    href="#"
-                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-indigo-700"
-                    role="menuitem"
-                    tabindex="-1"
-                    >Your profile</a
-                  >
-                  <a
-                    id="menu-item-5"
-                    href="#"
-                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-indigo-700"
-                    role="menuitem"
-                    tabindex="-1"
-                    @click.prevent="redirectToSettings"
-                    >Account settings</a
-                  >
+                <div class="divide-y divide-gray-200">
+                  <div class="p-1" role="none">
+                    <a
+                      :id="`${identifier}-menu-item-0`"
+                      href="#"
+                      class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-700"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      {{ $t('template.app.userDropdown.profile') }}
+                    </a>
+                    <a
+                      :id="`${identifier}-menu-item-1`"
+                      href="#"
+                      class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-700"
+                      role="menuitem"
+                      tabindex="-1"
+                      @click.prevent="redirectToSettings"
+                    >
+                      {{ $t('template.app.userDropdown.settings') }}
+                    </a>
+                  </div>
+                  <div class="p-1" role="none">
+                    <a
+                      :id="`${identifier}-menu-item-2`"
+                      href="#"
+                      class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-700"
+                      role="menuitem"
+                      tabindex="-1"
+                      @click.prevent="logout"
+                    >
+                      {{ $t('template.app.userDropdown.logout') }}
+                    </a>
+                  </div>
                 </div>
-                <div class="p-1" role="none">
-                  <a
-                    id="menu-item-6"
-                    href="#"
-                    class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-indigo-700"
-                    role="menuitem"
-                    tabindex="-1"
-                    @click.prevent="logout"
-                    >Sign out</a
-                  >
-                </div>
-              </CommonDropdown>
-            </div>
+              </template>
+            </CommonDropdown>
           </div>
         </div>
       </div>
@@ -321,14 +327,12 @@ import {
 } from '@nuxtjs/composition-api'
 import { useUser } from '~/composables/user'
 import { delay } from '~/helpers'
-import { useDropdown } from '~/composables/dropdown'
 import { StringMap } from '~/types/common/Common'
 
 const { getUser, logout } = useUser()
 const user = getUser()
 const route = useRoute()
 const router = useRouter()
-const { getDropdown } = useDropdown()
 const store = useStore()
 const context = useContext()
 
@@ -343,8 +347,6 @@ const panel = reactive<StringMap<boolean>>({
   outer: false,
   inner: false
 })
-
-const userDropdown = getDropdown('user-menu-button')
 
 const unreadNotifications = computed<number>(
   () => store.getters['notification/unread']
