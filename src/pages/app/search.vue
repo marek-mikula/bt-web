@@ -12,7 +12,7 @@
     <div v-else-if="results !== null">
       <div v-if="results.length > 0" class="mb-2">
         <p class="text-xs text-gray-500">
-          {{ $tc('pages.search.result', results.length) }}
+          {{ $tc('common.table.found', results.length) }}
         </p>
       </div>
 

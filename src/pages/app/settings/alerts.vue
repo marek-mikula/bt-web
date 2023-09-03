@@ -10,7 +10,7 @@
       <!-- loading state -->
       <div
         v-if="alerts === null"
-        class="col-span-full md:col-span-3 lg:col-span-4"
+        class="order-2 col-span-full md:order-1 md:col-span-3 lg:col-span-4"
       >
         <div
           class="flex items-center justify-center rounded bg-gray-100 p-8 md:rounded-lg"
@@ -20,7 +20,16 @@
       </div>
 
       <!-- list of current alerts -->
-      <div v-else class="col-span-full md:col-span-3 lg:col-span-4">
+      <div
+        v-else
+        class="order-2 col-span-full md:order-1 md:col-span-3 lg:col-span-4"
+      >
+        <div v-if="alerts.length > 0" class="mb-2">
+          <p class="text-xs text-gray-500">
+            {{ $tc('common.table.showing', alerts.length) }}
+          </p>
+        </div>
+
         <!-- empty state -->
         <div
           v-if="alerts.length === 0"
@@ -43,9 +52,14 @@
             >
               <div class="min-w-0">
                 <div class="flex items-center gap-x-2">
-                  <p class="text-sm font-semibold leading-6 text-gray-900">
+                  <p
+                    :class="[
+                      'text-sm leading-6 text-gray-900',
+                      { 'font-semibold': !alert.notifiedAt }
+                    ]"
+                  >
                     {{
-                      alert.time ? `${alert.date} - ${alert.time}` : alert.date
+                      alert.time ? `${alert.date} ${alert.time}` : alert.date
                     }}
                   </p>
                   <AlertStateBadge :alert="alert" />
@@ -122,7 +136,7 @@
       </div>
 
       <!-- form for new alert -->
-      <div class="col-span-full md:col-span-3 lg:col-span-2">
+      <div class="order-1 col-span-full md:order-2 md:col-span-3 lg:col-span-2">
         <form
           method="POST"
           class="overflow-hidden rounded border border-gray-200 bg-white md:rounded-lg"

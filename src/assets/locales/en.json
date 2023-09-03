@@ -1,5 +1,9 @@
 {
   "common": {
+    "table": {
+      "found": "Found {count} result. | Found {count} results.",
+      "showing": "Showing {count} result. | Showing {count} results."
+    },
     "buttons": {
       "save": "Save",
       "create": "Create",
@@ -228,8 +232,7 @@
       }
     },
     "search": {
-      "empty": "No search results for \"{query}\". Try changing the search query.",
-      "result": "Found {count} result. | Found {count} results."
+      "empty": "No search results for \"{query}\". Try changing the search query."
     },
     "cryptocurrency": {
       "list": {
@@ -314,7 +317,8 @@
       "empty": "Nothing is here."
     },
     "domain": {
-      "user": "User"
+      "user": "User",
+      "alert": "Alert"
     }
   },
   "template": {
