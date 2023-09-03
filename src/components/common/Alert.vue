@@ -92,7 +92,9 @@
             ]"
             @click.prevent="handleRemove"
           >
-            <span class="sr-only">Dismiss</span>
+            <span class="sr-only">
+              {{ $t('common.buttons.dismiss') }}
+            </span>
             <svg
               class="h-5 w-5"
               viewBox="0 0 20 20"

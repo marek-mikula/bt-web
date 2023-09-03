@@ -10,7 +10,10 @@
       "backToLogin": "Back to login",
       "loading": "Loading",
       "showAll": "Show all",
-      "loadMore": "Load more"
+      "loadMore": "Load more",
+      "dismiss": "Dismiss",
+      "close": "Close",
+      "openOptions": "Open options"
     },
     "change": {
       "badge": {
@@ -113,6 +116,14 @@
             },
             "newPasswordConfirm": "New password confirmation"
           }
+        },
+        "alerts": {
+          "date": "Date",
+          "time": {
+            "label": "Time",
+            "hint": "If you don't specify the time, the alert will trigger as soon as possible on specific day."
+          },
+          "content": "Content"
         }
       }
     }
@@ -136,7 +147,8 @@
           "alert": "Limits can be updated only once in 3 days for security reasons. Please be cautious while updating them."
         },
         "alerts": {
-          "alert": "Alerts are simple messages which will remind you of anything you want. When the alert triggers, it will send you a notification message."
+          "alert": "Alerts are simple messages which will remind you of anything you want. When the alert triggers, it will send you a notification message.",
+          "empty": "No alerts created yet!"
         }
       }
     },
@@ -312,6 +324,12 @@
         "settings": "Account settings",
         "profile": "Your profile"
       }
+    }
+  },
+  "alert": {
+    "state": {
+      "active": "Active",
+      "notified": "Notified"
     }
   }
 }
