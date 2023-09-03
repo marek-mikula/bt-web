@@ -56,12 +56,15 @@ export class Toast {
 
     const Instance = Vue.extend(ToastComponent)
 
+    const { i18n } = this.ctx
+
     return new Instance({
       el: container.appendChild(document.createElement('div')),
       propsData: {
         type,
         ...args
-      }
+      },
+      i18n
     })
   }
 

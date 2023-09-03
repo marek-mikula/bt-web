@@ -136,8 +136,6 @@ const interval = ref<number | null>(null)
 const timeLeft = ref<number | null>(null)
 const speed = ref<number>(100)
 
-type onRemoveCallback = () => Promise<void>
-
 const props = withDefaults(
   defineProps<{
     type: TOAST_TYPE
@@ -146,7 +144,7 @@ const props = withDefaults(
     closable?: boolean
     timeout?: number // time in seconds
     progress?: boolean
-    onRemove?: onRemoveCallback | null
+    onRemove?: (() => Promise<void>) | null
   }>(),
   {
     message: null,
