@@ -41,13 +41,19 @@ export default class UserSettingsRepository extends BaseRepository {
     )
   }
 
-  getAlerts(): Promise<AxiosResponse<AlertIndexResponse>> {
-    return this.ctx.$axios.get<AlertIndexResponse>(`${this.prefix}/alerts/`)
+  alertsIndex(
+    activeOnly: boolean = false
+  ): Promise<AxiosResponse<AlertIndexResponse>> {
+    return this.ctx.$axios.get<AlertIndexResponse>(`${this.prefix}/alerts`, {
+      params: {
+        activeOnly: activeOnly ? 1 : 0
+      }
+    })
   }
 
   storeAlert(form: AlertForm): Promise<AxiosResponse<AlertStoreResponse>> {
     return this.ctx.$axios.post<AlertStoreResponse>(
-      `${this.prefix}/alerts/`,
+      `${this.prefix}/alerts`,
       form
     )
   }

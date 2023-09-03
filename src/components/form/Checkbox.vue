@@ -53,12 +53,14 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: 'input', value: boolean): void
+  (e: 'change', value: boolean): void
 }>()
 
 const id = computed<string>((): string => props.id ?? props.name)
 
 function handleInput(event: Event): void {
   emit('input', (event.target as HTMLInputElement).checked)
+  emit('change', (event.target as HTMLInputElement).checked)
 }
 </script>
 

@@ -24,8 +24,16 @@
         v-else
         class="order-2 col-span-full md:order-1 md:col-span-3 lg:col-span-4"
       >
-        <div v-if="alerts.length > 0" class="mb-2">
-          <p class="text-xs text-gray-500">
+        <div class="mb-2 flex items-center justify-between">
+          <FormCheckbox
+            :id="'alerts-only-active'"
+            v-model="activeOnly"
+            :name="'activeOnly'"
+            :label="$t('pages.user.settings.alerts.activeOnly').toString()"
+            @change="reFetchAlerts"
+          />
+
+          <p v-if="alerts.length > 0" class="text-xs text-gray-500">
             {{ $tc('common.table.showing', alerts.length) }}
           </p>
         </div>
@@ -50,7 +58,7 @@
               :key="alert.id"
               class="flex items-center justify-between gap-x-6 p-5"
             >
-              <div class="min-w-0">
+              <div class="min-w-0 space-y-2">
                 <div class="flex items-center gap-x-2">
                   <p
                     :class="[
@@ -58,19 +66,18 @@
                       { 'font-semibold': !alert.notifiedAt }
                     ]"
                   >
-                    {{
-                      alert.time ? `${alert.date} ${alert.time}` : alert.date
-                    }}
+                    {{ alert.title }}
                   </p>
                   <AlertStateBadge :alert="alert" />
                 </div>
-                <p
-                  class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500"
-                >
+                <p v-if="alert.content" class="text-xs leading-5 text-gray-500">
                   {{ alert.content }}
                 </p>
+                <p class="text-xs text-gray-400">
+                  {{ alert.time ? `${alert.date} ${alert.time}` : alert.date }}
+                </p>
               </div>
-              <div class="flex flex-none items-center gap-x-4">
+              <div class="flex flex-none items-center">
                 <CommonDropdown
                   class="relative flex-none"
                   :identifier="`alert-dropdown-${alert.id}`"
@@ -144,6 +151,17 @@
         >
           <div class="grid grid-cols-1 gap-y-8 bg-white px-4 py-5 sm:px-6">
             <FormInput
+              v-model="form.data.title"
+              :name="'title'"
+              :type="'text'"
+              :label="$t('forms.user.settings.alerts.title').toString()"
+              :error="fieldError('title')"
+              class="col-span-full"
+              :maxlength="255"
+              required
+            />
+
+            <FormInput
               v-model="form.data.date"
               :name="'date'"
               :type="'date'"
@@ -172,7 +190,6 @@
               :rows="3"
               :maxlength="500"
               class="col-span-full"
-              required
               show-counter
             />
           </div>
@@ -217,14 +234,17 @@ const { createForm } = useFormData()
 const alerts = ref<Alert[] | null>(null)
 
 const form = createForm<AlertForm>({
+  title: null,
   date: null,
   time: null,
   content: null
 })
 
+const activeOnly = ref<boolean>(false)
+
 const response = useAsync<AlertIndexResponse>(async () => {
   return await $repositories.userSettings
-    .getAlerts()
+    .alertsIndex(activeOnly.value)
     .then((response) => response.data)
 }, 'alerts')
 
@@ -243,16 +263,26 @@ watch(
   }
 )
 
-async function removeAlert(alert: Alert): Promise<void> {
+async function reFetchAlerts(): Promise<void> {
   try {
-    await $repositories.userSettings.deleteAlert(alert)
-
     alerts.value = null
 
     // re-fetch alerts
     alerts.value = await $repositories.userSettings
-      .getAlerts()
+      .alertsIndex(activeOnly.value)
       .then((response) => response.data.data.alerts)
+  } catch (e: any) {
+    $toast.error({
+      title: i18n.t('toasts.common.somethingWentWrong').toString()
+    })
+  }
+}
+
+async function removeAlert(alert: Alert): Promise<void> {
+  try {
+    await $repositories.userSettings.deleteAlert(alert)
+
+    await reFetchAlerts()
 
     $toast.info({
       title: i18n.t('toasts.alerts.delete.success').toString()
@@ -272,12 +302,7 @@ async function storeAlert(): Promise<void> {
 
     clearErrors()
 
-    alerts.value = null
-
-    // re-fetch alerts
-    alerts.value = await $repositories.userSettings
-      .getAlerts()
-      .then((response) => response.data.data.alerts)
+    await reFetchAlerts()
 
     form.reset()
   } catch (e: any) {

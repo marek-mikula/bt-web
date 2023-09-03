@@ -26,7 +26,7 @@ export interface Notification {
   type: NOTIFICATION_TYPE
   domain: NOTIFICATION_DOMAIN
   title: string
-  body: string
+  body: string | null
   data: object
   readAt: string | null
   createdAt: string
@@ -129,7 +129,8 @@ export interface Cryptocurrency {
 export interface Alert {
   id: number
   userId: number
-  content: string
+  title: string
+  content: string | null
   date: string
   time: string | null
   notifiedAt: string | null

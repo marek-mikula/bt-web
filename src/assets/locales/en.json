@@ -1,8 +1,8 @@
 {
   "common": {
     "table": {
-      "found": "Found {count} result. | Found {count} results.",
-      "showing": "Showing {count} result. | Showing {count} results."
+      "found": "Found {count} result | Found {count} results",
+      "showing": "Showing {count} result | Showing {count} results"
     },
     "buttons": {
       "save": "Save",
@@ -122,6 +122,7 @@
           }
         },
         "alerts": {
+          "title": "Title",
           "date": "Date",
           "time": {
             "label": "Time",
@@ -152,7 +153,8 @@
         },
         "alerts": {
           "alert": "Alerts are simple messages which will remind you of anything you want. When the alert triggers, it will send you a notification message.",
-          "empty": "No alerts created yet!"
+          "empty": "No alerts created yet!",
+          "activeOnly": "Show only active"
         }
       }
     },
@@ -254,7 +256,7 @@
     "common": {
       "formErrors": "There are some errors in the form.",
       "somethingWentWrong": "Oops! Something went wrong. Please contact support for more information.",
-      "newNotifications": "You have new notifications!"
+      "newNotifications": "You have a new notification! | You have new notifications! ({count})"
     },
     "login": {
       "loggedIn": "Successfully logged in!",

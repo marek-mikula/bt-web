@@ -24,7 +24,7 @@
     </a>
 
     <!-- notification body/text -->
-    <p class="mt-1 text-sm text-gray-600">
+    <p v-if="notification.body" class="mt-1 text-sm text-gray-600">
       {{ notification.body }}
     </p>
 

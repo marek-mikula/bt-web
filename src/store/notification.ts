@@ -53,7 +53,9 @@ export const actions: ActionTree<NotificationState, NotificationState> = {
       // but only if it's not an initial load
       if (!state.firstLoad && originalCount < count) {
         $toast.info({
-          title: i18n.t('toasts.common.newNotifications').toString()
+          title: i18n
+            .tc('toasts.common.newNotifications', count - originalCount)
+            .toString()
         })
       }
 
