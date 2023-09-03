@@ -270,7 +270,7 @@ async function savePersonalForm(): Promise<void> {
 
     clearErrors('personal')
 
-    $toast.info({
+    $toast.success({
       title: i18n.t('toasts.user.settings.account.personal.success').toString()
     })
 
@@ -306,7 +306,7 @@ async function savePasswordForm(): Promise<void> {
 
     clearErrors('password')
 
-    $toast.info({
+    $toast.success({
       title: i18n.t('toasts.user.settings.account.password.success').toString()
     })
 
@@ -342,7 +342,7 @@ async function saveKeysForm(): Promise<void> {
 
     clearErrors('keys')
 
-    $toast.info({
+    $toast.success({
       title: i18n.t('toasts.user.settings.account.keys.success').toString()
     })
 

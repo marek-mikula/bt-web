@@ -276,7 +276,7 @@ async function removeAlert(alert: Alert): Promise<void> {
 
     await reFetchAlerts()
 
-    $toast.info({
+    $toast.success({
       title: i18n.t('toasts.alerts.delete.success').toString()
     })
   } catch (e: any) {

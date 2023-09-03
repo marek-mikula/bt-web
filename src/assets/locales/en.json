@@ -298,6 +298,10 @@
           "keys": {
             "success": "Your Binance keys have been successfully saved."
           }
+        },
+        "limits": {
+          "success": "Your limits has been successfully updated.",
+          "locked": "You cannot update your limits. You will be able to update your limits at {datetime}."
         }
       }
     },

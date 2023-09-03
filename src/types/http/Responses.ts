@@ -122,3 +122,10 @@ export interface AlertIndexResponse extends JsonResponse {
     alerts: Alert[]
   }
 }
+
+export interface LimitsLockedResponse extends JsonResponse {
+  code: RESPONSE_CODE.LIMITS_LOCKED
+  data: {
+    resetAt: string
+  }
+}

@@ -12,6 +12,7 @@ import {
 } from '~/types/forms/Settings'
 import { AlertForm } from '~/types/forms/Alerts'
 import { Alert } from '~/types/http/Entities'
+import { LimitsForm } from '~/types/forms/Limits'
 
 export default class UserSettingsRepository extends BaseRepository {
   saveAccountPersonal(
@@ -62,5 +63,9 @@ export default class UserSettingsRepository extends BaseRepository {
     return this.ctx.$axios.delete<AlertStoreResponse>(
       `${this.prefix}/alerts/${alert.id}`
     )
+  }
+
+  saveLimits(form: LimitsForm): Promise<AxiosResponse<SuccessResponse>> {
+    return this.ctx.$axios.patch<SuccessResponse>(`${this.prefix}/limits`, form)
   }
 }
