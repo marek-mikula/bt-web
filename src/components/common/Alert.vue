@@ -63,11 +63,14 @@
         <p v-if="label" :class="['mb-2 text-sm font-medium', labelClass]">
           {{ label }}
         </p>
-        <div :class="['text-sm', messageClass]">
+        <div
+          v-if="message || $slots.default || $scopedSlots.default"
+          :class="['text-sm', messageClass]"
+        >
           <p v-if="message">
             {{ message }}
           </p>
-          <slot v-else>Empty message</slot>
+          <slot v-else />
         </div>
         <div v-if="actions.length > 0" class="mt-4">
           <div class="flex space-x-2">

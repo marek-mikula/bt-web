@@ -50,15 +50,39 @@ const passedProps = computed(() => ({
 
 const visible = ref<boolean>(false)
 
-function handleRemoved(): void {
-  localStorage.setItem(props.identifier, '1')
+function getObject(): { [key: string]: string } {
+  const jsonString = localStorage.getItem('alerts_once')
 
+  let json
+
+  try {
+    json = jsonString ? JSON.parse(jsonString) : {}
+  } catch (e) {
+    json = {}
+  }
+
+  return json
+}
+
+function saveState(): void {
+  localStorage.setItem(
+    'alerts_once',
+    JSON.stringify($_.set(getObject(), props.identifier, '1'))
+  )
+}
+
+function getState(): boolean {
+  return $_.get(getObject(), props.identifier) !== '1'
+}
+
+function handleRemoved(): void {
+  saveState()
   visible.value = false
 }
 
 if (process.browser) {
   onMounted((): void => {
-    visible.value = localStorage.getItem(props.identifier) !== '1'
+    visible.value = getState()
   })
 }
 </script>
