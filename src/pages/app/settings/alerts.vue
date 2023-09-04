@@ -208,7 +208,7 @@
               :label="
                 $t('forms.user.settings.alerts.asNotification').toString()
               "
-              :required="true"
+              :error="fieldError('asNotification')"
               class="col-span-full xl:col-span-1"
             />
 
@@ -217,7 +217,7 @@
               v-model="form.data.asMail"
               :name="'asMail'"
               :label="$t('forms.user.settings.alerts.asMail').toString()"
-              :required="true"
+              :error="fieldError('asMail')"
               class="col-span-full xl:col-span-1"
             />
           </div>
