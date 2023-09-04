@@ -136,6 +136,11 @@ export interface Alert {
   notifiedAt: string | null
 }
 
+export interface LimitsLock {
+  enabled: boolean
+  resetAt: string
+}
+
 export interface Limits {
   id: number
   userId: number

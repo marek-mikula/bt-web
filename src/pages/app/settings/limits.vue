@@ -28,6 +28,7 @@
               :label="
                 $t('forms.user.settings.limits.trade.title.label').toString()
               "
+              :disabled="lock && !lock.enabled"
             />
           </h3>
           <p class="mt-1 text-sm text-gray-500">
@@ -47,6 +48,7 @@
               :min="0"
               :label="$t('forms.user.settings.limits.trade.daily').toString()"
               :error="fieldError('trade.daily')"
+              :disabled="lock && !lock.enabled"
               class="md:col-span-2"
             />
 
@@ -58,6 +60,7 @@
               :min="0"
               :label="$t('forms.user.settings.limits.trade.weekly').toString()"
               :error="fieldError('trade.weekly')"
+              :disabled="lock && !lock.enabled"
               class="md:col-span-2"
             />
 
@@ -69,6 +72,7 @@
               :min="0"
               :label="$t('forms.user.settings.limits.trade.monthly').toString()"
               :error="fieldError('trade.monthly')"
+              :disabled="lock && !lock.enabled"
               class="md:col-span-2"
             />
           </div>
@@ -89,6 +93,7 @@
                   'forms.user.settings.limits.cryptocurrency.title.label'
                 ).toString()
               "
+              :disabled="lock && !lock.enabled"
             />
           </h3>
           <p class="mt-1 text-sm text-gray-500">
@@ -110,6 +115,7 @@
                 $t('forms.user.settings.limits.cryptocurrency.min').toString()
               "
               :error="fieldError('cryptocurrency.min')"
+              :disabled="lock && !lock.enabled"
               class="md:col-span-3"
             />
 
@@ -123,6 +129,7 @@
                 $t('forms.user.settings.limits.cryptocurrency.max').toString()
               "
               :error="fieldError('cryptocurrency.max')"
+              :disabled="lock && !lock.enabled"
               class="md:col-span-3"
             />
           </div>
@@ -143,6 +150,7 @@
                   'forms.user.settings.limits.marketCap.title.label'
                 ).toString()
               "
+              :disabled="lock && !lock.enabled"
             />
           </h3>
           <p class="mt-1 text-sm text-gray-500">
@@ -172,6 +180,7 @@
                     min: 3
                   }).toString()
                 "
+                :disabled="lock && !lock.enabled"
               />
             </div>
 
@@ -186,6 +195,7 @@
                   :label="
                     $t('forms.user.settings.limits.marketCap.micro').toString()
                   "
+                  :disabled="lock && !lock.enabled"
                 />
               </div>
               <FormSlider
@@ -197,7 +207,9 @@
                 :min="0"
                 :max="100"
                 :step="5"
-                :disabled="!form.data.marketCap.microEnabled"
+                :disabled="
+                  !form.data.marketCap.microEnabled || (lock && !lock.enabled)
+                "
                 :unit="'%'"
                 :hint="
                   getSliderHint(
@@ -220,6 +232,7 @@
                   :label="
                     $t('forms.user.settings.limits.marketCap.small').toString()
                   "
+                  :disabled="lock && !lock.enabled"
                 />
               </div>
               <FormSlider
@@ -231,7 +244,9 @@
                 :min="0"
                 :max="100"
                 :step="5"
-                :disabled="!form.data.marketCap.smallEnabled"
+                :disabled="
+                  !form.data.marketCap.smallEnabled || (lock && !lock.enabled)
+                "
                 :unit="'%'"
                 :hint="
                   getSliderHint(
@@ -254,6 +269,7 @@
                   :label="
                     $t('forms.user.settings.limits.marketCap.mid').toString()
                   "
+                  :disabled="lock && !lock.enabled"
                 />
               </div>
               <FormSlider
@@ -265,7 +281,9 @@
                 :min="0"
                 :max="100"
                 :step="5"
-                :disabled="!form.data.marketCap.midEnabled"
+                :disabled="
+                  !form.data.marketCap.midEnabled || (lock && !lock.enabled)
+                "
                 :unit="'%'"
                 :hint="
                   getSliderHint(
@@ -288,6 +306,7 @@
                   :label="
                     $t('forms.user.settings.limits.marketCap.large').toString()
                   "
+                  :disabled="lock && !lock.enabled"
                 />
               </div>
               <FormSlider
@@ -299,7 +318,9 @@
                 :min="0"
                 :max="100"
                 :step="5"
-                :disabled="!form.data.marketCap.largeEnabled"
+                :disabled="
+                  !form.data.marketCap.largeEnabled || (lock && !lock.enabled)
+                "
                 :unit="'%'"
                 :hint="
                   getSliderHint(
@@ -322,6 +343,7 @@
                   :label="
                     $t('forms.user.settings.limits.marketCap.mega').toString()
                   "
+                  :disabled="lock && !lock.enabled"
                 />
               </div>
               <FormSlider
@@ -333,7 +355,9 @@
                 :min="0"
                 :max="100"
                 :step="5"
-                :disabled="!form.data.marketCap.megaEnabled"
+                :disabled="
+                  !form.data.marketCap.megaEnabled || (lock && !lock.enabled)
+                "
                 :unit="'%'"
                 :hint="
                   getSliderHint(
@@ -348,7 +372,19 @@
         </div>
       </div>
 
+      <CommonAlert
+        v-if="lock && !lock.enabled"
+        class="flex-grow"
+        :type="'warning'"
+        :message="
+          $t('toasts.user.settings.limits.locked', {
+            datetime: lock.resetAt
+          }).toString()
+        "
+      />
+
       <div
+        v-else
         class="overflow-hidden rounded border border-gray-200 bg-white md:rounded-lg"
       >
         <div class="flex justify-end px-4 py-5 sm:px-6">
@@ -377,7 +413,7 @@ import {
   LimitsShowResponse
 } from '~/types/http/Responses'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
-import { Limits } from '~/types/http/Entities'
+import { Limits, LimitsLock } from '~/types/http/Entities'
 
 const { $_, i18n, $repositories, $toast } = useContext()
 const { fieldError, clearErrors, parseErrors } = useForm()
@@ -385,6 +421,7 @@ const { createForm } = useFormData()
 const { isLoading, setIsLoading } = useLoading()
 
 const limits = ref<Limits | null>(null)
+const lock = ref<LimitsLock | null>(null)
 
 const form = createForm<LimitsForm>({
   trade: {
@@ -470,6 +507,7 @@ watch(
     copyValuesToForm(response.data.limits)
 
     limits.value = response.data.limits
+    lock.value = response.data.lock
   },
   {
     immediate: true

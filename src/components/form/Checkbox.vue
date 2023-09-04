@@ -8,7 +8,7 @@
       :readonly="readonly"
       :checked="value"
       type="checkbox"
-      class="h-4 w-4 rounded border-gray-200 text-indigo-600 focus:ring-indigo-600"
+      class="h-4 w-4 rounded border-gray-200 text-indigo-600 focus:ring-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:ring-0 disabled:hover:bg-gray-300"
       @change="handleInput"
     />
     <label

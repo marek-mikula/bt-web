@@ -10,7 +10,8 @@ import {
   SearchResult,
   Cryptocurrency,
   Alert,
-  Limits
+  Limits,
+  LimitsLock
 } from '~/types/http/Entities'
 
 export interface JsonResponse {
@@ -128,6 +129,7 @@ export interface LimitsShowResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
     limits: Limits
+    lock: LimitsLock
   }
 }
 
