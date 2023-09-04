@@ -29,6 +29,7 @@
                 $t('forms.user.settings.limits.trade.title.label').toString()
               "
               :disabled="lock && !lock.enabled"
+              :error="fieldError('trade.enabled')"
             />
           </h3>
           <p class="mt-1 text-sm text-gray-500">
@@ -94,6 +95,7 @@
                 ).toString()
               "
               :disabled="lock && !lock.enabled"
+              :error="fieldError('cryptocurrency.enabled')"
             />
           </h3>
           <p class="mt-1 text-sm text-gray-500">
@@ -151,6 +153,7 @@
                 ).toString()
               "
               :disabled="lock && !lock.enabled"
+              :error="fieldError('marketCap.enabled')"
             />
           </h3>
           <p class="mt-1 text-sm text-gray-500">
@@ -196,6 +199,7 @@
                     $t('forms.user.settings.limits.marketCap.micro').toString()
                   "
                   :disabled="lock && !lock.enabled"
+                  :error="fieldError('marketCap.microEnabled')"
                 />
               </div>
               <FormSlider
@@ -233,6 +237,7 @@
                     $t('forms.user.settings.limits.marketCap.small').toString()
                   "
                   :disabled="lock && !lock.enabled"
+                  :error="fieldError('marketCap.smallEnabled')"
                 />
               </div>
               <FormSlider
@@ -270,6 +275,7 @@
                     $t('forms.user.settings.limits.marketCap.mid').toString()
                   "
                   :disabled="lock && !lock.enabled"
+                  :error="fieldError('marketCap.midEnabled')"
                 />
               </div>
               <FormSlider
@@ -307,6 +313,7 @@
                     $t('forms.user.settings.limits.marketCap.large').toString()
                   "
                   :disabled="lock && !lock.enabled"
+                  :error="fieldError('marketCap.largeEnabled')"
                 />
               </div>
               <FormSlider
@@ -344,6 +351,7 @@
                     $t('forms.user.settings.limits.marketCap.mega').toString()
                   "
                   :disabled="lock && !lock.enabled"
+                  :error="fieldError('marketCap.megaEnabled')"
                 />
               </div>
               <FormSlider
