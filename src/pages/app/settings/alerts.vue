@@ -25,9 +25,9 @@
 
         <div
           v-if="alerts === null"
-          class="flex items-center justify-center rounded bg-gray-100 p-8 md:rounded-lg"
+          class="flex items-center justify-center rounded border-2 border-dashed border-indigo-50 p-5 md:rounded-lg"
         >
-          <CommonSpinner :size="10" />
+          <CommonSpinner :type="'primary'" :size="10" />
         </div>
 
         <!-- empty state -->
@@ -224,6 +224,7 @@ const { fieldError, parseErrors, clearErrors } = useForm()
 const { createForm } = useFormData()
 
 const alerts = ref<Alert[] | null>(null)
+const activeOnly = ref<boolean>(false)
 
 const form = createForm<AlertForm>({
   title: null,
@@ -231,8 +232,6 @@ const form = createForm<AlertForm>({
   time: null,
   content: null
 })
-
-const activeOnly = ref<boolean>(false)
 
 const response = useAsync<AlertIndexResponse>(async () => {
   return await $repositories.userSettings
@@ -242,7 +241,7 @@ const response = useAsync<AlertIndexResponse>(async () => {
 
 watch(
   () => response.value,
-  function (response: AlertIndexResponse | null): void {
+  (response: AlertIndexResponse | null): void => {
     if (!response) {
       alerts.value = null
       return

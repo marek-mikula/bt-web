@@ -3,6 +3,7 @@ import { BaseRepository } from '~/repositories/BaseRepository'
 import {
   AlertIndexResponse,
   AlertStoreResponse,
+  LimitsShowResponse,
   SuccessResponse
 } from '~/types/http/Responses'
 import {
@@ -63,6 +64,10 @@ export default class UserSettingsRepository extends BaseRepository {
     return this.ctx.$axios.delete<AlertStoreResponse>(
       `${this.prefix}/alerts/${alert.id}`
     )
+  }
+
+  showLimits(): Promise<AxiosResponse<LimitsShowResponse>> {
+    return this.ctx.$axios.get<LimitsShowResponse>(`${this.prefix}/limits`)
   }
 
   saveLimits(form: LimitsForm): Promise<AxiosResponse<SuccessResponse>> {

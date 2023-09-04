@@ -9,7 +9,8 @@ import {
   User,
   SearchResult,
   Cryptocurrency,
-  Alert
+  Alert,
+  Limits
 } from '~/types/http/Entities'
 
 export interface JsonResponse {
@@ -120,6 +121,13 @@ export interface AlertIndexResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
     alerts: Alert[]
+  }
+}
+
+export interface LimitsShowResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    limits: Limits
   }
 }
 

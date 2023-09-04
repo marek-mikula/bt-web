@@ -1,6 +1,15 @@
 <template>
   <div>
-    <form method="POST" class="space-y-5" @submit.prevent="updateLimits">
+    <!-- loading spinner -->
+    <div
+      v-if="limits === null"
+      class="flex items-center justify-center rounded border-2 border-dashed border-indigo-50 p-5 md:rounded-lg"
+    >
+      <CommonSpinner :type="'primary'" :size="10" />
+    </div>
+
+    <!-- limits form -->
+    <form v-else method="POST" class="space-y-5" @submit.prevent="updateLimits">
       <CommonAlertOnce
         :identifier="'settings-limits-alert'"
         :type="'info'"
@@ -356,7 +365,7 @@
 </template>
 
 <script setup lang="ts">
-import { useContext, watch } from '@nuxtjs/composition-api'
+import { ref, useAsync, useContext, watch } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { useForm, useFormData } from '~/composables/forms/form'
 import { LimitsForm, LimitsMarketCapForm } from '~/types/forms/Limits'
@@ -364,14 +373,18 @@ import { useLoading } from '~/composables/loading'
 import {
   InvalidContentResponse,
   JsonResponse,
-  LimitsLockedResponse
+  LimitsLockedResponse,
+  LimitsShowResponse
 } from '~/types/http/Responses'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
+import { Limits } from '~/types/http/Entities'
 
 const { $_, i18n, $repositories, $toast } = useContext()
 const { fieldError, clearErrors, parseErrors } = useForm()
 const { createForm } = useFormData()
 const { isLoading, setIsLoading } = useLoading()
+
+const limits = ref<Limits | null>(null)
 
 const form = createForm<LimitsForm>({
   trade: {
@@ -400,6 +413,68 @@ const form = createForm<LimitsForm>({
     mega: null
   }
 })
+
+const response = useAsync<LimitsShowResponse>(async () => {
+  return await $repositories.userSettings
+    .showLimits()
+    .then((response) => response.data)
+}, 'limits')
+
+function copyValuesToForm(limits: Limits): void {
+  if (limits.trade.enabled) {
+    Object.assign(form.data.trade, limits.trade)
+  }
+
+  if (limits.cryptocurrency.enabled) {
+    Object.assign(form.data.cryptocurrency, limits.cryptocurrency)
+  }
+
+  if (limits.marketCap.enabled) {
+    form.data.marketCap.enabled = true
+    form.data.marketCap.margin = limits.marketCap.margin
+
+    if (limits.marketCap.micro.enabled) {
+      form.data.marketCap.microEnabled = true
+      form.data.marketCap.micro = limits.marketCap.micro.value
+    }
+
+    if (limits.marketCap.small.enabled) {
+      form.data.marketCap.smallEnabled = true
+      form.data.marketCap.small = limits.marketCap.small.value
+    }
+
+    if (limits.marketCap.mid.enabled) {
+      form.data.marketCap.midEnabled = true
+      form.data.marketCap.mid = limits.marketCap.mid.value
+    }
+
+    if (limits.marketCap.large.enabled) {
+      form.data.marketCap.largeEnabled = true
+      form.data.marketCap.large = limits.marketCap.large.value
+    }
+
+    if (limits.marketCap.mega.enabled) {
+      form.data.marketCap.megaEnabled = true
+      form.data.marketCap.mega = limits.marketCap.mega.value
+    }
+  }
+}
+
+watch(
+  () => response.value,
+  (response: LimitsShowResponse | null): void => {
+    if (!response) {
+      return
+    }
+
+    copyValuesToForm(response.data.limits)
+
+    limits.value = response.data.limits
+  },
+  {
+    immediate: true
+  }
+)
 
 watch(
   () => form.data.trade.enabled,
