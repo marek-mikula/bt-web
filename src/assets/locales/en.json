@@ -27,7 +27,13 @@
         "notChanged": "Not changed"
       }
     },
-    "empty": "Nothing is here."
+    "empty": "Nothing is here.",
+    "notification": {
+      "channels": {
+        "mail": "Mail",
+        "database": "In-app notification"
+      }
+    }
   },
   "forms": {
     "login": {
@@ -130,7 +136,9 @@
             "label": "Time",
             "hint": "If you don't specify the time, the alert will trigger as soon as possible on specific day."
           },
-          "content": "Content"
+          "content": "Content",
+          "asMail": "Mail",
+          "asNotification": "In-app notification"
         }
       }
     }

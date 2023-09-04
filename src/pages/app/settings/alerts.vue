@@ -6,9 +6,9 @@
       :message="$t('pages.user.settings.alerts.alert').toString()"
     />
 
-    <div class="grid grid-cols-1 gap-5 md:grid-cols-6">
-      <!-- loading state -->
-      <div class="order-2 col-span-full md:order-1 md:col-span-3 lg:col-span-4">
+    <div class="grid grid-cols-1 gap-5 xl:grid-cols-6">
+      <!-- alerts list -->
+      <div class="order-2 col-span-full xl:order-1 xl:col-span-4">
         <div class="mb-3 flex items-center justify-between">
           <FormCheckbox
             :id="'alerts-only-active'"
@@ -65,8 +65,24 @@
                 <p v-if="alert.content" class="text-xs leading-5 text-gray-500">
                   {{ alert.content }}
                 </p>
-                <p class="text-xs text-gray-400">
-                  {{ alert.time ? `${alert.date} ${alert.time}` : alert.date }}
+                <p class="space-x-1 text-xs text-gray-400">
+                  <span>
+                    {{
+                      alert.time ? `${alert.date} ${alert.time}` : alert.date
+                    }}
+                  </span>
+                  <span
+                    v-if="alert.asMail"
+                    class="inline-flex items-center rounded-md bg-gray-50 px-1.5 py-0.5 text-xs text-gray-600 ring-1 ring-inset ring-gray-500/10"
+                  >
+                    {{ $t('common.notification.channels.mail') }}
+                  </span>
+                  <span
+                    v-if="alert.asNotification"
+                    class="inline-flex items-center rounded-md bg-gray-50 px-1.5 py-0.5 text-xs text-gray-600 ring-1 ring-inset ring-gray-500/10"
+                  >
+                    {{ $t('common.notification.channels.database') }}
+                  </span>
                 </p>
               </div>
               <div class="flex flex-none items-center">
@@ -135,13 +151,13 @@
       </div>
 
       <!-- form for new alert -->
-      <div class="order-1 col-span-full md:order-2 md:col-span-3 lg:col-span-2">
+      <div class="order-1 col-span-full xl:order-2 xl:col-span-2">
         <form
           method="POST"
           class="overflow-hidden rounded border border-gray-200 bg-white md:rounded-lg"
           @submit.prevent="storeAlert"
         >
-          <div class="grid grid-cols-1 gap-y-8 bg-white px-4 py-5 sm:px-6">
+          <div class="grid grid-cols-2 gap-y-8 bg-white px-4 py-5 sm:px-6">
             <FormInput
               v-model="form.data.title"
               :name="'title'"
@@ -183,6 +199,26 @@
               :maxlength="500"
               class="col-span-full"
               show-counter
+            />
+
+            <FormCheckbox
+              :id="'as-notification'"
+              v-model="form.data.asNotification"
+              :name="'asNotification'"
+              :label="
+                $t('forms.user.settings.alerts.asNotification').toString()
+              "
+              :required="true"
+              class="col-span-full xl:col-span-1"
+            />
+
+            <FormCheckbox
+              :id="'as-mail'"
+              v-model="form.data.asMail"
+              :name="'asMail'"
+              :label="$t('forms.user.settings.alerts.asMail').toString()"
+              :required="true"
+              class="col-span-full xl:col-span-1"
             />
           </div>
 
@@ -230,7 +266,9 @@ const form = createForm<AlertForm>({
   title: null,
   date: null,
   time: null,
-  content: null
+  content: null,
+  asMail: false,
+  asNotification: true
 })
 
 const response = useAsync<AlertIndexResponse>(async () => {

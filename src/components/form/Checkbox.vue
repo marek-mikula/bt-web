@@ -18,7 +18,7 @@
         'ml-2 block text-sm font-medium leading-6 text-gray-900': !labelHidden,
         'sr-only': labelHidden
       }"
-      v-html="renderLabel(label, required)"
+      v-html="renderLabel(label, false)"
     ></label>
   </div>
 </template>

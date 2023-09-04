@@ -129,6 +129,8 @@ export interface Cryptocurrency {
 export interface Alert {
   id: number
   userId: number
+  asMail: boolean
+  asNotification: boolean
   title: string
   content: string | null
   date: string
