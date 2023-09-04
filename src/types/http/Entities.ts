@@ -1,6 +1,7 @@
 import { MFA_TOKEN_TYPE } from '~/enums/MfaTokenType'
 import { NOTIFICATION_TYPE } from '~/enums/notifications/NotificationType'
 import { NOTIFICATION_DOMAIN } from '~/enums/notifications/NotificationDomain'
+import { LIMITS_NOTIFICATION_PERIOD } from '~/enums/settings/LimitsNotificationPeriodEnum'
 
 export interface Pagination<D> {
   data: D[]
@@ -154,11 +155,13 @@ export interface Limits {
   }
   cryptocurrency: {
     enabled: boolean
+    period: LIMITS_NOTIFICATION_PERIOD | null
     min: number | null
     max: number | null
   }
   marketCap: {
     enabled: boolean
+    period: LIMITS_NOTIFICATION_PERIOD | null
     margin: number | null
     micro: {
       enabled: boolean
