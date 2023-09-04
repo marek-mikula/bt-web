@@ -336,7 +336,14 @@ function copyAlert(alert: Alert): void {
   // copy values from object
   Object.assign(
     form.data,
-    $_.pick(alert, ['asMail', 'asNotification', 'title', 'content'])
+    $_.pick(alert, [
+      'asMail',
+      'asNotification',
+      'title',
+      'content',
+      'time',
+      'date'
+    ])
   )
 }
 
