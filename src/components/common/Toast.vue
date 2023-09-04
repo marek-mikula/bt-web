@@ -99,7 +99,9 @@
               class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               @click.prevent="handleRemove"
             >
-              <span class="sr-only">Close</span>
+              <span class="sr-only">
+                {{ $t('common.buttons.close') }}
+              </span>
               <svg
                 class="h-5 w-5"
                 viewBox="0 0 20 20"
@@ -134,8 +136,6 @@ const interval = ref<number | null>(null)
 const timeLeft = ref<number | null>(null)
 const speed = ref<number>(100)
 
-type onRemoveCallback = () => Promise<void>
-
 const props = withDefaults(
   defineProps<{
     type: TOAST_TYPE
@@ -144,7 +144,7 @@ const props = withDefaults(
     closable?: boolean
     timeout?: number // time in seconds
     progress?: boolean
-    onRemove?: onRemoveCallback | null
+    onRemove?: (() => Promise<void>) | null
   }>(),
   {
     message: null,

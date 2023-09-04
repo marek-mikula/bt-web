@@ -6,15 +6,16 @@
       :required="required"
       :disabled="disabled"
       :readonly="readonly"
-      :value="value"
+      :checked="value"
       type="checkbox"
       class="h-4 w-4 rounded border-gray-200 text-indigo-600 focus:ring-indigo-600"
       @change="handleInput"
     />
     <label
+      v-if="label"
       :for="id"
       :class="{
-        'ml-2 block text-sm text-gray-900': !labelHidden,
+        'ml-2 block text-sm font-medium leading-6 text-gray-900': !labelHidden,
         'sr-only': labelHidden
       }"
       v-html="renderLabel(label, required)"
@@ -31,7 +32,7 @@ const { renderLabel } = useField()
 const props = withDefaults(
   defineProps<{
     name: string
-    label: string
+    label?: string | null
     value?: boolean // value bind using v-model
     id?: string | null
     required?: boolean
@@ -40,6 +41,7 @@ const props = withDefaults(
     labelHidden?: boolean
   }>(),
   {
+    label: null,
     value: false,
     id: null,
     required: false,
@@ -51,12 +53,14 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: 'input', value: boolean): void
+  (e: 'change', value: boolean): void
 }>()
 
 const id = computed<string>((): string => props.id ?? props.name)
 
 function handleInput(event: Event): void {
   emit('input', (event.target as HTMLInputElement).checked)
+  emit('change', (event.target as HTMLInputElement).checked)
 }
 </script>
 

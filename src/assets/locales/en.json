@@ -1,5 +1,9 @@
 {
   "common": {
+    "table": {
+      "found": "Found {count} result | Found {count} results",
+      "showing": "Showing {count} result | Showing {count} results"
+    },
     "buttons": {
       "save": "Save",
       "create": "Create",
@@ -10,7 +14,11 @@
       "backToLogin": "Back to login",
       "loading": "Loading",
       "showAll": "Show all",
-      "loadMore": "Load more"
+      "loadMore": "Load more",
+      "dismiss": "Dismiss",
+      "close": "Close",
+      "openOptions": "Open options",
+      "understand": "I understand"
     },
     "change": {
       "badge": {
@@ -18,7 +26,8 @@
         "decreased": "Decreased by",
         "notChanged": "Not changed"
       }
-    }
+    },
+    "empty": "Nothing is here."
   },
   "forms": {
     "login": {
@@ -64,6 +73,41 @@
     },
     "user": {
       "settings": {
+        "limits": {
+          "trade": {
+            "title": {
+              "label": "Number of trades",
+              "hint": "Maintain a balanced trading strategy by staying within the suggested trade limits for daily, weekly, and monthly periods."
+            },
+            "daily": "Number of daily trades",
+            "weekly": "Number of weekly trades",
+            "monthly": "Number of monthly trades"
+          },
+          "cryptocurrency": {
+            "title": {
+              "label": "Number of cryptocurrencies",
+              "hint": "Ensure a diversified portfolio by adhering to the maximum or minimum limit on the number of cryptocurrencies in your wallet."
+            },
+            "min": "Minimum number of cryptocurrencies",
+            "max": "Maximum number of cryptocurrencies"
+          },
+          "marketCap": {
+            "title": {
+              "label": "Market cap",
+              "hint": "Optimize your portfolio's resilience by aligning your cryptocurrencies with specified market cap groups."
+            },
+            "margin": {
+              "label": "Safety margin",
+              "hint": "Safety margin represents a value that indicates the range in which the real value of the given group must occur. If the value of the margin is 5% and the resulting weight of the group in the portfolio is 15%, then the real value must be in the range of 10% - 20%. This gives us more safe space to trigger warnings in your portfolio. Min. value is {min}%."
+            },
+            "micro": "Micro market cap (< 250m $)",
+            "small": "Small market cap (>= 250m $ and < 2b $)",
+            "mid": "Mid market cap (>= 2b $ and < 10b $)",
+            "large": "Large market cap (>= 10b and < 200b $)",
+            "mega": "Mega market cap (>= 200b $)",
+            "sliderHint": "The monitored value will have to be in the range of {min}% - {max}%."
+          }
+        },
         "account": {
           "personal": {
             "firstname": "First name",
@@ -78,6 +122,15 @@
             },
             "newPasswordConfirm": "New password confirmation"
           }
+        },
+        "alerts": {
+          "title": "Title",
+          "date": "Date",
+          "time": {
+            "label": "Time",
+            "hint": "If you don't specify the time, the alert will trigger as soon as possible on specific day."
+          },
+          "content": "Content"
         }
       }
     }
@@ -85,19 +138,25 @@
   "pages": {
     "user": {
       "settings": {
+        "title": "Settings",
+        "tabs": {
+          "account": "My account",
+          "notifications": "Notifications",
+          "limits": "Limits",
+          "alerts": "Alerts"
+        },
         "account": {
           "personal": "Personal information",
           "passwords": "Passwords",
           "keys": "Binance keys"
+        },
+        "limits": {
+          "alert": "Limits can be updated only once in 3 days for security reasons. Please be cautious while updating them."
+        },
+        "alerts": {
+          "alert": "Alerts are simple messages which will remind you of anything you want. When the alert triggers, it will send you a notification message.",
+          "activeOnly": "Show only active"
         }
-      }
-    },
-    "settings": {
-      "title": "Settings",
-      "tabs": {
-        "account": "My account",
-        "notifications": "Notifications",
-        "limits": "Limits"
       }
     },
     "quiz": {
@@ -162,6 +221,11 @@
       }
     },
     "dashboard": {
+      "coldWalletAlert": {
+        "title": "Are you using a cold wallet?",
+        "message": "Please make sure you are using a cold wallet for you tokens and coins. It is one of the safest places for your crypto. Your crypto is never safe when it lays in your exchange's pocket. One of the key players is the <b>Trezor</b> company. Make sure you check out their website using the button below.",
+        "action": "Get Trezor"
+      },
       "featuredTokens": {
         "title": "Featured tokens",
         "subtitle": "by market cap"
@@ -176,11 +240,11 @@
       }
     },
     "search": {
-      "empty": "No search results for \"{query}\". Try changing the search query.",
-      "result": "Found {count} result. | Found {count} results."
+      "empty": "No search results for \"{query}\". Try changing the search query."
     },
     "cryptocurrency": {
       "list": {
+        "title": "Cryptocurrencies",
         "table": {
           "name": "Name",
           "price": "Price",
@@ -198,7 +262,7 @@
     "common": {
       "formErrors": "There are some errors in the form.",
       "somethingWentWrong": "Oops! Something went wrong. Please contact support for more information.",
-      "newNotifications": "You have new notifications!"
+      "newNotifications": "You have a new notification! | You have new notifications! ({count})"
     },
     "login": {
       "loggedIn": "Successfully logged in!",
@@ -240,7 +304,16 @@
           "keys": {
             "success": "Your Binance keys have been successfully saved."
           }
+        },
+        "limits": {
+          "success": "Your limits has been successfully updated.",
+          "locked": "You cannot update your limits. You will be able to update your limits at {datetime}."
         }
+      }
+    },
+    "alerts": {
+      "delete": {
+        "success": "Alert has been successfully deleted."
       }
     }
   },
@@ -252,11 +325,25 @@
   "notifications": {
     "panel": {
       "title": "Notifications",
-      "markAllAsRead": "Mark all as read",
-      "empty": "Nothing is here."
+      "markAllAsRead": "Mark all as read"
     },
     "domain": {
-      "user": "User"
+      "user": "User",
+      "alert": "Alert"
+    }
+  },
+  "template": {
+    "app": {
+      "userDropdown": {
+        "logout": "Sign out",
+        "settings": "Account settings"
+      }
+    }
+  },
+  "alert": {
+    "state": {
+      "active": "Active",
+      "notified": "Notified"
     }
   }
 }

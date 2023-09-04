@@ -3,7 +3,7 @@
     <!-- loading spinner -->
     <div
       v-if="isLoading"
-      class="flex items-center justify-center rounded border-2 border-dashed border-indigo-50 p-5 sm:rounded-lg"
+      class="flex items-center justify-center rounded border-2 border-dashed border-indigo-50 p-5 md:rounded-lg"
     >
       <CommonSpinner :type="'primary'" :size="12" />
     </div>
@@ -12,13 +12,13 @@
     <div v-else-if="results !== null">
       <div v-if="results.length > 0" class="mb-2">
         <p class="text-xs text-gray-500">
-          {{ $tc('pages.search.result', results.length) }}
+          {{ $tc('common.table.found', results.length) }}
         </p>
       </div>
 
       <ul
         role="list"
-        class="divide-y divide-gray-200 overflow-hidden rounded bg-white shadow-sm ring-1 ring-gray-200 sm:rounded-lg"
+        class="divide-y divide-gray-200 overflow-hidden rounded bg-white shadow-sm ring-1 ring-gray-200 md:rounded-lg"
       >
         <!-- empty state -->
         <li
@@ -129,7 +129,7 @@ async function fetchResults(): Promise<void> {
     results.value = await $repositories.search
       .search(query.value)
       .then((response) => response.data.data.results)
-  } catch (e) {
+  } catch (e: any) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
     })

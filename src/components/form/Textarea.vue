@@ -9,7 +9,15 @@
       }"
       v-html="renderLabel(label, required)"
     ></label>
-    <div :class="['mt-2', { 'relative rounded-md shadow-sm': hasError }]">
+    <div
+      :class="[
+        'mt-2',
+        {
+          'rounded-md shadow-sm': hasError,
+          relative: hasError || (showCounter && maxlength)
+        }
+      ]"
+    >
       <textarea
         :id="id"
         :name="name"
@@ -32,6 +40,12 @@
         ]"
         @input="handleInput"
       ></textarea>
+      <div
+        v-if="showCounter && maxlength"
+        class="absolute right-2 bottom-2 text-xxs font-semibold"
+      >
+        {{ textLength }} / {{ maxlength }}
+      </div>
       <div
         v-if="hasError"
         class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
@@ -68,7 +82,7 @@ const { renderLabel } = useField()
 const props = withDefaults(
   defineProps<{
     name: string
-    value?: string | number | null // value bind using v-model
+    value?: string | null // value bind using v-model
     id?: string | null
     label?: string | null
     required?: boolean
@@ -81,6 +95,7 @@ const props = withDefaults(
     rows?: number | null
     error?: string | null
     labelHidden?: boolean
+    showCounter?: boolean
   }>(),
   {
     value: null,
@@ -95,7 +110,8 @@ const props = withDefaults(
     placeholder: null,
     rows: 5,
     error: null,
-    labelHidden: false
+    labelHidden: false,
+    showCounter: false
   }
 )
 
@@ -107,6 +123,10 @@ const id = computed<string>((): string => props.id ?? props.name)
 const hintId = computed<string>((): string => `${id.value}-hint`)
 const errorId = computed<string>((): string => `${id.value}-error`)
 const hasError = computed<boolean>((): boolean => !!props.error)
+
+const textLength = computed<number>((): number =>
+  props.showCounter ? props.value?.length ?? 0 : 0
+)
 
 function handleInput(event: Event): void {
   emit('input', (event.target as HTMLInputElement).value)

@@ -5,6 +5,7 @@ import {
   UnwrapNestedRefs,
   useContext
 } from '@nuxtjs/composition-api'
+import { LoDashStatic } from 'lodash'
 import { StringMap } from '~/types/common/Common'
 import { InvalidContentResponse } from '~/types/http/Responses'
 
@@ -106,18 +107,48 @@ class Form<T extends object> {
   public data: UnwrapNestedRefs<T>
 
   // eslint-disable-next-line no-useless-constructor
-  constructor(private readonly f: T) {
-    this.data = reactive<T>({ ...f })
+  constructor(
+    private readonly $_: LoDashStatic,
+    private readonly defaultData: T
+  ) {
+    this.data = reactive<T>(this.$_.cloneDeep<T>(this.defaultData))
   }
 
-  public clear(): void {
-    Object.assign(this.data, this.f)
+  public reset(
+    key: string | null = null,
+    omit: string | string[] | null = null,
+    pick: string | string[] | null = null
+  ): void {
+    // clone default data object
+    let defaultData: T | Partial<T> = this.$_.cloneDeep(this.defaultData)
+
+    // get specific key if any
+    if (key) {
+      defaultData = this.$_.get(defaultData, key)
+    }
+
+    // filter out unwanted keys if any
+    if (omit) {
+      defaultData = this.$_.omit(defaultData, omit)
+    }
+
+    if (pick) {
+      defaultData = this.$_.pick(defaultData, pick)
+    }
+
+    if (key) {
+      this.$_.assign(this.$_.get(this.data, key), defaultData)
+    } else {
+      this.$_.assign(this.data, defaultData)
+    }
   }
 }
 
 export function useFormData() {
-  function createForm<T extends object>(form: T) {
-    return new Form(form)
+  const { $_ } = useContext()
+
+  function createForm<T extends object>(defaultData: T) {
+    return new Form<T>($_, defaultData)
   }
 
   return {

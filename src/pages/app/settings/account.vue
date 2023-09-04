@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="space-y-10 divide-y divide-gray-900/10">
+    <div class="space-y-10 divide-y divide-gray-200">
       <div class="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-4">
         <div>
           <h2 class="text-base font-semibold leading-7 text-gray-900">
@@ -270,7 +270,7 @@ async function savePersonalForm(): Promise<void> {
 
     clearErrors('personal')
 
-    $toast.info({
+    $toast.success({
       title: i18n.t('toasts.user.settings.account.personal.success').toString()
     })
 
@@ -306,11 +306,11 @@ async function savePasswordForm(): Promise<void> {
 
     clearErrors('password')
 
-    $toast.info({
+    $toast.success({
       title: i18n.t('toasts.user.settings.account.password.success').toString()
     })
 
-    passwordForm.clear()
+    passwordForm.reset()
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 
@@ -342,11 +342,11 @@ async function saveKeysForm(): Promise<void> {
 
     clearErrors('keys')
 
-    $toast.info({
+    $toast.success({
       title: i18n.t('toasts.user.settings.account.keys.success').toString()
     })
 
-    keysForm.clear()
+    keysForm.reset()
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 

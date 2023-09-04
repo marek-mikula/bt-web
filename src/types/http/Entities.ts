@@ -26,7 +26,7 @@ export interface Notification {
   type: NOTIFICATION_TYPE
   domain: NOTIFICATION_DOMAIN
   title: string
-  body: string
+  body: string | null
   data: object
   readAt: string | null
   createdAt: string
@@ -124,4 +124,54 @@ export interface Cryptocurrency {
   volume24h: number
   volumeChange24h: number
   currency: string
+}
+
+export interface Alert {
+  id: number
+  userId: number
+  title: string
+  content: string | null
+  date: string
+  time: string | null
+  notifiedAt: string | null
+}
+
+export interface Limits {
+  id: number
+  userId: number
+  trade: {
+    enabled: boolean
+    daily: number | null
+    weekly: number | null
+    monthly: number | null
+  }
+  cryptocurrency: {
+    enabled: boolean
+    min: number | null
+    max: number | null
+  }
+  marketCap: {
+    enabled: boolean
+    margin: number | null
+    micro: {
+      enabled: boolean
+      value: number | null
+    }
+    small: {
+      enabled: boolean
+      value: number | null
+    }
+    mid: {
+      enabled: boolean
+      value: number | null
+    }
+    large: {
+      enabled: boolean
+      value: number | null
+    }
+    mega: {
+      enabled: boolean
+      value: number | null
+    }
+  }
 }

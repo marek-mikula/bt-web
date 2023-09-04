@@ -1,5 +1,9 @@
 <template>
-  <div ref="element" :class="['rounded-md p-4', containerClass]">
+  <div
+    v-if="active"
+    ref="element"
+    :class="['rounded p-4 md:rounded-lg', containerClass]"
+  >
     <div class="flex">
       <div class="flex-shrink-0">
         <svg
@@ -59,11 +63,30 @@
         <p v-if="label" :class="['mb-2 text-sm font-medium', labelClass]">
           {{ label }}
         </p>
-        <div :class="['text-sm', messageClass]">
+        <div
+          v-if="message || $scopedSlots.default"
+          :class="['text-sm', messageClass]"
+        >
           <p v-if="message">
             {{ message }}
           </p>
-          <slot v-else>Empty message</slot>
+          <slot v-else />
+        </div>
+        <div v-if="actions.length > 0" class="mt-4">
+          <div class="flex space-x-2">
+            <button
+              v-for="(action, index) in actions"
+              :key="index"
+              type="button"
+              :class="[
+                'rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2',
+                actionButtonClass
+              ]"
+              @click.prevent="handleAction(action)"
+            >
+              {{ trans(action.label) }}
+            </button>
+          </div>
         </div>
       </div>
       <div v-if="closable" class="ml-auto pl-3">
@@ -76,7 +99,9 @@
             ]"
             @click.prevent="handleRemove"
           >
-            <span class="sr-only">Dismiss</span>
+            <span class="sr-only">
+              {{ $t('common.buttons.dismiss') }}
+            </span>
             <svg
               class="h-5 w-5"
               viewBox="0 0 20 20"
@@ -97,6 +122,10 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from '@nuxtjs/composition-api'
 import { removeElement } from '~/helpers'
+import { AlertAction } from '~/types/common/Alert'
+import { useTranslation } from '~/composables/translation'
+
+const { trans } = useTranslation()
 
 const element = ref<HTMLElement | null>(null)
 const active = ref<boolean>(false)
@@ -107,25 +136,27 @@ const props = withDefaults(
     type?: 'success' | 'danger' | 'warning' | 'info'
     label?: string | null
     closable?: boolean
+    actions?: AlertAction[]
   }>(),
   {
     message: null,
     type: 'success',
     label: null,
-    closable: false
+    closable: false,
+    actions: () => []
   }
 )
 
 const containerClass = computed<string>((): string => {
   switch (props.type) {
     case 'danger':
-      return 'bg-red-50'
+      return 'ring-2 ring-red-100 bg-red-50'
     case 'warning':
-      return 'bg-yellow-50'
+      return 'ring-2 ring-yellow-100 bg-yellow-50'
     case 'info':
-      return 'bg-blue-50'
+      return 'ring-2 ring-blue-100 bg-blue-50'
     default:
-      return 'bg-green-50'
+      return 'ring-2 ring-green-100 bg-green-50'
   }
 })
 
@@ -168,6 +199,19 @@ const closeButtonClass = computed<string>((): string => {
   }
 })
 
+const actionButtonClass = computed<string>((): string => {
+  switch (props.type) {
+    case 'danger':
+      return 'border-2 border-red-200 bg-red-50 text-red-800 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50'
+    case 'warning':
+      return 'border-2 border-yellow-200 bg-yellow-50 text-yellow-800 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50'
+    case 'info':
+      return 'border-2 border-blue-200 bg-blue-50 text-blue-800 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50'
+    default:
+      return 'border-2 border-green-200 bg-green-50 text-green-800 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50'
+  }
+})
+
 onMounted((): void => {
   active.value = true
 })
@@ -188,6 +232,10 @@ function handleRemove(): void {
   emit('removed')
 
   active.value = false
+}
+
+async function handleAction(action: AlertAction): Promise<void> {
+  await action.handler()
 }
 </script>
 

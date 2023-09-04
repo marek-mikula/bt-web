@@ -78,7 +78,7 @@
         <!-- notifications - empty state -->
         <template v-if="notifications?.length === 0">
           <p class="text-center text-sm text-gray-300">
-            {{ $t('notifications.panel.empty') }}
+            {{ $t('common.empty') }}
           </p>
         </template>
 
@@ -174,7 +174,7 @@ async function fetchNotifications(refresh: boolean = false): Promise<void> {
     end.value = meta.currentPage === meta.lastPage
 
     error.value = false
-  } catch (e) {
+  } catch (e: any) {
     error.value = true
   } finally {
     setIsLoading('notifications', false)
@@ -205,7 +205,7 @@ async function markAsRead(uuid: string): Promise<void> {
 
     // decrement the value of unread notifications
     store.commit('notification/decrement')
-  } catch (e) {
+  } catch (e: any) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
     })
@@ -223,7 +223,7 @@ async function markAllAsRead(): Promise<void> {
 
     // set number of unread notifications to 0
     store.commit('notification/setUnread', 0)
-  } catch (e) {
+  } catch (e: any) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
     })

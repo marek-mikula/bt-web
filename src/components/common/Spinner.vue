@@ -37,53 +37,32 @@ const props = withDefaults(
 const classList = computed<string>((): string => {
   let classes = 'animate-spin'
 
-  switch (props.type) {
-    case 'warning':
-      classes += ' text-yellow-200 fill-yellow-500'
-      break
-    case 'danger':
-      classes += ' text-red-200 fill-red-500'
-      break
-    case 'default':
-      classes += ' text-gray-200 fill-gray-500'
-      break
-    case 'info':
-      classes += ' text-blue-200 fill-blue-500'
-      break
-    case 'success':
-      classes += ' text-green-200 fill-green-500'
-      break
-    case 'primary':
-      classes += ' text-indigo-200 fill-indigo-500'
-      break
-  }
+  const color = {
+    warning: 'yellow',
+    danger: 'red',
+    default: 'gray',
+    info: 'blue',
+    success: 'green',
+    primary: 'indigo'
+  }[props.type]
 
-  switch (props.size) {
-    case 4:
-      classes += ' w-4 h-4'
-      break
-    case 6:
-      classes += ' w-6 h-6'
-      break
-    case 8:
-      classes += ' w-8 h-8'
-      break
-    case 10:
-      classes += ' w-10 h-10'
-      break
-    case 12:
-      classes += ' w-12 h-12'
-      break
-    case 14:
-      classes += ' w-14 h-14'
-      break
-    case 20:
-      classes += ' w-20 h-20'
-      break
-    case 32:
-      classes += ' w-32 h-32'
-      break
-  }
+  // text-yellow-200 fill-yellow-500
+  // text-red-200 fill-red-500
+  // text-gray-200 fill-gray-500
+  // text-blue-200 fill-blue-500
+  // text-green-200 fill-green-500
+  // text-indigo-200 fill-indigo-500
+  classes += ` text-${color}-200 fill-${color}-500`
+
+  // w-4 h-4
+  // w-6 h-6
+  // w-8 h-8
+  // w-10 h-10
+  // w-12 h-12
+  // w-14 h-14
+  // w-20 h-20
+  // w-32 h-32
+  classes += ` w-${props.size} h-${props.size}`
 
   return classes
 })

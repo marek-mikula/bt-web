@@ -24,6 +24,8 @@ const colorClass = computed<string>((): string => {
   switch (props.notification.domain) {
     case NOTIFICATION_DOMAIN.USER:
       return 'bg-blue-100 text-blue-600'
+    case NOTIFICATION_DOMAIN.ALERT:
+      return 'bg-yellow-100 text-yellow-600'
     default:
       return 'bg-gray-100 text-gray-600'
   }
