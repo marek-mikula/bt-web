@@ -64,7 +64,7 @@
           {{ label }}
         </p>
         <div
-          v-if="message || $slots.default || $scopedSlots.default"
+          v-if="message || $scopedSlots.default"
           :class="['text-sm', messageClass]"
         >
           <p v-if="message">
