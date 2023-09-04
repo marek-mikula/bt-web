@@ -330,8 +330,7 @@
     "app": {
       "userDropdown": {
         "logout": "Sign out",
-        "settings": "Account settings",
-        "profile": "Your profile"
+        "settings": "Account settings"
       }
     }
   },
