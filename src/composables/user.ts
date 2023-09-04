@@ -22,6 +22,14 @@ export function useUser() {
     return computed<User>(() => store.getters['auth/user'] as any as User)
   }
 
+  function getNullableUser(): ComputedRef<User | null> {
+    return computed<User | null>(() =>
+      store.getters['auth/loggedIn']
+        ? (store.getters['auth/user'] as any as User)
+        : null
+    )
+  }
+
   async function logout(): Promise<void> {
     await $repositories.auth.logout()
 
@@ -37,6 +45,7 @@ export function useUser() {
 
   return {
     getUser,
+    getNullableUser,
     logout
   }
 }

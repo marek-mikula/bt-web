@@ -4,6 +4,7 @@ import {
   AlertIndexResponse,
   AlertStoreResponse,
   LimitsShowResponse,
+  LimitsUpdateResponse,
   SuccessResponse
 } from '~/types/http/Responses'
 import {
@@ -70,7 +71,10 @@ export default class UserSettingsRepository extends BaseRepository {
     return this.ctx.$axios.get<LimitsShowResponse>(`${this.prefix}/limits`)
   }
 
-  saveLimits(form: LimitsForm): Promise<AxiosResponse<SuccessResponse>> {
-    return this.ctx.$axios.patch<SuccessResponse>(`${this.prefix}/limits`, form)
+  updateLimits(form: LimitsForm): Promise<AxiosResponse<LimitsUpdateResponse>> {
+    return this.ctx.$axios.patch<LimitsUpdateResponse>(
+      `${this.prefix}/limits`,
+      form
+    )
   }
 }

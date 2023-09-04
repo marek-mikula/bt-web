@@ -10,8 +10,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, useContext } from '@nuxtjs/composition-api'
 import { AlertAction } from '~/types/common/Alert'
+import { useUser } from '~/composables/user'
 
 const { $_ } = useContext()
+const { getNullableUser } = useUser()
+
+const user = getNullableUser()
 
 const props = withDefaults(
   defineProps<{
@@ -49,6 +53,11 @@ const passedProps = computed(() => ({
 }))
 
 const visible = ref<boolean>(false)
+const path = computed<string>(() =>
+  user.value
+    ? `${user.value.id}.${props.identifier}`
+    : `guest.${props.identifier}`
+)
 
 function getObject(): { [key: string]: string } {
   const jsonString = localStorage.getItem('alerts_once')
@@ -67,12 +76,12 @@ function getObject(): { [key: string]: string } {
 function saveState(): void {
   localStorage.setItem(
     'alerts_once',
-    JSON.stringify($_.set(getObject(), props.identifier, '1'))
+    JSON.stringify($_.set(getObject(), path.value, '1'))
   )
 }
 
 function getState(): boolean {
-  return $_.get(getObject(), props.identifier) !== '1'
+  return $_.get(getObject(), path.value) !== '1'
 }
 
 function handleRemoved(): void {

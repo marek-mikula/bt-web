@@ -133,6 +133,14 @@ export interface LimitsShowResponse extends JsonResponse {
   }
 }
 
+export interface LimitsUpdateResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    limits: Limits
+    lock: LimitsLock
+  }
+}
+
 export interface LimitsLockedResponse extends JsonResponse {
   code: RESPONSE_CODE.LIMITS_LOCKED
   data: {

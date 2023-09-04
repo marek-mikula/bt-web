@@ -619,9 +619,16 @@ async function updateLimits(): Promise<void> {
   setIsLoading(true)
 
   try {
-    await $repositories.userSettings.saveLimits(form.data)
+    const { data } = await $repositories.userSettings.updateLimits(form.data)
 
     clearErrors()
+
+    // copy retrieved values to form just in case
+    copyValuesToForm(data.data.limits)
+
+    // update refs
+    limits.value = data.data.limits
+    lock.value = data.data.lock
 
     $toast.success({
       title: i18n.t('toasts.user.settings.limits.success').toString()
