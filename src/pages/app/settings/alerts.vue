@@ -177,7 +177,7 @@
       <div class="order-1 col-span-full xl:order-2 xl:col-span-2">
         <form
           method="POST"
-          class="overflow-hidden rounded border border-gray-200 bg-white md:rounded-lg"
+          class="overflow-hidden rounded border border-gray-200 bg-white md:rounded-lg xl:sticky xl:top-20"
           @submit.prevent="storeAlert"
         >
           <div class="grid grid-cols-2 gap-y-8 bg-white px-4 py-5 sm:px-6">
