@@ -1,5 +1,9 @@
 <template>
-  <div ref="element" :class="['rounded p-4 md:rounded-lg', containerClass]">
+  <div
+    v-if="active"
+    ref="element"
+    :class="['rounded p-4 md:rounded-lg', containerClass]"
+  >
     <div class="flex">
       <div class="flex-shrink-0">
         <svg
@@ -66,7 +70,7 @@
           <slot v-else>Empty message</slot>
         </div>
         <div v-if="actions.length > 0" class="mt-4">
-          <div class="-mx-2 -my-1.5 flex">
+          <div class="flex space-x-2">
             <button
               v-for="(action, index) in actions"
               :key="index"
@@ -77,7 +81,7 @@
               ]"
               @click.prevent="handleAction(action)"
             >
-              {{ action.label }}
+              {{ trans(action.label) }}
             </button>
           </div>
         </div>
@@ -116,6 +120,9 @@
 import { computed, onMounted, ref } from '@nuxtjs/composition-api'
 import { removeElement } from '~/helpers'
 import { AlertAction } from '~/types/common/Alert'
+import { useTranslation } from '~/composables/translation'
+
+const { trans } = useTranslation()
 
 const element = ref<HTMLElement | null>(null)
 const active = ref<boolean>(false)
@@ -192,13 +199,13 @@ const closeButtonClass = computed<string>((): string => {
 const actionButtonClass = computed<string>((): string => {
   switch (props.type) {
     case 'danger':
-      return 'bg-red-50 text-red-800 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50'
+      return 'border-2 border-red-200 bg-red-50 text-red-800 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50'
     case 'warning':
-      return 'bg-yellow-50 text-yellow-800 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50'
+      return 'border-2 border-yellow-200 bg-yellow-50 text-yellow-800 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50'
     case 'info':
-      return 'bg-blue-50 text-blue-800 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50'
+      return 'border-2 border-blue-200 bg-blue-50 text-blue-800 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50'
     default:
-      return 'bg-green-50 text-green-800 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50'
+      return 'border-2 border-green-200 bg-green-50 text-green-800 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50'
   }
 })
 

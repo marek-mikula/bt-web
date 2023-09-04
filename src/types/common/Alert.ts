@@ -1,4 +1,6 @@
+import { Translation } from '~/types/common/Common'
+
 export interface AlertAction {
-  label: string
-  handler: () => Promise<void>
+  label: Translation
+  handler: (() => Promise<void>) | (() => void)
 }

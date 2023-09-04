@@ -17,7 +17,8 @@
       "loadMore": "Load more",
       "dismiss": "Dismiss",
       "close": "Close",
-      "openOptions": "Open options"
+      "openOptions": "Open options",
+      "understand": "I understand"
     },
     "change": {
       "badge": {
@@ -220,6 +221,11 @@
       }
     },
     "dashboard": {
+      "coldWalletAlert": {
+        "title": "Are you using a cold wallet?",
+        "message": "Please make sure you are using a cold wallet for you tokens and coins. It is one of the safest places for your crypto. Your crypto is never safe when it lays in your exchange's pocket. One of the key players is the <b>Trezor</b> company. Make sure you check out their website using the button below.",
+        "action": "Get Trezor"
+      },
       "featuredTokens": {
         "title": "Featured tokens",
         "subtitle": "by market cap"

@@ -1,5 +1,24 @@
 <template>
   <div>
+    <CommonAlertOnce
+      class="mb-5"
+      :identifier="'dashboard-cold-wallets'"
+      :type="'info'"
+      :label="$t('pages.dashboard.coldWalletAlert.title').toString()"
+      :actions="[
+        {
+          label: {
+            key: 'pages.dashboard.coldWalletAlert.action'
+          },
+          handler: redirectToTrezor
+        }
+      ]"
+    >
+      <span
+        v-html="$t('pages.dashboard.coldWalletAlert.message').toString()"
+      ></span>
+    </CommonAlertOnce>
+
     <div class="pb-5 sm:flex sm:items-center sm:justify-between">
       <div class="flex items-center">
         <svg
@@ -231,6 +250,10 @@ watch(
     immediate: true
   }
 )
+
+function redirectToTrezor(): void {
+  window.open('https://trezor.io/', '_blank')
+}
 
 async function redirectToDetail(token: DashboardToken): Promise<void> {
   await router.push({ path: `/app/cryptocurrencies/${token.id}` })
