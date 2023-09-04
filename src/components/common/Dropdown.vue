@@ -2,9 +2,12 @@
   <div>
     <slot
       name="button"
-      :toggle="toggle"
-      :state="state"
-      :identifier="identifier"
+      v-bind="{
+        toggle,
+        state,
+        identifier,
+        handleClick
+      }"
     />
     <transition
       enter-active-class="transition ease-out duration-100"
@@ -25,9 +28,12 @@
       >
         <slot
           name="list"
-          :toggle="toggle"
-          :state="state"
-          :identifier="identifier"
+          v-bind="{
+            toggle,
+            state,
+            identifier,
+            handleClick
+          }"
         />
       </div>
     </transition>
@@ -86,6 +92,14 @@ const classList = [
   'focus:outline-none',
   positionClass
 ]
+
+async function handleClick(
+  handler: ((...args: any) => void) | ((...args: any) => Promise<void>),
+  ...args: any
+): Promise<void> {
+  await handler(...args)
+  toggle(false)
+}
 
 function toggle(value: boolean): void {
   state.value = value

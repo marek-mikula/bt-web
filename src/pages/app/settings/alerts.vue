@@ -116,7 +116,7 @@
                       </svg>
                     </button>
                   </template>
-                  <template #list="{ identifier }">
+                  <template #list="{ identifier, handleClick }">
                     <div class="p-1">
                       <a
                         :id="`${identifier}-menu-item-0`"
@@ -124,7 +124,7 @@
                         class="block flex items-center rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-700"
                         role="menuitem"
                         tabindex="-1"
-                        @click.prevent="copyAlert(alert)"
+                        @click.prevent="handleClick(copyAlert, alert)"
                       >
                         <svg
                           fill="none"
@@ -147,7 +147,7 @@
                         class="block flex items-center rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-700"
                         role="menuitem"
                         tabindex="-1"
-                        @click.prevent="removeAlert(alert)"
+                        @click.prevent="handleClick(removeAlert, alert)"
                       >
                         <svg
                           fill="none"
@@ -351,7 +351,8 @@ async function removeAlert(alert: Alert): Promise<void> {
   try {
     await $repositories.userSettings.deleteAlert(alert)
 
-    await reFetchAlerts()
+    // remove alert from alerts array
+    alerts.value = alerts.value?.filter((item) => item.id !== alert.id) ?? null
 
     $toast.success({
       title: i18n.t('toasts.alerts.delete.success').toString()

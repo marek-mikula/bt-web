@@ -215,9 +215,21 @@
                   </span>
                 </button>
               </template>
-              <template #list="{ identifier }">
+              <template #list="{ identifier, handleClick }">
                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                 <div class="divide-y divide-gray-200">
+                  <div class="p-1" role="none">
+                    <a
+                      :id="`${identifier}-menu-item-0`"
+                      href="#"
+                      class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-700"
+                      role="menuitem"
+                      tabindex="-1"
+                      @click.prevent="handleClick(redirectToSettings)"
+                    >
+                      {{ $t('template.app.userDropdown.settings') }}
+                    </a>
+                  </div>
                   <div class="p-1" role="none">
                     <a
                       :id="`${identifier}-menu-item-1`"
@@ -225,19 +237,7 @@
                       class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-700"
                       role="menuitem"
                       tabindex="-1"
-                      @click.prevent="redirectToSettings"
-                    >
-                      {{ $t('template.app.userDropdown.settings') }}
-                    </a>
-                  </div>
-                  <div class="p-1" role="none">
-                    <a
-                      :id="`${identifier}-menu-item-2`"
-                      href="#"
-                      class="block rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-700"
-                      role="menuitem"
-                      tabindex="-1"
-                      @click.prevent="logout"
+                      @click.prevent="handleClick(logout)"
                     >
                       {{ $t('template.app.userDropdown.logout') }}
                     </a>
