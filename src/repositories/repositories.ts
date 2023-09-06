@@ -6,8 +6,9 @@ import QuizRepository from '~/repositories/QuizRepository'
 import UserNotificationRepository from '~/repositories/UserNotificationRepository'
 import DashboardRepository from '~/repositories/DashboardRepository'
 import SearchRepository from '~/repositories/SearchRepository'
-import CryptocurrencyRepository from '~/repositories/Cryptocurrency)Repository'
+import CryptocurrencyRepository from '~/repositories/CryptocurrencyRepository'
 import UserSettingsRepository from '~/repositories/UserSettingsRepository'
+import UserAssetRepository from '~/repositories/UserAssetRepository'
 
 export interface Repositories {
   auth: AuthRepository
@@ -16,6 +17,7 @@ export interface Repositories {
   quiz: QuizRepository
   userNotification: UserNotificationRepository
   userSettings: UserSettingsRepository
+  userAsset: UserAssetRepository
   dashboard: DashboardRepository
   search: SearchRepository
   cryptocurrency: CryptocurrencyRepository
@@ -32,6 +34,7 @@ export function createRepositories(ctx: Context): Repositories {
       '/api/user/notifications'
     ),
     userSettings: new UserSettingsRepository(ctx, '/api/user/settings'),
+    userAsset: new UserAssetRepository(ctx, '/api/user/assets'),
     dashboard: new DashboardRepository(ctx, '/api/dashboard'),
     search: new SearchRepository(ctx, '/api/search'),
     cryptocurrency: new CryptocurrencyRepository(ctx, '/api/cryptocurrencies')

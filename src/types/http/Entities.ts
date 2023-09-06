@@ -54,7 +54,8 @@ export interface User {
   fullName: string
   email: string
   quizTaken: boolean
-  quizFinishedAt: string
+  quizFinishedAt: string | null
+  assetsSyncedAt: string | null
   createdAt: string
   updatedAt: string
 }
@@ -184,4 +185,10 @@ export interface Limits {
       value: number | null
     }
   }
+}
+
+export interface Asset {
+  id: number
+  currency: string
+  balance: number
 }

@@ -11,7 +11,8 @@ import {
   Cryptocurrency,
   Alert,
   Limits,
-  LimitsLock
+  LimitsLock,
+  Asset
 } from '~/types/http/Entities'
 
 export interface JsonResponse {
@@ -145,5 +146,12 @@ export interface LimitsLockedResponse extends JsonResponse {
   code: RESPONSE_CODE.LIMITS_LOCKED
   data: {
     resetAt: string
+  }
+}
+
+export interface AssetIndexResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    assets: Asset[]
   }
 }
