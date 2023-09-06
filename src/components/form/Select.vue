@@ -83,7 +83,7 @@ const props = withDefaults(
     hint: null,
     error: null,
     labelHidden: false,
-    addEmptyOption: true
+    addEmptyOption: false
   }
 )
 

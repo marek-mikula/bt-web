@@ -144,6 +144,7 @@
               :error="fieldError('cryptocurrency.period')"
               :options="periodSelectOptions"
               :disabled="lock && !lock.enabled"
+              add-empty-option
               class="md:col-span-3"
             />
           </div>
@@ -212,6 +213,7 @@
                 :error="fieldError('marketCap.period')"
                 :options="periodSelectOptions"
                 :disabled="lock && !lock.enabled"
+                add-empty-option
               />
             </div>
 

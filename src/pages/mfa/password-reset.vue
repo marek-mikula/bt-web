@@ -75,16 +75,17 @@
 </template>
 
 <script setup lang="ts">
-import { useContext, useRoute, useRouter } from '@nuxtjs/composition-api'
+import { useContext, useRoute } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import { useForm, useFormData } from '~/composables/forms/form'
 import { useLoading } from '~/composables/loading'
 import { ResetPasswordForm } from '~/types/forms/Mfa'
 import { InvalidContentResponse, JsonResponse } from '~/types/http/Responses'
+import { useRedirect } from '~/composables/redirect'
 
+const { redirect } = useRedirect()
 const route = useRoute()
-const router = useRouter()
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
 const { createForm } = useFormData()
@@ -111,7 +112,7 @@ async function resetPassword(): Promise<void> {
       title: i18n.t('toasts.mfa.passwordReset.success').toString()
     })
 
-    await router.push({ path: '/' })
+    await redirect({ path: '/' })
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 

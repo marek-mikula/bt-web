@@ -35,7 +35,6 @@ import {
   onMounted,
   ref,
   useContext,
-  useRouter,
   useStore
 } from '@nuxtjs/composition-api'
 import Vue from 'vue'
@@ -43,11 +42,12 @@ import { useLoading } from '~/composables/loading'
 import { FinishForm } from '~/types/forms/Quiz'
 import { NumberMap } from '~/types/common/Common'
 import { QuizAnswer, QuizQuestion } from '~/types/http/Entities'
+import { useRedirect } from '~/composables/redirect'
 
+const { redirect } = useRedirect()
 const context = useContext()
 const { $repositories, $toast, i18n } = context
 const { isLoading, setIsLoading } = useLoading()
-const router = useRouter()
 const store = useStore()
 
 const LOCAL_STORAGE_KEY = 'quiz-answers'
@@ -151,7 +151,7 @@ async function finish(): Promise<void> {
       title: i18n.t('toasts.quiz.success').toString()
     })
 
-    await router.push({ path: '/app' })
+    await redirect({ path: '/app' })
   } catch (e: any) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()

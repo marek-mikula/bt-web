@@ -68,7 +68,11 @@
                     v-for="cryptocurrency in cryptocurrencies"
                     :key="cryptocurrency.id"
                     class="cursor-pointer hover:bg-gray-50"
-                    @click="redirectToDetail(cryptocurrency)"
+                    @click="
+                      redirect({
+                        path: `/app/cryptocurrencies/${cryptocurrency.id}`
+                      })
+                    "
                   >
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                       <div class="flex items-center">
@@ -192,14 +196,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { onMounted, useContext, useRouter } from '@nuxtjs/composition-api'
+import { onMounted, useContext } from '@nuxtjs/composition-api'
 import { Cryptocurrency } from '~/types/http/Entities'
 import { useLoading } from '~/composables/loading'
 import { useFormat } from '~/composables/format'
+import { useRedirect } from '~/composables/redirect'
 
 const { isLoading, setIsLoading } = useLoading()
+const { redirect } = useRedirect()
 const { $repositories } = useContext()
-const router = useRouter()
 const { formatCurrency, formatCryptocurrency } = useFormat()
 
 const page = ref<number>(0)
@@ -231,10 +236,6 @@ async function fetchCryptocurrencies(): Promise<void> {
   } finally {
     setIsLoading(false)
   }
-}
-
-async function redirectToDetail(cryptocurrency: Cryptocurrency): Promise<void> {
-  await router.push({ path: `/app/cryptocurrencies/${cryptocurrency.id}` })
 }
 
 onMounted(async (): Promise<void> => {

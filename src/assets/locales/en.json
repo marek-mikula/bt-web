@@ -361,7 +361,8 @@
     "app": {
       "userDropdown": {
         "logout": "Sign out",
-        "settings": "Account settings"
+        "settings": "Account settings",
+        "wallet": "Wallet"
       }
     }
   },
