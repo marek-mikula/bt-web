@@ -4,5 +4,8 @@ export enum NOTIFICATION_TYPE {
   PASSWORD_CHANGED = 'password-changed',
   REGISTERED = 'registered',
   RESET_PASSWORD = 'reset-password',
-  VERIFY_EMAIL = 'verify-email'
+  VERIFY_EMAIL = 'verify-email',
+  ALERT = 'alert',
+  CRYPTOCURRENCY_MIN = 'cryptocurrency-min',
+  CRYPTOCURRENCY_MAX = 'cryptocurrency-max'
 }

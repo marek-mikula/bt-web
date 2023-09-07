@@ -1,4 +1,5 @@
 export enum NOTIFICATION_DOMAIN {
   USER = 'user',
-  ALERT = 'alert'
+  ALERT = 'alert',
+  LIMITS = 'limits'
 }

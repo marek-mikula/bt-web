@@ -354,7 +354,8 @@
     },
     "domain": {
       "user": "User",
-      "alert": "Alert"
+      "alert": "Alert",
+      "limits": "Limits"
     }
   },
   "template": {
