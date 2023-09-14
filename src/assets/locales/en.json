@@ -356,6 +356,9 @@
       "user": "User",
       "alert": "Alert",
       "limits": "Limits"
+    },
+    "actions": {
+      "changeLimits": "Change limits"
     }
   },
   "template": {

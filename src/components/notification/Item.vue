@@ -5,8 +5,6 @@
       <NotificationDomain :notification="notification" class="mr-0.5" />
 
       <span>{{ notification.title }}</span>
-
-      <span class="absolute inset-0"></span>
     </div>
 
     <!-- notification title if not read -->
@@ -32,12 +30,26 @@
     <p class="mt-1 text-xs text-gray-400">
       {{ notification.createdAt }}
     </p>
+
+    <!-- notification actions based on domain/type etc -->
+    <div v-if="notification.domain === 'limits'" class="mt-2">
+      <CommonButton
+        :label="$t('notifications.actions.changeLimits').toString()"
+        :type="'button'"
+        :color="'secondary'"
+        :size="1"
+        @click="redirect({ path: '/app/settings/limits' })"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from '@nuxtjs/composition-api'
 import { Notification } from '~/types/http/Entities'
+import { useRedirect } from '~/composables/redirect'
+
+const { redirect } = useRedirect()
 
 const props = defineProps<{
   notification: Notification
