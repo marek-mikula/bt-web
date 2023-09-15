@@ -10,7 +10,7 @@
   },
   "common": {
     "select": {
-      "emptyOption": "Select option"
+      "emptyOption": "Select an option"
     },
     "table": {
       "found": "Found {count} result | Found {count} results",
@@ -161,6 +161,9 @@
     }
   },
   "pages": {
+    "wallet": {
+      "title": "Wallet"
+    },
     "user": {
       "settings": {
         "title": "Settings",
