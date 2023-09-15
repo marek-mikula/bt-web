@@ -187,8 +187,29 @@ export interface Limits {
   }
 }
 
-export interface Asset {
+export interface Currency {
   id: number
-  currency: string
+  cmcId: number
+  symbol: string
+  name: string
+  isFiat: boolean
+  meta: object
+}
+
+export interface SupportedAsset {
+  id: number
+  isSupported: true
+  currency: Currency
+  currencySymbol: null
   balance: number
 }
+
+export interface UnsupportedAsset {
+  id: number
+  isSupported: false
+  currency: null
+  currencySymbol: string
+  balance: number
+}
+
+export type Asset = SupportedAsset | UnsupportedAsset

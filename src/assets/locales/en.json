@@ -25,6 +25,7 @@
       "cancel": "Cancel",
       "backToLogin": "Back to login",
       "loading": "Loading",
+      "show": "Show",
       "showAll": "Show all",
       "loadMore": "Load more",
       "dismiss": "Dismiss",
@@ -162,7 +163,12 @@
   },
   "pages": {
     "wallet": {
-      "title": "Wallet"
+      "title": "Wallet",
+      "lastSyncAt": "Last sync at {datetime}",
+      "unsupportedAssetsAlert": "Unsupported assets (marked with a warning sign) are shown only for information purposes. They are not counted in the process of limits evaluation and other application processes.",
+      "asset": {
+        "balance": "Balance"
+      }
     },
     "user": {
       "settings": {
