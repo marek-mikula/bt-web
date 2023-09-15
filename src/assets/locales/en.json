@@ -124,7 +124,7 @@
             "mid": "Mid market cap (>= 2b $ and < 10b $)",
             "large": "Large market cap (>= 10b and < 200b $)",
             "mega": "Mega market cap (>= 200b $)",
-            "sliderHint": "The monitored value will have to be in the range of {min}% - {max}%."
+            "sliderHint": "The monitored value will have to be in the range between {min} % and {max} %."
           },
           "period": {
             "label": "Notification period",

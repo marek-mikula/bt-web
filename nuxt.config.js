@@ -243,7 +243,11 @@ export default {
       'auth', // middleware for authentication
       'quiz', // middleware to check if user passed the entry quiz
       'redirect'
-    ]
+    ],
+
+    scrollBehavior: () => {
+      return { x: 0, y: 0 }
+    }
   },
 
   publicRuntimeConfig: {
