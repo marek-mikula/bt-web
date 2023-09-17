@@ -93,6 +93,12 @@
     },
     "user": {
       "settings": {
+        "notifications": {
+          "whale": {
+            "label": "Whale alerts",
+            "hint": "Term \"whale\" represents the big players in crypto markets. Once once of these whales makes a transaction above or equal $1,000,000, you will get a notification."
+          }
+        },
         "limits": {
           "trade": {
             "title": {
@@ -340,8 +346,11 @@
           }
         },
         "limits": {
-          "success": "Your limits has been successfully updated.",
+          "success": "Your limits have been successfully updated.",
           "locked": "You cannot update your limits. You will be able to update your limits at {datetime}."
+        },
+        "notifications": {
+          "success": "Your notifications settings have been successfully update."
         }
       }
     },

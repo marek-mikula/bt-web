@@ -53,6 +53,11 @@ export interface User {
   birthDate: string
   fullName: string
   email: string
+  notifications: {
+    whale: {
+      enabled: boolean
+    }
+  }
   quizTaken: boolean
   quizFinishedAt: string | null
   assetsSyncedAt: string | null
