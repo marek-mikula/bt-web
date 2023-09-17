@@ -165,7 +165,7 @@
     "wallet": {
       "title": "Wallet",
       "lastSyncAt": "Last sync at {datetime}",
-      "unsupportedAssetsAlert": "Unsupported assets (marked with a warning sign) are shown only for information purposes. They are not counted in the process of limits evaluation and other application processes.",
+      "unsupportedAssetsAlert": "Unsupported assets are shown in wallet only for information purposes. They are not counted in the process of limits evaluation and other application processes.",
       "asset": {
         "balance": "Balance"
       }
