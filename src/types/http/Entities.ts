@@ -1,6 +1,7 @@
 import { MFA_TOKEN_TYPE } from '~/enums/MfaTokenType'
 import { NOTIFICATION_TYPE } from '~/enums/notifications/NotificationType'
 import { NOTIFICATION_DOMAIN } from '~/enums/notifications/NotificationDomain'
+import { LIMITS_NOTIFICATION_PERIOD } from '~/enums/settings/LimitsNotificationPeriodEnum'
 
 export interface Pagination<D> {
   data: D[]
@@ -53,7 +54,8 @@ export interface User {
   fullName: string
   email: string
   quizTaken: boolean
-  quizFinishedAt: string
+  quizFinishedAt: string | null
+  assetsSyncedAt: string | null
   createdAt: string
   updatedAt: string
 }
@@ -154,11 +156,13 @@ export interface Limits {
   }
   cryptocurrency: {
     enabled: boolean
+    period: LIMITS_NOTIFICATION_PERIOD | null
     min: number | null
     max: number | null
   }
   marketCap: {
     enabled: boolean
+    period: LIMITS_NOTIFICATION_PERIOD | null
     margin: number | null
     micro: {
       enabled: boolean
@@ -182,3 +186,30 @@ export interface Limits {
     }
   }
 }
+
+export interface Currency {
+  id: number
+  cmcId: number
+  symbol: string
+  name: string
+  isFiat: boolean
+  meta: object
+}
+
+export interface SupportedAsset {
+  id: number
+  isSupported: true
+  currency: Currency
+  currencySymbol: null
+  balance: number
+}
+
+export interface UnsupportedAsset {
+  id: number
+  isSupported: false
+  currency: null
+  currencySymbol: string
+  balance: number
+}
+
+export type Asset = SupportedAsset | UnsupportedAsset

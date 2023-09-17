@@ -187,7 +187,9 @@
           <a
             href="#"
             class="focus:outline-none"
-            @click.prevent="redirectToDetail(token)"
+            @click.prevent="
+              redirect({ path: `/app/cryptocurrencies/${token.id}` })
+            "
           >
             <span class="absolute inset-0" aria-hidden="true"></span>
             <p class="text-sm">
@@ -218,19 +220,14 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  useAsync,
-  useContext,
-  useRouter,
-  watch
-} from '@nuxtjs/composition-api'
+import { ref, useAsync, useContext, watch } from '@nuxtjs/composition-api'
 import { DashboardIndexResponse } from '~/types/http/Responses'
 import { DashboardMarketMetrics, DashboardToken } from '~/types/http/Entities'
 import { useFormat } from '~/composables/format'
+import { useRedirect } from '~/composables/redirect'
 
 const { $repositories } = useContext()
-const router = useRouter()
+const { redirect } = useRedirect()
 const { formatCurrency, formatPercent } = useFormat()
 
 const marketMetrics = ref<null | DashboardMarketMetrics>(null)
@@ -253,10 +250,6 @@ watch(
 
 function redirectToTrezor(): void {
   window.open('https://trezor.io/', '_blank')
-}
-
-async function redirectToDetail(token: DashboardToken): Promise<void> {
-  await router.push({ path: `/app/cryptocurrencies/${token.id}` })
 }
 </script>
 

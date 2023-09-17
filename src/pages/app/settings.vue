@@ -19,7 +19,7 @@
           :options="selectOptions"
           label-hidden
           :label="'Select a tab'"
-          @change="redirect"
+          @change="(tab) => redirect({ path: `/app/settings/${tab}` })"
         />
       </div>
       <div class="hidden sm:block">
@@ -37,7 +37,7 @@
               }
             ]"
             :aria-current="tab === currentTab ? 'page' : null"
-            @click.prevent="redirect(tab)"
+            @click.prevent="redirect({ path: `/app/settings/${tab}` })"
           >
             <svg
               v-if="tab === 'alerts'"
@@ -108,17 +108,13 @@
 </template>
 
 <script setup lang="ts">
-import {
-  computed,
-  useContext,
-  useRoute,
-  useRouter
-} from '@nuxtjs/composition-api'
+import { computed, useContext, useRoute } from '@nuxtjs/composition-api'
 import { SETTINGS_TAB } from '~/enums/settings/SettingsTab'
 import { FormSelectOption } from '~/types/common/Form'
+import { useRedirect } from '~/composables/redirect'
 
+const { redirect } = useRedirect()
 const { i18n } = useContext()
-const router = useRouter()
 const route = useRoute()
 
 const currentTab = computed<string>((): string => {
@@ -138,10 +134,6 @@ const selectOptions = computed<FormSelectOption[]>((): FormSelectOption[] =>
     })
   )
 )
-
-async function redirect(tab: SETTINGS_TAB): Promise<void> {
-  await router.push({ path: `/app/settings/${tab}` })
-}
 </script>
 
 <script lang="ts">

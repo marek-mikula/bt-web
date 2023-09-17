@@ -18,7 +18,7 @@
       :disabled="disabled"
       :readonly="readonly"
       :class="[
-        'mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 sm:text-sm sm:leading-6',
+        'mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6',
         {
           'text-red-900 ring-1 ring-inset ring-red-300 focus:ring-2 focus:ring-inset focus:ring-red-600':
             hasError,
@@ -29,6 +29,9 @@
       @input="handleInput"
       @change="handleChange"
     >
+      <option v-if="addEmptyOption" :value="null">
+        {{ $t('common.select.emptyOption') }}
+      </option>
       <option
         v-for="option in options"
         :key="option.value"
@@ -67,6 +70,7 @@ const props = withDefaults(
     hint?: string | null
     error?: string | null
     labelHidden?: boolean
+    addEmptyOption?: boolean
   }>(),
   {
     value: null,
@@ -78,7 +82,8 @@ const props = withDefaults(
     autocomplete: 'off',
     hint: null,
     error: null,
-    labelHidden: false
+    labelHidden: false,
+    addEmptyOption: false
   }
 )
 
@@ -93,11 +98,11 @@ const errorId = computed<string>((): string => `${id.value}-error`)
 const hasError = computed<boolean>((): boolean => !!props.error)
 
 function handleInput(event: Event): void {
-  emit('input', (event.target as HTMLInputElement).value)
+  emit('input', (event.target as HTMLInputElement).value || null)
 }
 
 function handleChange(event: Event): void {
-  emit('change', (event.target as HTMLInputElement).value)
+  emit('change', (event.target as HTMLInputElement).value || null)
 }
 </script>
 

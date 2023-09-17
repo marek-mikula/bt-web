@@ -1,3 +1,5 @@
+import { LIMITS_NOTIFICATION_PERIOD } from '~/enums/settings/LimitsNotificationPeriodEnum'
+
 export interface LimitsTradeForm {
   enabled: boolean
   daily: number | null
@@ -7,12 +9,14 @@ export interface LimitsTradeForm {
 
 export interface LimitsCryptocurrencyForm {
   enabled: boolean
+  period: LIMITS_NOTIFICATION_PERIOD | null
   min: number | null
   max: number | null
 }
 
 export interface LimitsMarketCapForm {
   enabled: boolean
+  period: LIMITS_NOTIFICATION_PERIOD | null
   margin: number | null
   microEnabled: boolean
   micro: number | null

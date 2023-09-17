@@ -111,7 +111,9 @@ import {
   onMounted,
   ref,
   useContext,
-  useStore
+  useRoute,
+  useStore,
+  watch
 } from '@nuxtjs/composition-api'
 import { useDomainLoading } from '~/composables/loading'
 import { MarkAsReadResponse } from '~/types/http/Responses'
@@ -119,6 +121,7 @@ import { Notification } from '~/types/http/Entities'
 import { useInfiniteScroll } from '~/composables/scroll'
 
 const store = useStore()
+const route = useRoute()
 const { $repositories, $toast, i18n } = useContext()
 const { isLoading, setIsLoading } = useDomainLoading<{
   button: boolean
@@ -243,6 +246,14 @@ async function infiniteScrollHandler(): Promise<void> {
 
   await fetchNotifications()
 }
+
+// close menu on route change
+watch(
+  () => route.value,
+  (): void => {
+    closePanel()
+  }
+)
 
 onMounted(async (): Promise<void> => {
   // fetch notifications when panel is opened

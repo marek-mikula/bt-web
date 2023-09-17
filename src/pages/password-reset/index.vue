@@ -50,19 +50,20 @@
 </template>
 
 <script setup lang="ts">
-import { useContext, useRouter } from '@nuxtjs/composition-api'
+import { useContext } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import { useForm, useFormData } from '~/composables/forms/form'
 import { useLoading } from '~/composables/loading'
 import { PasswordResetEmailForm } from '~/types/forms/PasswordReset'
 import { InvalidContentResponse, JsonResponse } from '~/types/http/Responses'
+import { useRedirect } from '~/composables/redirect'
 
+const { redirect } = useRedirect()
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
 const { createForm } = useFormData()
 const { isLoading, setIsLoading } = useLoading()
-const router = useRouter()
 
 const form = createForm<PasswordResetEmailForm>({
   email: null
@@ -80,7 +81,7 @@ async function sendEmail(): Promise<void> {
       title: i18n.t('toasts.passwordReset.emailSent').toString()
     })
 
-    await router.push({ path: '/' })
+    await redirect({ path: '/' })
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 

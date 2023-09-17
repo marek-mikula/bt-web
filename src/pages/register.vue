@@ -165,19 +165,20 @@
 </template>
 
 <script setup lang="ts">
-import { useContext, useRouter } from '@nuxtjs/composition-api'
+import { useContext } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import { useForm, useFormData } from '~/composables/forms/form'
 import { useLoading } from '~/composables/loading'
 import { RegisterForm } from '~/types/forms/Auth'
 import { InvalidContentResponse, JsonResponse } from '~/types/http/Responses'
+import { useRedirect } from '~/composables/redirect'
 
+const { redirect } = useRedirect()
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
 const { createForm } = useFormData()
 const { isLoading, setIsLoading } = useLoading()
-const router = useRouter()
 
 const form = createForm<RegisterForm>({
   firstname: null,
@@ -202,7 +203,7 @@ async function register(): Promise<void> {
       title: i18n.t('toasts.register.verifyEmail').toString()
     })
 
-    await router.push({
+    await redirect({
       path: '/mfa/verify-email',
       query: { token: response.data.data.token.token }
     })

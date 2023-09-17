@@ -1,15 +1,11 @@
-import {
-  computed,
-  useContext,
-  useRouter,
-  useStore
-} from '@nuxtjs/composition-api'
+import { computed, useContext, useStore } from '@nuxtjs/composition-api'
 import { ComputedRef } from 'vue/types/v3-generated'
 import { User } from '~/types/http/Entities'
+import { useRedirect } from '~/composables/redirect'
 
 export function useUser() {
   const { $repositories, $toast, i18n } = useContext()
-  const router = useRouter()
+  const { redirect } = useRedirect()
   const store = useStore()
 
   function getUser(): ComputedRef<User> {
@@ -40,7 +36,7 @@ export function useUser() {
     // clear data from store
     await store.dispatch('auth/clear')
 
-    await router.push({ path: '/' })
+    await redirect({ path: '/' })
   }
 
   return {

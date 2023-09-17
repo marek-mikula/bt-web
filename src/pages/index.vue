@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { useContext, useRouter, useStore } from '@nuxtjs/composition-api'
+import { useContext, useStore } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import { useForm, useFormData } from '~/composables/forms/form'
@@ -87,14 +87,14 @@ import {
   JsonResponse,
   MfaTokenResponse
 } from '~/types/http/Responses'
+import { useRedirect } from '~/composables/redirect'
 
+const { redirect } = useRedirect()
 const { $repositories, $toast, i18n } = useContext()
 const { clearErrors, fieldError, parseErrors } = useForm()
 const { createForm } = useFormData()
 const { isLoading, setIsLoading } = useLoading()
 const store = useStore()
-
-const router = useRouter()
 
 const form = createForm<LoginForm>({
   email: null,
@@ -124,7 +124,7 @@ async function login(): Promise<void> {
       title: i18n.t('toasts.login.loggedIn').toString()
     })
 
-    await router.push({ path: '/app' })
+    await redirect({ path: '/app' })
   } catch (e: any) {
     const response: AxiosResponse<JsonResponse> = e.response
 
@@ -161,7 +161,7 @@ async function redirectToVerifyEmail(data: MfaTokenResponse): Promise<void> {
     title: i18n.t('toasts.login.verifyEmail').toString()
   })
 
-  await router.push({
+  await redirect({
     path: '/mfa/verify-email',
     query: { token: data.data.token.token }
   })

@@ -20,7 +20,7 @@
         class="overflow-hidden rounded border border-gray-200 bg-white md:rounded-lg"
       >
         <div class="px-4 py-5 sm:px-6">
-          <h3 class="mb-2 text-base font-semibold leading-6 text-gray-900">
+          <h3 class="mb-2 text-base leading-6 text-gray-900">
             <FormCheckbox
               :id="'trade-enabled'"
               v-model="form.data.trade.enabled"
@@ -84,7 +84,7 @@
         class="overflow-hidden rounded border border-gray-200 bg-white md:rounded-lg"
       >
         <div class="px-4 py-5 sm:px-6">
-          <h3 class="mb-2 text-base font-semibold leading-6 text-gray-900">
+          <h3 class="mb-2 text-base leading-6 text-gray-900">
             <FormCheckbox
               :id="'cryptocurrency-enabled'"
               v-model="form.data.cryptocurrency.enabled"
@@ -134,6 +134,19 @@
               :disabled="lock && !lock.enabled"
               class="md:col-span-3"
             />
+
+            <FormSelect
+              :id="'cryptocurrency-period'"
+              v-model="form.data.cryptocurrency.period"
+              :name="'cryptocurrency[period]'"
+              :label="$t('forms.user.settings.limits.period.label').toString()"
+              :hint="$t('forms.user.settings.limits.period.hint').toString()"
+              :error="fieldError('cryptocurrency.period')"
+              :options="periodSelectOptions"
+              :disabled="lock && !lock.enabled"
+              add-empty-option
+              class="md:col-span-3"
+            />
           </div>
         </div>
       </div>
@@ -142,7 +155,7 @@
         class="overflow-hidden rounded border border-gray-200 bg-white md:rounded-lg"
       >
         <div class="px-4 py-5 sm:px-6">
-          <h3 class="mb-2 text-base font-semibold leading-6 text-gray-900">
+          <h3 class="mb-2 text-base leading-6 text-gray-900">
             <FormCheckbox
               :id="'market-cap-enabled'"
               v-model="form.data.marketCap.enabled"
@@ -167,6 +180,7 @@
           <div class="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-6">
             <div class="col-span-full">
               <FormSlider
+                :id="'market-cap-margin'"
                 v-model="form.data.marketCap.margin"
                 :name="'marketCap[margin]'"
                 :label="
@@ -187,6 +201,22 @@
               />
             </div>
 
+            <div class="md:col-span-3">
+              <FormSelect
+                :id="'market-cap-period'"
+                v-model="form.data.marketCap.period"
+                :name="'marketCap[period]'"
+                :label="
+                  $t('forms.user.settings.limits.period.label').toString()
+                "
+                :hint="$t('forms.user.settings.limits.period.hint').toString()"
+                :error="fieldError('marketCap.period')"
+                :options="periodSelectOptions"
+                :disabled="lock && !lock.enabled"
+                add-empty-option
+              />
+            </div>
+
             <div
               class="col-span-full rounded bg-gray-50 p-4 shadow-sm md:rounded-lg"
             >
@@ -203,6 +233,7 @@
                 />
               </div>
               <FormSlider
+                :id="'market-cap-micro'"
                 v-model="form.data.marketCap.micro"
                 :name="'marketCap[micro]'"
                 :label="
@@ -241,6 +272,7 @@
                 />
               </div>
               <FormSlider
+                :id="'market-cap-small'"
                 v-model="form.data.marketCap.small"
                 :name="'marketCap[small]'"
                 :label="
@@ -279,6 +311,7 @@
                 />
               </div>
               <FormSlider
+                :id="'market-cap-mid'"
                 v-model="form.data.marketCap.mid"
                 :name="'marketCap[mid]'"
                 :label="
@@ -317,6 +350,7 @@
                 />
               </div>
               <FormSlider
+                :id="'market-cap-large'"
                 v-model="form.data.marketCap.large"
                 :name="'marketCap[large]'"
                 :label="
@@ -355,6 +389,7 @@
                 />
               </div>
               <FormSlider
+                :id="'market-cap-mega'"
                 v-model="form.data.marketCap.mega"
                 :name="'marketCap[mega]'"
                 :label="
@@ -409,7 +444,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useAsync, useContext, watch } from '@nuxtjs/composition-api'
+import {
+  computed,
+  ref,
+  useAsync,
+  useContext,
+  watch
+} from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { useForm, useFormData } from '~/composables/forms/form'
 import { LimitsForm, LimitsMarketCapForm } from '~/types/forms/Limits'
@@ -422,6 +463,8 @@ import {
 } from '~/types/http/Responses'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import { Limits, LimitsLock } from '~/types/http/Entities'
+import { FormSelectOption } from '~/types/common/Form'
+import { LIMITS_NOTIFICATION_PERIOD } from '~/enums/settings/LimitsNotificationPeriodEnum'
 
 const { $_, i18n, $repositories, $toast } = useContext()
 const { fieldError, clearErrors, parseErrors } = useForm()
@@ -430,6 +473,16 @@ const { isLoading, setIsLoading } = useLoading()
 
 const limits = ref<Limits | null>(null)
 const lock = ref<LimitsLock | null>(null)
+
+const periodSelectOptions = computed<FormSelectOption[]>(
+  (): FormSelectOption[] =>
+    Object.values(LIMITS_NOTIFICATION_PERIOD).map(
+      (period: LIMITS_NOTIFICATION_PERIOD): FormSelectOption => ({
+        value: period,
+        label: i18n.t(`models.limits.period.${period}`).toString()
+      })
+    )
+)
 
 const form = createForm<LimitsForm>({
   trade: {
@@ -440,11 +493,13 @@ const form = createForm<LimitsForm>({
   },
   cryptocurrency: {
     enabled: false,
+    period: null,
     min: null,
     max: null
   },
   marketCap: {
     enabled: false,
+    period: null,
     margin: null,
     microEnabled: false,
     micro: null,
@@ -467,15 +522,22 @@ const response = useAsync<LimitsShowResponse>(async () => {
 
 function copyValuesToForm(limits: Limits): void {
   if (limits.trade.enabled) {
-    Object.assign(form.data.trade, limits.trade)
+    Object.assign(
+      form.data.trade,
+      $_.pick(limits.trade, ['enabled', 'daily', 'weekly', 'monthly'])
+    )
   }
 
   if (limits.cryptocurrency.enabled) {
-    Object.assign(form.data.cryptocurrency, limits.cryptocurrency)
+    Object.assign(
+      form.data.cryptocurrency,
+      $_.pick(limits.cryptocurrency, ['enabled', 'period', 'min', 'max'])
+    )
   }
 
   if (limits.marketCap.enabled) {
     form.data.marketCap.enabled = true
+    form.data.marketCap.period = limits.marketCap.period
     form.data.marketCap.margin = limits.marketCap.margin
 
     if (limits.marketCap.micro.enabled) {

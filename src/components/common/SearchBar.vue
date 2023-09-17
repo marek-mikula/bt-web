@@ -25,14 +25,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useRouter } from '@nuxtjs/composition-api'
+import { ref } from '@nuxtjs/composition-api'
+import { useRedirect } from '~/composables/redirect'
 
-const router = useRouter()
+const { redirect } = useRedirect()
 
 const searchQuery = ref<string | null>(null)
 
 async function search(): Promise<void> {
-  await router.push({ path: '/app/search', query: { q: searchQuery.value } })
+  await redirect({ path: '/app/search', query: { q: searchQuery.value } })
   searchQuery.value = null
 }
 </script>

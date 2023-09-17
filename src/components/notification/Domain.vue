@@ -26,6 +26,8 @@ const colorClass = computed<string>((): string => {
       return 'bg-blue-100 text-blue-600'
     case NOTIFICATION_DOMAIN.ALERT:
       return 'bg-yellow-100 text-yellow-600'
+    case NOTIFICATION_DOMAIN.LIMITS:
+      return 'bg-red-100 text-red-600'
     default:
       return 'bg-gray-100 text-gray-600'
   }

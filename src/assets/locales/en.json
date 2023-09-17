@@ -1,5 +1,17 @@
 {
+  "models": {
+    "limits": {
+      "period": {
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      }
+    }
+  },
   "common": {
+    "select": {
+      "emptyOption": "Select an option"
+    },
     "table": {
       "found": "Found {count} result | Found {count} results",
       "showing": "Showing {count} result | Showing {count} results"
@@ -13,6 +25,7 @@
       "cancel": "Cancel",
       "backToLogin": "Back to login",
       "loading": "Loading",
+      "show": "Show",
       "showAll": "Show all",
       "loadMore": "Load more",
       "dismiss": "Dismiss",
@@ -112,7 +125,11 @@
             "mid": "Mid market cap (>= 2b $ and < 10b $)",
             "large": "Large market cap (>= 10b and < 200b $)",
             "mega": "Mega market cap (>= 200b $)",
-            "sliderHint": "The monitored value will have to be in the range of {min}% - {max}%."
+            "sliderHint": "The monitored value will have to be in the range between {min} % and {max} %."
+          },
+          "period": {
+            "label": "Notification period",
+            "hint": "The period of notification calculation. If you select \"weekly\", then you will receive notification every week if at least one of the limits would be exceeded or violated."
           }
         },
         "account": {
@@ -145,6 +162,14 @@
     }
   },
   "pages": {
+    "wallet": {
+      "title": "Wallet",
+      "lastSyncAt": "Last sync at {datetime}",
+      "unsupportedAssetsAlert": "Unsupported assets are shown in wallet only for information purposes. They are not counted in the process of limits evaluation and other application processes.",
+      "asset": {
+        "balance": "Balance"
+      }
+    },
     "user": {
       "settings": {
         "title": "Settings",
@@ -338,14 +363,19 @@
     },
     "domain": {
       "user": "User",
-      "alert": "Alert"
+      "alert": "Alert",
+      "limits": "Limits"
+    },
+    "actions": {
+      "changeLimits": "Change limits"
     }
   },
   "template": {
     "app": {
       "userDropdown": {
         "logout": "Sign out",
-        "settings": "Account settings"
+        "settings": "Account settings",
+        "wallet": "Wallet"
       }
     }
   },
