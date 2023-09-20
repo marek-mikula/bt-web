@@ -170,25 +170,21 @@
                     </td>
                   </tr>
                 </template>
-
-                <!-- loading button -->
-                <tr>
-                  <td colspan="8">
-                    <div class="flex items-center justify-center p-4">
-                      <CommonButton
-                        :is-loading="isLoading"
-                        color="primary"
-                        @click="fetchCryptocurrencies"
-                      >
-                        {{ $t('common.buttons.loadMore') }}
-                      </CommonButton>
-                    </div>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
         </div>
+      </div>
+
+      <!-- loading button -->
+      <div class="flex items-center justify-center p-4">
+        <CommonButton
+          :is-loading="isLoading"
+          color="primary"
+          @click="fetchCryptocurrencies"
+        >
+          {{ $t('common.buttons.loadMore') }}
+        </CommonButton>
       </div>
     </div>
   </div>
@@ -204,7 +200,7 @@ import { useRedirect } from '~/composables/redirect'
 
 const { isLoading, setIsLoading } = useLoading()
 const { redirect } = useRedirect()
-const { $repositories } = useContext()
+const { $repositories, $toast, i18n } = useContext()
 const { formatCurrency, formatCryptocurrency } = useFormat()
 
 const page = ref<number>(0)
@@ -232,7 +228,9 @@ async function fetchCryptocurrencies(): Promise<void> {
 
     end.value = meta.end
   } catch (e: any) {
-    // todo
+    $toast.error({
+      title: i18n.t('toasts.common.somethingWentWrong').toString()
+    })
   } finally {
     setIsLoading(false)
   }

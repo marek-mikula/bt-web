@@ -35,3 +35,9 @@ export interface LimitsForm {
   cryptocurrency: LimitsCryptocurrencyForm
   marketCap: LimitsMarketCapForm
 }
+
+export interface NotificationsForm {
+  whale: {
+    enabled: boolean
+  }
+}

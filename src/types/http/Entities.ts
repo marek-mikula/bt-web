@@ -2,18 +2,21 @@ import { MFA_TOKEN_TYPE } from '~/enums/MfaTokenType'
 import { NOTIFICATION_TYPE } from '~/enums/notifications/NotificationType'
 import { NOTIFICATION_DOMAIN } from '~/enums/notifications/NotificationDomain'
 import { LIMITS_NOTIFICATION_PERIOD } from '~/enums/settings/LimitsNotificationPeriodEnum'
+import { CURRENCY_SYMBOL } from '~/enums/common/Currency'
+
+export interface PaginationMeta {
+  currentPage: number
+  from: number
+  lastPage: number
+  path: number
+  perPage: number
+  to: number
+  total: number
+}
 
 export interface Pagination<D> {
   data: D[]
-  meta: {
-    currentPage: number
-    from: number
-    lastPage: number
-    path: number
-    perPage: number
-    to: number
-    total: number
-  }
+  meta: PaginationMeta
 }
 
 export interface MfaToken {
@@ -53,6 +56,11 @@ export interface User {
   birthDate: string
   fullName: string
   email: string
+  notifications: {
+    whale: {
+      enabled: boolean
+    }
+  }
   quizTaken: boolean
   quizFinishedAt: string | null
   assetsSyncedAt: string | null
@@ -190,7 +198,7 @@ export interface Limits {
 export interface Currency {
   id: number
   cmcId: number
-  symbol: string
+  symbol: CURRENCY_SYMBOL
   name: string
   isFiat: boolean
   meta: object
@@ -213,3 +221,16 @@ export interface UnsupportedAsset {
 }
 
 export type Asset = SupportedAsset | UnsupportedAsset
+
+export interface WhaleAlert {
+  id: number
+  currency: Currency
+  hash: string
+  amount: number
+  amountUsd: number
+  senderAddress: string | null
+  senderName: string | null
+  receiverAddress: string | null
+  receiverName: string | null
+  notifiedAt: string | null
+}

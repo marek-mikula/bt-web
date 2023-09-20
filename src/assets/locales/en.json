@@ -14,7 +14,16 @@
     },
     "table": {
       "found": "Found {count} result | Found {count} results",
-      "showing": "Showing {count} result | Showing {count} results"
+      "showing": "Showing {count} result | Showing {count} results",
+      "results": "Showing {from} to {to} of {total} results",
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous"
+      },
+      "head": {
+        "id": "ID"
+      },
+      "noData": "No data"
     },
     "buttons": {
       "save": "Save",
@@ -93,6 +102,12 @@
     },
     "user": {
       "settings": {
+        "notifications": {
+          "whale": {
+            "label": "Whale alerts",
+            "hint": "Term \"whale\" represents the big players in crypto markets. Once one of these whales makes a transaction above or equal $1,000,000, you will get a notification. Currently only these cryptocurrencies are supported: BTC, ETH, XRP and BNB."
+          }
+        },
         "limits": {
           "trade": {
             "title": {
@@ -162,6 +177,20 @@
     }
   },
   "pages": {
+    "whaleAlerts": {
+      "title": "Whale alerts",
+      "table": {
+        "head": {
+          "currency": "Currency",
+          "hash": "Hash",
+          "amount": "Amount",
+          "amountUsd": "Amount USD",
+          "sender": "Sender",
+          "receiver": "Receiver",
+          "notifiedAt": "Notified at"
+        }
+      }
+    },
     "wallet": {
       "title": "Wallet",
       "lastSyncAt": "Last sync at {datetime}",
@@ -294,6 +323,7 @@
   },
   "toasts": {
     "common": {
+      "clipboard": "Value has been copied to clipboard!",
       "formErrors": "There are some errors in the form.",
       "somethingWentWrong": "Oops! Something went wrong. Please contact support for more information.",
       "newNotifications": "You have a new notification! | You have new notifications! ({count})"
@@ -340,8 +370,11 @@
           }
         },
         "limits": {
-          "success": "Your limits has been successfully updated.",
+          "success": "Your limits have been successfully updated.",
           "locked": "You cannot update your limits. You will be able to update your limits at {datetime}."
+        },
+        "notifications": {
+          "success": "Your notifications settings have been successfully update."
         }
       }
     },
@@ -364,10 +397,12 @@
     "domain": {
       "user": "User",
       "alert": "Alert",
-      "limits": "Limits"
+      "limits": "Limits",
+      "whaleAlert": "Whale alert"
     },
     "actions": {
-      "changeLimits": "Change limits"
+      "changeLimits": "Change limits",
+      "moreDetails": "More details"
     }
   },
   "template": {
