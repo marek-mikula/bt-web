@@ -22,7 +22,8 @@
       },
       "head": {
         "id": "ID"
-      }
+      },
+      "noData": "No data"
     },
     "buttons": {
       "save": "Save",

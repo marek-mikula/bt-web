@@ -93,7 +93,7 @@ const { formatCurrency, formatCryptocurrency } = useFormat()
 
 const config = ref<TableConfig>({
   unique: 'id',
-  emptyLabel: 'No data',
+  emptyLabel: 'common.table.noData',
   columns: [
     {
       key: 'id',
@@ -167,6 +167,7 @@ async function fetchWhaleAlerts(): Promise<void> {
     setIsLoading(false)
   }
 }
+
 function getHashHref(item: WhaleAlert): string {
   switch (item.currency.symbol) {
     case CURRENCY_SYMBOL.BNB:
