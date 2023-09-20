@@ -200,7 +200,7 @@ import { useRedirect } from '~/composables/redirect'
 
 const { isLoading, setIsLoading } = useLoading()
 const { redirect } = useRedirect()
-const { $repositories } = useContext()
+const { $repositories, $toast, i18n } = useContext()
 const { formatCurrency, formatCryptocurrency } = useFormat()
 
 const page = ref<number>(0)
@@ -228,7 +228,9 @@ async function fetchCryptocurrencies(): Promise<void> {
 
     end.value = meta.end
   } catch (e: any) {
-    // todo
+    $toast.error({
+      title: i18n.t('toasts.common.somethingWentWrong').toString()
+    })
   } finally {
     setIsLoading(false)
   }
