@@ -41,6 +41,15 @@
         @click="redirect({ path: '/app/settings/limits' })"
       />
     </div>
+    <div v-else-if="notification.domain === 'whaleAlert'" class="mt-2">
+      <CommonButton
+        :label="$t('notifications.actions.moreDetails').toString()"
+        :type="'button'"
+        :color="'secondary'"
+        :size="1"
+        @click="redirect({ path: '/app/whale-alerts' })"
+      />
+    </div>
   </div>
 </template>
 

@@ -85,16 +85,22 @@
       class="mt-3 flex items-center justify-between rounded bg-white px-4 py-3 ring-1 ring-gray-200 sm:px-6 md:rounded-lg"
     >
       <div class="flex flex-1 justify-between sm:hidden">
-        <a
-          href="#"
-          class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >Previous</a
+        <button
+          type="button"
+          class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500"
+          :disabled="!isPreviousButtonEnabled"
+          @click.prevent="previous"
         >
-        <a
-          href="#"
-          class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >Next</a
+          {{ $t('common.table.buttons.previous') }}
+        </button>
+        <button
+          type="button"
+          class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500"
+          :disabled="!isNextButtonEnabled"
+          @click.prevent="next"
         >
+          {{ $t('common.table.buttons.next') }}
+        </button>
       </div>
       <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
@@ -149,45 +155,21 @@
               </svg>
             </button>
 
-            <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
-
             <a
+              v-for="page in pages"
+              :key="page"
               href="#"
-              aria-current="page"
-              class="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >1</a
+              :aria-current="page === pagination.currentPage ? 'page' : null"
+              :class="{
+                'relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600':
+                  page === pagination.currentPage,
+                'relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0':
+                  page !== pagination.currentPage
+              }"
+              @click.prevent="paginate(page)"
             >
-            <a
-              href="#"
-              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-              >2</a
-            >
-            <a
-              href="#"
-              class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-              >3</a
-            >
-
-            <span
-              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
-              >...</span
-            >
-
-            <a
-              href="#"
-              class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-              >8</a
-            >
-            <a
-              href="#"
-              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-              >9</a
-            >
-            <a
-              href="#"
-              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-              >10</a
-            >
+              {{ page }}
+            </a>
 
             <!-- next button -->
             <button
@@ -220,7 +202,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from '@nuxtjs/composition-api'
+import { computed, ref } from '@nuxtjs/composition-api'
 import { TableConfig } from '~/types/common/Table'
 import { useTranslation } from '~/composables/translation'
 import { PaginationMeta } from '~/types/http/Entities'
@@ -240,9 +222,49 @@ const props = withDefaults(
   }
 )
 
+const margin = ref<number>(2)
+
+const pages = computed<number[]>(() => {
+  if (!props.pagination) {
+    return []
+  }
+
+  const { currentPage, lastPage } = props.pagination
+
+  let from = currentPage - margin.value
+  let to = currentPage + margin.value
+
+  if (from < 1) {
+    from = 1
+  }
+
+  if (to > lastPage) {
+    to = lastPage
+  }
+
+  const pages = []
+
+  if (from > 1) {
+    pages.push(1)
+  }
+
+  for (let x = from; x <= to; x++) {
+    if (!pages.includes(x)) {
+      pages.push(x)
+    }
+  }
+
+  if (to < lastPage) {
+    pages.push(lastPage)
+  }
+
+  return pages
+})
+
 const emit = defineEmits<{
   (e: 'next'): void
   (e: 'previous'): void
+  (e: 'paginate', pageNumber: number): void
 }>()
 
 const isNextButtonEnabled = computed(
@@ -270,6 +292,18 @@ function previous(): void {
   }
 
   emit('previous')
+}
+
+function paginate(pageNumber: number): void {
+  if (
+    !props.pagination ||
+    pageNumber < 1 ||
+    pageNumber > props.pagination.lastPage
+  ) {
+    return
+  }
+
+  emit('paginate', pageNumber)
 }
 </script>
 

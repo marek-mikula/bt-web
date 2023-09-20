@@ -2,6 +2,7 @@ import { MFA_TOKEN_TYPE } from '~/enums/MfaTokenType'
 import { NOTIFICATION_TYPE } from '~/enums/notifications/NotificationType'
 import { NOTIFICATION_DOMAIN } from '~/enums/notifications/NotificationDomain'
 import { LIMITS_NOTIFICATION_PERIOD } from '~/enums/settings/LimitsNotificationPeriodEnum'
+import { CURRENCY_SYMBOL } from '~/enums/common/Currency'
 
 export interface PaginationMeta {
   currentPage: number
@@ -197,7 +198,7 @@ export interface Limits {
 export interface Currency {
   id: number
   cmcId: number
-  symbol: string
+  symbol: CURRENCY_SYMBOL
   name: string
   isFiat: boolean
   meta: object

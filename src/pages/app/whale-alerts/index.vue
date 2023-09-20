@@ -16,13 +16,26 @@
       :config="config"
       @next="next"
       @previous="previous"
+      @paginate="paginate"
     >
-      <template #bodyId="{ item }">
-        <span class="flex items-center justify-center">
-          <span>{{ item.id }}</span>
-          <NuxtLink
+      <template #bodyCurrency="{ item }">
+        <NuxtLink
+          class="ml-1 hover:text-indigo-600 hover:underline"
+          :to="`/app/cryptocurrencies/${item.currency.id}`"
+        >
+          {{ item.currency.symbol }}
+        </NuxtLink>
+      </template>
+
+      <template #bodyHash="{ item }">
+        <span class="flex items-center">
+          <CommonClipboard :value="item.hash">
+            {{ $_.truncate(item.hash) }}
+          </CommonClipboard>
+          <a
+            :href="getHashHref(item)"
+            target="_blank"
             class="ml-1 hover:text-indigo-600"
-            :to="`/app/cryptocurrencies/${item.currency.id}`"
           >
             <svg
               fill="none"
@@ -37,17 +50,7 @@
                 d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
               />
             </svg>
-          </NuxtLink>
-        </span>
-      </template>
-
-      <template #bodyCurrency="{ item }">
-        {{ item.currency.symbol }}
-      </template>
-
-      <template #bodyHash="{ item }">
-        <span class="rounded bg-gray-100 px-2 py-1">
-          {{ item.hash }}
+          </a>
         </span>
       </template>
 
@@ -65,9 +68,9 @@
         </span>
         <span v-if="item.senderAddress">
           <span>-</span>
-          <span class="rounded bg-gray-100 px-2 py-1">
-            {{ item.senderAddress }}
-          </span>
+          <CommonClipboard :value="item.senderAddress">
+            {{ $_.truncate(item.senderAddress) }}
+          </CommonClipboard>
         </span>
       </template>
 
@@ -77,9 +80,9 @@
         </span>
         <span v-if="item.receiverAddress">
           <span>-</span>
-          <span class="rounded bg-gray-100 px-2 py-1">
-            {{ item.receiverAddress }}
-          </span>
+          <CommonClipboard :value="item.receiverAddress">
+            {{ $_.truncate(item.receiverAddress) }}
+          </CommonClipboard>
         </span>
       </template>
     </CommonTable>
@@ -93,6 +96,7 @@ import { PaginationMeta, WhaleAlert } from '~/types/http/Entities'
 import { TableConfig } from '~/types/common/Table'
 import { useLoading } from '~/composables/loading'
 import { useFormat } from '~/composables/format'
+import { CURRENCY_SYMBOL } from '~/enums/common/Currency'
 
 const { isLoading, setIsLoading } = useLoading()
 const { $repositories, $toast, i18n } = useContext()
@@ -105,7 +109,7 @@ const config = ref<TableConfig>({
     {
       key: 'id',
       attribute: 'id',
-      label: 'ID',
+      label: 'common.table.head.id',
       headColClass:
         'whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6',
       bodyColClass:
@@ -114,37 +118,37 @@ const config = ref<TableConfig>({
     {
       key: 'currency',
       attribute: 'currency',
-      label: 'Currency'
+      label: 'pages.whaleAlerts.table.head.currency'
     },
     {
       key: 'hash',
       attribute: 'hash',
-      label: 'Hash'
+      label: 'pages.whaleAlerts.table.head.hash'
     },
     {
       key: 'amount',
       attribute: 'amount',
-      label: 'Amount'
+      label: 'pages.whaleAlerts.table.head.amount'
     },
     {
       key: 'amountUsd',
       attribute: 'amountUsd',
-      label: 'Amount USD'
+      label: 'pages.whaleAlerts.table.head.amountUsd'
     },
     {
       key: 'sender',
       attribute: 'senderAddress',
-      label: 'Sender'
+      label: 'pages.whaleAlerts.table.head.sender'
     },
     {
       key: 'receiver',
       attribute: 'receiverAddress',
-      label: 'Receiver'
+      label: 'pages.whaleAlerts.table.head.receiver'
     },
     {
       key: 'notifiedAt',
       attribute: 'notifiedAt',
-      label: 'Notified at',
+      label: 'pages.whaleAlerts.table.head.notifiedAt',
       headColClass:
         'whitespace-nowrap py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-6',
       bodyColClass:
@@ -152,7 +156,6 @@ const config = ref<TableConfig>({
     }
   ]
 })
-
 const data = ref<WhaleAlert[] | null>(null)
 const page = ref<number>(1)
 const pagination = ref<PaginationMeta | null>(null)
@@ -175,6 +178,18 @@ async function fetchWhaleAlerts(): Promise<void> {
     setIsLoading(false)
   }
 }
+function getHashHref(item: WhaleAlert): string {
+  switch (item.currency.symbol) {
+    case CURRENCY_SYMBOL.BNB:
+      return `https://bscscan.com/tx/${item.hash}`
+    case CURRENCY_SYMBOL.BTC:
+      return `https://www.blockchain.com/explorer/transactions/btc/${item.hash}`
+    case CURRENCY_SYMBOL.ETH:
+      return `https://www.blockchain.com/explorer/transactions/eth/${item.hash}`
+    case CURRENCY_SYMBOL.XRP:
+      return `https://blockchair.com/ripple/transaction/${item.hash}`
+  }
+}
 
 async function next(): Promise<void> {
   page.value++
@@ -183,6 +198,11 @@ async function next(): Promise<void> {
 
 async function previous(): Promise<void> {
   page.value--
+  await fetchWhaleAlerts()
+}
+
+async function paginate(pageNumber: number): Promise<void> {
+  page.value = pageNumber
   await fetchWhaleAlerts()
 }
 

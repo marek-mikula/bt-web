@@ -19,6 +19,9 @@
       "buttons": {
         "next": "Next",
         "previous": "Previous"
+      },
+      "head": {
+        "id": "ID"
       }
     },
     "buttons": {
@@ -174,7 +177,18 @@
   },
   "pages": {
     "whaleAlerts": {
-      "title": "Whale alerts"
+      "title": "Whale alerts",
+      "table": {
+        "head": {
+          "currency": "Currency",
+          "hash": "Hash",
+          "amount": "Amount",
+          "amountUsd": "Amount USD",
+          "sender": "Sender",
+          "receiver": "Receiver",
+          "notifiedAt": "Notified at"
+        }
+      }
     },
     "wallet": {
       "title": "Wallet",
@@ -308,6 +322,7 @@
   },
   "toasts": {
     "common": {
+      "clipboard": "Value has been copied to clipboard!",
       "formErrors": "There are some errors in the form.",
       "somethingWentWrong": "Oops! Something went wrong. Please contact support for more information.",
       "newNotifications": "You have a new notification! | You have new notifications! ({count})"
@@ -385,7 +400,8 @@
       "whaleAlert": "Whale alert"
     },
     "actions": {
-      "changeLimits": "Change limits"
+      "changeLimits": "Change limits",
+      "moreDetails": "More details"
     }
   },
   "template": {
