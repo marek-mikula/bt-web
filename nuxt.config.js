@@ -33,7 +33,7 @@ export default {
       class: 'h-full bg-gray-50'
     },
     bodyAttrs: {
-      class: 'h-full'
+      class: 'h-full overflow-x-hidden'
     },
     meta: [
       {

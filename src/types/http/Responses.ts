@@ -12,7 +12,8 @@ import {
   Alert,
   Limits,
   LimitsLock,
-  Asset
+  Asset,
+  WhaleAlert
 } from '~/types/http/Entities'
 
 export interface JsonResponse {
@@ -153,5 +154,12 @@ export interface AssetIndexResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
     assets: Asset[]
+  }
+}
+
+export interface WhaleAlertIndexResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    whaleAlerts: Pagination<WhaleAlert>
   }
 }

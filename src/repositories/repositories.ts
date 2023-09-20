@@ -9,6 +9,7 @@ import SearchRepository from '~/repositories/SearchRepository'
 import CryptocurrencyRepository from '~/repositories/CryptocurrencyRepository'
 import UserSettingsRepository from '~/repositories/UserSettingsRepository'
 import UserAssetRepository from '~/repositories/UserAssetRepository'
+import WhaleAlertRepository from '~/repositories/WhaleAlertRepository'
 
 export interface Repositories {
   auth: AuthRepository
@@ -21,6 +22,7 @@ export interface Repositories {
   dashboard: DashboardRepository
   search: SearchRepository
   cryptocurrency: CryptocurrencyRepository
+  whaleAlert: WhaleAlertRepository
 }
 
 export function createRepositories(ctx: Context): Repositories {
@@ -37,6 +39,7 @@ export function createRepositories(ctx: Context): Repositories {
     userAsset: new UserAssetRepository(ctx, '/api/user/assets'),
     dashboard: new DashboardRepository(ctx, '/api/dashboard'),
     search: new SearchRepository(ctx, '/api/search'),
-    cryptocurrency: new CryptocurrencyRepository(ctx, '/api/cryptocurrencies')
+    cryptocurrency: new CryptocurrencyRepository(ctx, '/api/cryptocurrencies'),
+    whaleAlert: new WhaleAlertRepository(ctx, '/api/whale-alerts')
   }
 }

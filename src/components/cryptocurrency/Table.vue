@@ -170,25 +170,21 @@
                     </td>
                   </tr>
                 </template>
-
-                <!-- loading button -->
-                <tr>
-                  <td colspan="8">
-                    <div class="flex items-center justify-center p-4">
-                      <CommonButton
-                        :is-loading="isLoading"
-                        color="primary"
-                        @click="fetchCryptocurrencies"
-                      >
-                        {{ $t('common.buttons.loadMore') }}
-                      </CommonButton>
-                    </div>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
         </div>
+      </div>
+
+      <!-- loading button -->
+      <div class="flex items-center justify-center p-4">
+        <CommonButton
+          :is-loading="isLoading"
+          color="primary"
+          @click="fetchCryptocurrencies"
+        >
+          {{ $t('common.buttons.loadMore') }}
+        </CommonButton>
       </div>
     </div>
   </div>

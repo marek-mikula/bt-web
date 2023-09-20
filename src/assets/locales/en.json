@@ -14,7 +14,12 @@
     },
     "table": {
       "found": "Found {count} result | Found {count} results",
-      "showing": "Showing {count} result | Showing {count} results"
+      "showing": "Showing {count} result | Showing {count} results",
+      "results": "Showing {from} to {to} of {total} results",
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous"
+      }
     },
     "buttons": {
       "save": "Save",
@@ -96,7 +101,7 @@
         "notifications": {
           "whale": {
             "label": "Whale alerts",
-            "hint": "Term \"whale\" represents the big players in crypto markets. Once once of these whales makes a transaction above or equal $1,000,000, you will get a notification."
+            "hint": "Term \"whale\" represents the big players in crypto markets. Once one of these whales makes a transaction above or equal $1,000,000, you will get a notification. Currently only these cryptocurrencies are supported: BTC, ETH, XRP and BNB."
           }
         },
         "limits": {
@@ -168,6 +173,9 @@
     }
   },
   "pages": {
+    "whaleAlerts": {
+      "title": "Whale alerts"
+    },
     "wallet": {
       "title": "Wallet",
       "lastSyncAt": "Last sync at {datetime}",
@@ -373,7 +381,8 @@
     "domain": {
       "user": "User",
       "alert": "Alert",
-      "limits": "Limits"
+      "limits": "Limits",
+      "whaleAlert": "Whale alert"
     },
     "actions": {
       "changeLimits": "Change limits"
