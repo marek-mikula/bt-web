@@ -233,4 +233,5 @@ export interface WhaleAlert {
   receiverAddress: 'multiple' | string | null
   receiverName: string | null
   notifiedAt: string | null
+  transactionAt: string
 }

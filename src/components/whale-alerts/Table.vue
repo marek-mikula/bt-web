@@ -175,13 +175,18 @@ const config = ref<TableConfig>({
       label: 'pages.whaleAlerts.table.head.receiver'
     },
     {
+      key: 'transactionAt',
+      attribute: 'transactionAt',
+      label: 'pages.whaleAlerts.table.head.transactionAt'
+    },
+    {
       key: 'notifiedAt',
       attribute: 'notifiedAt',
       label: 'pages.whaleAlerts.table.head.notifiedAt',
       headColClass:
         'whitespace-nowrap py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-6',
       bodyColClass:
-        'whitespace-nowrap text-right py-4 pl-3 pr-4 text-sm font-medium text-gray-900 sm:pr-6'
+        'whitespace-nowrap text-right py-4 pl-3 pr-4 text-sm text-gray-500 sm:pr-6'
     }
   ]
 })

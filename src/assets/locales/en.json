@@ -187,6 +187,7 @@
           "amountUsd": "Amount USD",
           "sender": "Sender",
           "receiver": "Receiver",
+          "transactionAt": "Date of transaction",
           "notifiedAt": "Notified at"
         },
         "body": {
