@@ -188,6 +188,11 @@
           "sender": "Sender",
           "receiver": "Receiver",
           "notifiedAt": "Notified at"
+        },
+        "body": {
+          "unknownSender": "Unknown sender",
+          "unknownReceiver": "Unknown receiver",
+          "multipleAddresses": "Multiple addresses"
         }
       }
     },

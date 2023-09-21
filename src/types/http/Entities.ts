@@ -228,9 +228,9 @@ export interface WhaleAlert {
   hash: string
   amount: number
   amountUsd: number
-  senderAddress: string | null
+  senderAddress: 'multiple' | string | null
   senderName: string | null
-  receiverAddress: string | null
+  receiverAddress: 'multiple' | string | null
   receiverName: string | null
   notifiedAt: string | null
 }

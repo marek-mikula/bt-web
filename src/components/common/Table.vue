@@ -155,11 +155,12 @@
               </svg>
             </button>
 
-            <a
+            <button
               v-for="page in pages"
               :key="page"
-              href="#"
+              type="button"
               :aria-current="page === pagination.currentPage ? 'page' : null"
+              :disabled="page === pagination.currentPage"
               :class="{
                 'relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600':
                   page === pagination.currentPage,
@@ -169,7 +170,7 @@
               @click.prevent="paginate(page)"
             >
               {{ page }}
-            </a>
+            </button>
 
             <!-- next button -->
             <button

@@ -53,26 +53,66 @@
     </template>
 
     <template #bodySender="{ item }">
-      <span class="font-semibold">
-        {{ $_.capitalize(item.senderName) }}
-      </span>
-      <span v-if="item.senderAddress">
+      <span v-if="item.senderName && item.senderAddress">
+        <span class="font-semibold">
+          {{ $_.capitalize(item.senderName) }}
+        </span>
         <span>-</span>
-        <CommonClipboard :value="item.senderAddress">
+        <span v-if="item.senderAddress === 'multiple'">
+          {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
+        </span>
+        <CommonClipboard v-else :value="item.senderAddress">
           {{ $_.truncate(item.senderAddress) }}
         </CommonClipboard>
+      </span>
+
+      <span v-else-if="item.senderName" class="font-semibold">
+        {{ $_.capitalize(item.senderName) }}
+      </span>
+
+      <span v-else-if="item.senderAddress">
+        <span v-if="item.senderAddress === 'multiple'">
+          {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
+        </span>
+        <CommonClipboard v-else :value="item.senderAddress">
+          {{ $_.truncate(item.senderAddress) }}
+        </CommonClipboard>
+      </span>
+
+      <span v-else>
+        {{ $t('pages.whaleAlerts.table.body.unknownSender') }}
       </span>
     </template>
 
     <template #bodyReceiver="{ item }">
-      <span class="font-semibold">
-        {{ $_.capitalize(item.receiverName) }}
-      </span>
-      <span v-if="item.receiverAddress">
+      <span v-if="item.receiverName && item.receiverAddress">
+        <span class="font-semibold">
+          {{ $_.capitalize(item.receiverName) }}
+        </span>
         <span>-</span>
-        <CommonClipboard :value="item.receiverAddress">
+        <span v-if="item.receiverAddress === 'multiple'">
+          {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
+        </span>
+        <CommonClipboard v-else :value="item.receiverAddress">
           {{ $_.truncate(item.receiverAddress) }}
         </CommonClipboard>
+      </span>
+
+      <span v-else-if="item.receiverName" class="font-semibold">
+        {{ $_.capitalize(item.receiverName) }}
+      </span>
+
+      <span v-else-if="item.receiverAddress">
+        <span v-if="item.receiverAddress === 'multiple'">
+          {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
+        </span>
+        <CommonClipboard v-else :value="item.receiverAddress">
+          {{ $_.truncate(item.receiverAddress) }}
+        </CommonClipboard>
+      </span>
+
+      <span v-else>
+        {{ $t('pages.whaleAlerts.table.body.unknownReceiver') }}
       </span>
     </template>
   </CommonTable>
