@@ -53,67 +53,45 @@
     </template>
 
     <template #bodySender="{ item }">
-      <span v-if="item.senderName && item.senderAddress">
-        <span class="font-semibold">
-          {{ $_.capitalize(item.senderName) }}
-        </span>
-        <span>-</span>
-        <span v-if="item.senderAddress === 'multiple'">
-          {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
-        </span>
-        <CommonClipboard v-else :value="item.senderAddress">
-          {{ $_.truncate(item.senderAddress) }}
-        </CommonClipboard>
-      </span>
-
-      <span v-else-if="item.senderName" class="font-semibold">
+      <span v-if="item.senderName" class="font-semibold">
         {{ $_.capitalize(item.senderName) }}
       </span>
-
-      <span v-else-if="item.senderAddress">
-        <span v-if="item.senderAddress === 'multiple'">
-          {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
-        </span>
-        <CommonClipboard v-else :value="item.senderAddress">
-          {{ $_.truncate(item.senderAddress) }}
-        </CommonClipboard>
-      </span>
-
       <span v-else>
-        {{ $t('pages.whaleAlerts.table.body.unknownSender') }}
+        {{ $t('common.unknown') }}
       </span>
     </template>
 
-    <template #bodyReceiver="{ item }">
-      <span v-if="item.receiverName && item.receiverAddress">
-        <span class="font-semibold">
-          {{ $_.capitalize(item.receiverName) }}
-        </span>
-        <span>-</span>
-        <span v-if="item.receiverAddress === 'multiple'">
-          {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
-        </span>
-        <CommonClipboard v-else :value="item.receiverAddress">
-          {{ $_.truncate(item.receiverAddress) }}
-        </CommonClipboard>
+    <template #bodySenderAddress="{ item }">
+      <span v-if="!item.senderAddress">
+        {{ $t('common.unknown') }}
       </span>
+      <span v-else-if="item.senderAddress === 'multiple'">
+        {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
+      </span>
+      <CommonClipboard v-else :value="item.senderAddress">
+        {{ $_.truncate(item.senderAddress) }}
+      </CommonClipboard>
+    </template>
 
-      <span v-else-if="item.receiverName" class="font-semibold">
+    <template #bodyReceiver="{ item }">
+      <span v-if="item.receiverName" class="font-semibold">
         {{ $_.capitalize(item.receiverName) }}
       </span>
-
-      <span v-else-if="item.receiverAddress">
-        <span v-if="item.receiverAddress === 'multiple'">
-          {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
-        </span>
-        <CommonClipboard v-else :value="item.receiverAddress">
-          {{ $_.truncate(item.receiverAddress) }}
-        </CommonClipboard>
-      </span>
-
       <span v-else>
-        {{ $t('pages.whaleAlerts.table.body.unknownReceiver') }}
+        {{ $t('common.unknown') }}
       </span>
+    </template>
+
+    <template #bodyReceiverAddress="{ item }">
+      <span v-if="!item.receiverAddress">
+        {{ $t('common.unknown') }}
+      </span>
+      <span v-else-if="item.receiverAddress === 'multiple'">
+        {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
+      </span>
+      <CommonClipboard v-else :value="item.receiverAddress">
+        {{ $_.truncate(item.receiverAddress) }}
+      </CommonClipboard>
     </template>
   </CommonTable>
 </template>
@@ -166,13 +144,23 @@ const config = ref<TableConfig>({
     },
     {
       key: 'sender',
-      attribute: 'senderAddress',
+      attribute: 'sender',
       label: 'pages.whaleAlerts.table.head.sender'
     },
     {
+      key: 'senderAddress',
+      attribute: 'senderAddress',
+      label: 'pages.whaleAlerts.table.head.senderAddress'
+    },
+    {
       key: 'receiver',
-      attribute: 'receiverAddress',
+      attribute: 'receiver',
       label: 'pages.whaleAlerts.table.head.receiver'
+    },
+    {
+      key: 'receiverAddress',
+      attribute: 'receiverAddress',
+      label: 'pages.whaleAlerts.table.head.receiverAddress'
     },
     {
       key: 'transactionAt',
