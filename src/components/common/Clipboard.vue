@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="rounded bg-gray-100 px-2 py-1 text-xs hover:bg-gray-200"
+    class="rounded border border-dashed border-gray-300 px-2 py-1 text-xs hover:bg-gray-100"
     @click.prevent="copy"
   >
     <span class="flex items-center">
