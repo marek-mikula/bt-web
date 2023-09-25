@@ -114,28 +114,6 @@ export interface SearchResult {
   priceCurrency: string
 }
 
-export interface Cryptocurrency {
-  id: number
-  name: string
-  symbol: string
-  iconUrl: string
-  infiniteSupply: boolean
-  totalSupply: number
-  circulatingSupply: number
-  maxSupply: number
-  price: number
-  priceChange1h: number
-  priceChange24h: number
-  priceChange7d: number
-  priceChange30d: number
-  priceChange60d: number
-  priceChange90d: number
-  marketCap: number
-  volume24h: number
-  volumeChange24h: number
-  currency: string
-}
-
 export interface Alert {
   id: number
   userId: number
@@ -234,4 +212,23 @@ export interface WhaleAlert {
   receiverName: string | null
   notifiedAt: string | null
   transactionAt: string
+}
+
+export interface Cryptocurrency {
+  currency: Currency
+  quoteCurrency: string
+  infiniteSupply: boolean
+  totalSupply: number
+  circulatingSupply: number
+  maxSupply: number
+  price: number
+  priceChange1h: number
+  priceChange24h: number
+  priceChange7d: number
+  priceChange30d: number
+  priceChange60d: number
+  priceChange90d: number
+  marketCap: number
+  volume24h: number
+  volumeChange24h: number
 }

@@ -8,7 +8,7 @@
     @previous="previous"
     @paginate="paginate"
   >
-    <template #bodyCurrency="{ item }">
+    <template #body-currency="{ item }">
       <NuxtLink
         class="ml-1 hover:text-indigo-600 hover:underline"
         :to="`/app/cryptocurrencies/${item.currency.id}`"
@@ -17,7 +17,7 @@
       </NuxtLink>
     </template>
 
-    <template #bodyHash="{ item }">
+    <template #body-hash="{ item }">
       <span class="flex items-center">
         <CommonClipboard :value="item.hash">
           {{ $_.truncate(item.hash) }}
@@ -44,15 +44,15 @@
       </span>
     </template>
 
-    <template #bodyAmount="{ item }">
+    <template #body-amount="{ item }">
       {{ formatCryptocurrency(item.amount, item.currency.symbol) }}
     </template>
 
-    <template #bodyAmountUsd="{ item }">
+    <template #body-amountUsd="{ item }">
       {{ formatCurrency(item.amountUsd, 'USD') }}
     </template>
 
-    <template #bodySender="{ item }">
+    <template #body-sender="{ item }">
       <span v-if="item.senderName" class="font-semibold">
         {{ $_.capitalize(item.senderName) }}
       </span>
@@ -61,7 +61,7 @@
       </span>
     </template>
 
-    <template #bodySenderAddress="{ item }">
+    <template #body-senderAddress="{ item }">
       <span v-if="!item.senderAddress">
         {{ $t('common.unknown') }}
       </span>
@@ -73,7 +73,7 @@
       </CommonClipboard>
     </template>
 
-    <template #bodyReceiver="{ item }">
+    <template #body-receiver="{ item }">
       <span v-if="item.receiverName" class="font-semibold">
         {{ $_.capitalize(item.receiverName) }}
       </span>
@@ -82,7 +82,7 @@
       </span>
     </template>
 
-    <template #bodyReceiverAddress="{ item }">
+    <template #body-receiverAddress="{ item }">
       <span v-if="!item.receiverAddress">
         {{ $t('common.unknown') }}
       </span>

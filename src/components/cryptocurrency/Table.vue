@@ -1,232 +1,151 @@
 <template>
-  <div class="px-4 sm:px-0">
-    <div class="flow-root">
-      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-          <div
-            class="overflow-hidden shadow ring-1 ring-gray-200 sm:rounded-lg"
-          >
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th
-                    scope="col"
-                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                  >
-                    {{ $t('pages.cryptocurrency.list.table.name') }}
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    {{ $t('pages.cryptocurrency.list.table.price') }}
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    {{ $t('pages.cryptocurrency.list.table.1hChange') }}
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    {{ $t('pages.cryptocurrency.list.table.24hChange') }}
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    {{ $t('pages.cryptocurrency.list.table.7dChange') }}
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    {{ $t('pages.cryptocurrency.list.table.marketCap') }}
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    {{ $t('pages.cryptocurrency.list.table.volume24h') }}
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    {{
-                      $t('pages.cryptocurrency.list.table.circulatingSupply')
-                    }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 bg-white">
-                <!-- list of cryptocurrencies -->
-                <template v-if="cryptocurrencies?.length > 0">
-                  <tr
-                    v-for="cryptocurrency in cryptocurrencies"
-                    :key="cryptocurrency.id"
-                    class="cursor-pointer hover:bg-gray-50"
-                    @click="
-                      redirect({
-                        path: `/app/cryptocurrencies/${cryptocurrency.id}`
-                      })
-                    "
-                  >
-                    <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
-                      <div class="flex items-center">
-                        <div class="h-8 w-8 flex-shrink-0">
-                          <img
-                            class="h-8 w-8 rounded-full"
-                            loading="lazy"
-                            :src="cryptocurrency.iconUrl"
-                            :alt="cryptocurrency.name + ' logo'"
-                          />
-                        </div>
-                        <div class="ml-4">
-                          <div class="text-sm">
-                            <span class="text-gray-900">
-                              {{ cryptocurrency.name }}
-                            </span>
-                            <span class="ml-1 text-gray-300">
-                              {{ cryptocurrency.symbol.toUpperCase() }}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td
-                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                    >
-                      {{
-                        formatCurrency(
-                          cryptocurrency.price,
-                          cryptocurrency.currency
-                        )
-                      }}
-                    </td>
-
-                    <td
-                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                    >
-                      <CryptocurrencyChangeBadge
-                        :value="cryptocurrency.priceChange1h"
-                      />
-                    </td>
-
-                    <td
-                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                    >
-                      <CryptocurrencyChangeBadge
-                        :value="cryptocurrency.priceChange24h"
-                      />
-                    </td>
-
-                    <td
-                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                    >
-                      <CryptocurrencyChangeBadge
-                        :value="cryptocurrency.priceChange7d"
-                      />
-                    </td>
-
-                    <td
-                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                    >
-                      {{
-                        formatCurrency(
-                          cryptocurrency.marketCap,
-                          cryptocurrency.currency
-                        )
-                      }}
-                    </td>
-
-                    <td
-                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                    >
-                      {{
-                        formatCurrency(
-                          cryptocurrency.volume24h,
-                          cryptocurrency.currency
-                        )
-                      }}
-                      <CryptocurrencyChangeBadge
-                        class="ml-1"
-                        :value="cryptocurrency.volumeChange24h"
-                      />
-                    </td>
-
-                    <td
-                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                    >
-                      {{
-                        formatCryptocurrency(
-                          cryptocurrency.circulatingSupply,
-                          cryptocurrency.symbol
-                        )
-                      }}
-                    </td>
-                  </tr>
-                </template>
-              </tbody>
-            </table>
+  <CommonTable
+    :data="data"
+    :pagination="pagination"
+    :config="config"
+    :is-loading="isLoading"
+    clickable
+    @next="next"
+    @previous="previous"
+    @paginate="paginate"
+    @rowClicked="redirectToDetail"
+  >
+    <template #body-currency="{ item }">
+      <div class="flex items-center">
+        <div class="h-8 w-8 flex-shrink-0">
+          <img
+            class="h-8 w-8 rounded-full"
+            loading="lazy"
+            :src="item.currency.meta.logo"
+            :alt="item.currency.name + ' logo'"
+          />
+        </div>
+        <div class="ml-4">
+          <div class="text-sm">
+            <span class="text-gray-900">
+              {{ item.currency.name }}
+            </span>
+            <span class="ml-1 text-gray-300">
+              {{ item.currency.symbol.toUpperCase() }}
+            </span>
           </div>
         </div>
       </div>
+    </template>
 
-      <!-- loading button -->
-      <div class="flex items-center justify-center p-4">
-        <CommonButton
-          :is-loading="isLoading"
-          color="primary"
-          @click="fetchCryptocurrencies"
-        >
-          {{ $t('common.buttons.loadMore') }}
-        </CommonButton>
-      </div>
-    </div>
-  </div>
+    <template #body-price="{ item }">
+      {{ formatCurrency(item.price, item.quoteCurrency) }}
+    </template>
+
+    <template #body-priceChange1h="{ item }">
+      <CryptocurrencyChangeBadge :value="item.priceChange1h" />
+    </template>
+
+    <template #body-priceChange24h="{ item }">
+      <CryptocurrencyChangeBadge :value="item.priceChange24h" />
+    </template>
+
+    <template #body-priceChange7d="{ item }">
+      <CryptocurrencyChangeBadge :value="item.priceChange7d" />
+    </template>
+
+    <template #body-marketCap="{ item }">
+      {{ formatCurrency(item.marketCap, item.quoteCurrency) }}
+    </template>
+
+    <template #body-volume24h="{ item }">
+      {{ formatCurrency(item.volume24h, item.quoteCurrency) }}
+      <CryptocurrencyChangeBadge class="ml-1" :value="item.volumeChange24h" />
+    </template>
+
+    <template #body-circulatingSupply="{ item }">
+      {{ formatCryptocurrency(item.circulatingSupply, item.currency.symbol) }}
+    </template>
+  </CommonTable>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { onMounted, useContext } from '@nuxtjs/composition-api'
-import { Cryptocurrency } from '~/types/http/Entities'
+import { Cryptocurrency, PaginationMeta } from '~/types/http/Entities'
 import { useLoading } from '~/composables/loading'
 import { useFormat } from '~/composables/format'
+import { TableConfig } from '~/types/common/Table'
 import { useRedirect } from '~/composables/redirect'
 
-const { isLoading, setIsLoading } = useLoading()
 const { redirect } = useRedirect()
+const { isLoading, setIsLoading } = useLoading()
 const { $repositories, $toast, i18n } = useContext()
 const { formatCurrency, formatCryptocurrency } = useFormat()
 
-const page = ref<number>(0)
-const end = ref<boolean>(false)
-const cryptocurrencies = ref<null | Cryptocurrency[]>(null)
+const config = ref<TableConfig>({
+  unique: 'id',
+  emptyLabel: 'common.table.noData',
+  columns: [
+    {
+      key: 'currency',
+      attribute: 'currency',
+      label: 'pages.cryptocurrency.list.table.name',
+      headColClass:
+        'whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6',
+      bodyColClass:
+        'whitespace-nowrap text-left py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6'
+    },
+    {
+      key: 'price',
+      attribute: 'price',
+      label: 'pages.cryptocurrency.list.table.price'
+    },
+    {
+      key: 'priceChange1h',
+      attribute: 'priceChange1h',
+      label: 'pages.cryptocurrency.list.table.1hChange'
+    },
+    {
+      key: 'priceChange24h',
+      attribute: 'priceChange24h',
+      label: 'pages.cryptocurrency.list.table.24hChange'
+    },
+    {
+      key: 'priceChange7d',
+      attribute: 'priceChange7d',
+      label: 'pages.cryptocurrency.list.table.7dChange'
+    },
+    {
+      key: 'marketCap',
+      attribute: 'marketCap',
+      label: 'pages.cryptocurrency.list.table.marketCap'
+    },
+    {
+      key: 'volume24h',
+      attribute: 'volume24h',
+      label: 'pages.cryptocurrency.list.table.volume24h'
+    },
+    {
+      key: 'circulatingSupply',
+      attribute: 'circulatingSupply',
+      label: 'pages.cryptocurrency.list.table.circulatingSupply',
+      headColClass:
+        'whitespace-nowrap py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-6',
+      bodyColClass:
+        'whitespace-nowrap text-right py-4 pl-3 pr-4 text-sm text-gray-500 sm:pr-6'
+    }
+  ]
+})
+const data = ref<Cryptocurrency[] | null>(null)
+const page = ref<number>(1)
+const pagination = ref<PaginationMeta | null>(null)
 
 async function fetchCryptocurrencies(): Promise<void> {
   setIsLoading(true)
 
   try {
-    page.value += 1
+    const { cryptocurrencies } = await $repositories.cryptocurrency
+      .index(page.value)
+      .then((response) => response.data.data)
 
-    const response = await $repositories.cryptocurrency.index(page.value)
-
-    const { data, meta } = response.data.data.cryptocurrencies
-
-    // append current page cryptocurrencies
-    // to the cryptocurrencies array if the page
-    // is not the first one
-    if (page.value === 1) {
-      cryptocurrencies.value = data
-    } else {
-      cryptocurrencies.value = [...(cryptocurrencies.value ?? []), ...data]
-    }
-
-    end.value = meta.end
+    data.value = cryptocurrencies.data
+    pagination.value = cryptocurrencies.meta
   } catch (e: any) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
@@ -234,6 +153,25 @@ async function fetchCryptocurrencies(): Promise<void> {
   } finally {
     setIsLoading(false)
   }
+}
+
+async function next(): Promise<void> {
+  page.value++
+  await fetchCryptocurrencies()
+}
+
+async function previous(): Promise<void> {
+  page.value--
+  await fetchCryptocurrencies()
+}
+
+async function paginate(pageNumber: number): Promise<void> {
+  page.value = pageNumber
+  await fetchCryptocurrencies()
+}
+
+async function redirectToDetail(item: Cryptocurrency): Promise<void> {
+  await redirect({ path: `/app/cryptocurrencies/${item.currency.id}` })
 }
 
 onMounted(async (): Promise<void> => {

@@ -102,14 +102,7 @@ export interface SearchResponse extends JsonResponse {
 export interface CryptocurrencyIndexResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
-    cryptocurrencies: {
-      data: Cryptocurrency[]
-      meta: {
-        page: number
-        perPage: number
-        end: boolean
-      }
-    }
+    cryptocurrencies: Pagination<Cryptocurrency>
   }
 }
 
