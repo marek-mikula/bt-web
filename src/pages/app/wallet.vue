@@ -85,7 +85,9 @@
             </div>
 
             <CommonDropdown
-              v-if="asset.isSupported"
+              v-if="
+                asset.isSupported && asset.currency && !asset.currency.isFiat
+              "
               class="relative ml-auto"
               :identifier="`asset-dropdown-${asset.id}`"
               horizontal="right"

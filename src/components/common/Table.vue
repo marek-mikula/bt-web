@@ -26,10 +26,7 @@
                     'whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
                   "
                 >
-                  <slot
-                    :name="$_.camelCase(`head-${column.key}`)"
-                    :column="column"
-                  >
+                  <slot :name="`head-${column.key}`" :column="column">
                     {{ trans(column.label) }}
                   </slot>
                 </th>
@@ -43,6 +40,10 @@
                 <tr
                   v-for="item in data"
                   :key="`row-${$_.get(item, config.unique)}`"
+                  :class="{
+                    'cursor-pointer hover:bg-gray-50': clickable
+                  }"
+                  @click="handleRowClick(item)"
                 >
                   <td
                     v-for="column in config.columns"
@@ -53,7 +54,7 @@
                     "
                   >
                     <slot
-                      :name="$_.camelCase(`body-${column.key}`)"
+                      :name="`body-${column.key}`"
                       :column="column"
                       :item="item"
                     >
@@ -155,11 +156,12 @@
               </svg>
             </button>
 
-            <a
+            <button
               v-for="page in pages"
               :key="page"
-              href="#"
+              type="button"
               :aria-current="page === pagination.currentPage ? 'page' : null"
+              :disabled="page === pagination.currentPage"
               :class="{
                 'relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600':
                   page === pagination.currentPage,
@@ -169,7 +171,7 @@
               @click.prevent="paginate(page)"
             >
               {{ page }}
-            </a>
+            </button>
 
             <!-- next button -->
             <button
@@ -215,10 +217,12 @@ const props = withDefaults(
     data: object[] | null
     pagination?: PaginationMeta | null
     isLoading?: boolean
+    clickable?: boolean
   }>(),
   {
     pagination: null,
-    isLoading: false
+    isLoading: false,
+    clickable: false
   }
 )
 
@@ -265,6 +269,7 @@ const emit = defineEmits<{
   (e: 'next'): void
   (e: 'previous'): void
   (e: 'paginate', pageNumber: number): void
+  (e: 'rowClicked', item: any): void
 }>()
 
 const isNextButtonEnabled = computed(
@@ -304,6 +309,14 @@ function paginate(pageNumber: number): void {
   }
 
   emit('paginate', pageNumber)
+}
+
+function handleRowClick(item: any): void {
+  if (!props.clickable) {
+    return
+  }
+
+  emit('rowClicked', item)
 }
 </script>
 

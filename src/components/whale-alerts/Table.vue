@@ -8,7 +8,7 @@
     @previous="previous"
     @paginate="paginate"
   >
-    <template #bodyCurrency="{ item }">
+    <template #body-currency="{ item }">
       <NuxtLink
         class="ml-1 hover:text-indigo-600 hover:underline"
         :to="`/app/cryptocurrencies/${item.currency.id}`"
@@ -17,7 +17,7 @@
       </NuxtLink>
     </template>
 
-    <template #bodyHash="{ item }">
+    <template #body-hash="{ item }">
       <span class="flex items-center">
         <CommonClipboard :value="item.hash">
           {{ $_.truncate(item.hash) }}
@@ -44,36 +44,54 @@
       </span>
     </template>
 
-    <template #bodyAmount="{ item }">
+    <template #body-amount="{ item }">
       {{ formatCryptocurrency(item.amount, item.currency.symbol) }}
     </template>
 
-    <template #bodyAmountUsd="{ item }">
+    <template #body-amountUsd="{ item }">
       {{ formatCurrency(item.amountUsd, 'USD') }}
     </template>
 
-    <template #bodySender="{ item }">
-      <span class="font-semibold">
+    <template #body-sender="{ item }">
+      <span v-if="item.senderName" class="font-semibold">
         {{ $_.capitalize(item.senderName) }}
       </span>
-      <span v-if="item.senderAddress">
-        <span>-</span>
-        <CommonClipboard :value="item.senderAddress">
-          {{ $_.truncate(item.senderAddress) }}
-        </CommonClipboard>
+      <span v-else>
+        {{ $t('common.unknown') }}
       </span>
     </template>
 
-    <template #bodyReceiver="{ item }">
-      <span class="font-semibold">
+    <template #body-senderAddress="{ item }">
+      <span v-if="!item.senderAddress">
+        {{ $t('common.unknown') }}
+      </span>
+      <span v-else-if="item.senderAddress === 'multiple'">
+        {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
+      </span>
+      <CommonClipboard v-else :value="item.senderAddress">
+        {{ $_.truncate(item.senderAddress) }}
+      </CommonClipboard>
+    </template>
+
+    <template #body-receiver="{ item }">
+      <span v-if="item.receiverName" class="font-semibold">
         {{ $_.capitalize(item.receiverName) }}
       </span>
-      <span v-if="item.receiverAddress">
-        <span>-</span>
-        <CommonClipboard :value="item.receiverAddress">
-          {{ $_.truncate(item.receiverAddress) }}
-        </CommonClipboard>
+      <span v-else>
+        {{ $t('common.unknown') }}
       </span>
+    </template>
+
+    <template #body-receiverAddress="{ item }">
+      <span v-if="!item.receiverAddress">
+        {{ $t('common.unknown') }}
+      </span>
+      <span v-else-if="item.receiverAddress === 'multiple'">
+        {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
+      </span>
+      <CommonClipboard v-else :value="item.receiverAddress">
+        {{ $_.truncate(item.receiverAddress) }}
+      </CommonClipboard>
     </template>
   </CommonTable>
 </template>
@@ -126,13 +144,28 @@ const config = ref<TableConfig>({
     },
     {
       key: 'sender',
-      attribute: 'senderAddress',
+      attribute: 'sender',
       label: 'pages.whaleAlerts.table.head.sender'
     },
     {
+      key: 'senderAddress',
+      attribute: 'senderAddress',
+      label: 'pages.whaleAlerts.table.head.senderAddress'
+    },
+    {
       key: 'receiver',
-      attribute: 'receiverAddress',
+      attribute: 'receiver',
       label: 'pages.whaleAlerts.table.head.receiver'
+    },
+    {
+      key: 'receiverAddress',
+      attribute: 'receiverAddress',
+      label: 'pages.whaleAlerts.table.head.receiverAddress'
+    },
+    {
+      key: 'transactionAt',
+      attribute: 'transactionAt',
+      label: 'pages.whaleAlerts.table.head.transactionAt'
     },
     {
       key: 'notifiedAt',
@@ -141,7 +174,7 @@ const config = ref<TableConfig>({
       headColClass:
         'whitespace-nowrap py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-6',
       bodyColClass:
-        'whitespace-nowrap text-right py-4 pl-3 pr-4 text-sm font-medium text-gray-900 sm:pr-6'
+        'whitespace-nowrap text-right py-4 pl-3 pr-4 text-sm text-gray-500 sm:pr-6'
     }
   ]
 })

@@ -51,6 +51,7 @@
       }
     },
     "empty": "Nothing is here.",
+    "unknown": "Unknown",
     "notification": {
       "channels": {
         "mail": "Mail",
@@ -186,8 +187,14 @@
           "amount": "Amount",
           "amountUsd": "Amount USD",
           "sender": "Sender",
+          "senderAddress": "Sender address",
           "receiver": "Receiver",
+          "receiverAddress": "Receiver address",
+          "transactionAt": "Date of transaction",
           "notifiedAt": "Notified at"
+        },
+        "body": {
+          "multipleAddresses": "Multiple addresses"
         }
       }
     },
