@@ -214,9 +214,8 @@ export interface WhaleAlert {
   transactionAt: string
 }
 
-export interface Cryptocurrency {
-  currency: Currency
-  quoteCurrency: string
+export interface Quote {
+  currency: string
   infiniteSupply: boolean
   totalSupply: number
   circulatingSupply: number
@@ -231,4 +230,9 @@ export interface Cryptocurrency {
   marketCap: number
   volume24h: number
   volumeChange24h: number
+}
+
+export interface Cryptocurrency {
+  currency: Currency
+  quote: Quote
 }
