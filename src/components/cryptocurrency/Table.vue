@@ -34,7 +34,7 @@
     </template>
 
     <template #body-price="{ item }">
-      {{ formatCurrency(item.price, item.quote.currency) }}
+      {{ formatCurrency(item.quote.price, item.quote.currency) }}
     </template>
 
     <template #body-priceChange1h="{ item }">
@@ -84,7 +84,7 @@ const { $repositories, $toast, i18n } = useContext()
 const { formatCurrency, formatCryptocurrency } = useFormat()
 
 const config = ref<TableConfig>({
-  unique: 'id',
+  unique: 'currency.cmcId',
   emptyLabel: 'common.table.noData',
   columns: [
     {
