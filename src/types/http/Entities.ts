@@ -238,6 +238,8 @@ export interface News {
   url: string
   createdAt: string
   publishedAt: string
+  sourceName: string
+  sourceUrl: string
 }
 
 export interface CryptocurrencyList {

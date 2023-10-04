@@ -113,16 +113,15 @@
         <div
           class="mx-auto grid max-w-2xl grid-cols-1 grid-rows-1 items-start gap-x-8 gap-y-8 lg:mx-0 lg:max-w-none lg:grid-cols-3"
         >
-          <!-- Invoice summary -->
+          <!-- cryptocurrency side panel -->
           <div class="lg:col-start-3 lg:row-end-1">
-            <h2 class="sr-only">Summary</h2>
             <div
               class="rounded bg-white shadow-sm ring-1 ring-gray-200 md:rounded-lg"
             >
               <dl class="flex flex-wrap">
                 <div class="flex-auto pl-6 pt-6">
                   <dt class="text-sm font-semibold leading-6 text-gray-900">
-                    Amount
+                    Price
                   </dt>
                   <dd
                     class="mt-1 text-base font-semibold leading-6 text-gray-900"
@@ -465,7 +464,10 @@
                         <div
                           class="text-sm leading-6 group-hover:text-indigo-600 group-hover:underline"
                         >
-                          {{ news.title }}
+                          <span class="font-semibold"
+                            >{{ news.sourceName }}:</span
+                          >
+                          <span class="italic">{{ news.title }}</span>
                         </div>
 
                         <div class="text-xs text-gray-400">
