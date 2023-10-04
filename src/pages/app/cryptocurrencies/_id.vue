@@ -383,11 +383,11 @@
                       :key="whaleAlert.id"
                       class="flex items-center justify-between space-y-2 py-2 px-3 text-sm leading-6"
                     >
-                      <div class="flex gap-x-2">
+                      <div class="flex items-center gap-x-1">
                         <span class="truncate font-medium">
                           {{ formatCurrency(whaleAlert.amountUsd, 'USD') }}
                         </span>
-                        <span class="text-gray-300">
+                        <span class="text-xs text-gray-300">
                           {{
                             formatCryptocurrency(
                               whaleAlert.amount,
