@@ -217,13 +217,28 @@
           <div class="space-y-8 lg:col-span-2 lg:row-span-2 lg:row-end-2">
             <!-- general information -->
             <div
-              class="overflow-hidden rounded bg-white bg-white shadow-sm shadow ring-1 ring-gray-200 sm:rounded-lg md:rounded-lg"
+              class="overflow-hidden rounded bg-white shadow-sm shadow ring-1 ring-gray-200 sm:rounded-lg md:rounded-lg"
             >
               <div class="px-4 py-6 sm:px-6">
                 <h2
-                  class="mb-4 text-base font-semibold leading-7 text-gray-900"
+                  class="mb-4 flex items-center text-base font-semibold leading-7 text-gray-900"
                 >
-                  General information
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="mr-2 h-5 w-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                    />
+                  </svg>
+                  <span>
+                    {{ $t('pages.cryptocurrency.detail.info.title') }}
+                  </span>
                 </h2>
 
                 <p class="max-w-2xl text-sm leading-6 text-gray-500">
@@ -237,12 +252,17 @@
                     class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                   >
                     <dt class="text-sm font-medium text-gray-900">
-                      View on CoinMarketCap
+                      {{ $t('pages.cryptocurrency.detail.info.cmc') }}
                     </dt>
                     <dd
                       class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
                     >
-                      <CommonLink :value="cmcLink" copy link outer />
+                      <CommonLink
+                        :value="`https://coinmarketcap.com/currencies/${cryptocurrency.currency.meta.slug}/`"
+                        copy
+                        link
+                        outer
+                      />
                     </dd>
                   </div>
 
@@ -250,7 +270,9 @@
                     v-if="cryptocurrency.currency.meta.urls.website"
                     class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                   >
-                    <dt class="text-sm font-medium text-gray-900">Web</dt>
+                    <dt class="text-sm font-medium text-gray-900">
+                      {{ $t('pages.cryptocurrency.detail.info.web') }}
+                    </dt>
                     <dd
                       class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
                     >
@@ -268,7 +290,7 @@
                     class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                   >
                     <dt class="text-sm font-medium text-gray-900">
-                      Source code
+                      {{ $t('pages.cryptocurrency.detail.info.sourceCode') }}
                     </dt>
                     <dd
                       class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -286,7 +308,9 @@
                     v-if="cryptocurrency.currency.meta.urls.twitter"
                     class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                   >
-                    <dt class="text-sm font-medium text-gray-900">Twitter</dt>
+                    <dt class="text-sm font-medium text-gray-900">
+                      {{ $t('pages.cryptocurrency.detail.info.twitter') }}
+                    </dt>
                     <dd
                       class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
                     >
@@ -304,20 +328,49 @@
 
             <!-- whale alerts -->
             <div
-              class="overflow-hidden rounded bg-white bg-white shadow-sm shadow ring-1 ring-gray-200 sm:rounded-lg md:rounded-lg"
+              class="overflow-hidden rounded bg-white shadow-sm shadow ring-1 ring-gray-200 sm:rounded-lg md:rounded-lg"
             >
               <div class="px-4 py-6 sm:px-6">
                 <h2
-                  class="mb-4 text-base font-semibold leading-7 text-gray-900"
+                  class="mb-4 flex items-center text-base font-semibold leading-7 text-gray-900"
                 >
-                  Recent whale alerts
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="mr-2 h-5 w-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
+                    />
+                  </svg>
+                  <span>
+                    {{ $t('pages.cryptocurrency.detail.whaleAlerts.title') }}
+                  </span>
                 </h2>
 
                 <div>
                   <CommonAlert
                     v-if="cryptocurrency.whaleAlerts === null"
                     :type="'info'"
-                    :message="'This cryptocurrency does not support whale alerts.'"
+                    :message="
+                      $t(
+                        'pages.cryptocurrency.detail.whaleAlerts.notSupported'
+                      ).toString()
+                    "
+                  />
+
+                  <CommonAlert
+                    v-else-if="cryptocurrency.whaleAlerts.length < 1"
+                    :type="'info'"
+                    :message="
+                      $t(
+                        'pages.cryptocurrency.detail.whaleAlerts.empty'
+                      ).toString()
+                    "
                   />
 
                   <ul
@@ -361,20 +414,37 @@
 
             <!-- news -->
             <div
-              class="overflow-hidden rounded bg-white bg-white shadow-sm shadow ring-1 ring-gray-200 sm:rounded-lg md:rounded-lg"
+              class="overflow-hidden rounded bg-white shadow-sm shadow ring-1 ring-gray-200 sm:rounded-lg md:rounded-lg"
             >
               <div class="px-4 py-6 sm:px-6">
                 <h2
-                  class="mb-4 text-base font-semibold leading-7 text-gray-900"
+                  class="mb-4 flex items-center text-base font-semibold leading-7 text-gray-900"
                 >
-                  Recent news
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="mr-2 h-5 w-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"
+                    />
+                  </svg>
+                  <span>
+                    {{ $t('pages.cryptocurrency.detail.news.title') }}
+                  </span>
                 </h2>
 
                 <div>
                   <CommonAlert
                     v-if="cryptocurrency.news.length < 1"
                     :type="'info'"
-                    :message="'There are no recent news regarding this cryptocurrency.'"
+                    :message="
+                      $t('pages.cryptocurrency.detail.news.empty').toString()
+                    "
                   />
 
                   <ul
@@ -385,18 +455,55 @@
                     <li
                       v-for="news in cryptocurrency.news"
                       :key="news.id"
-                      class="relative flex flex-col py-2 px-3 hover:bg-gray-50"
+                      class="group relative flex items-center py-2 px-3"
                     >
-                      <a :href="news.url" target="_blank">
+                      <div class="flex flex-grow flex-col">
+                        <a :href="news.url" target="_blank">
+                          <span class="absolute inset-0"></span>
+                        </a>
+
+                        <div
+                          class="text-sm leading-6 group-hover:text-indigo-600 group-hover:underline"
+                        >
+                          {{ news.title }}
+                        </div>
+
+                        <div class="text-xs text-gray-400">
+                          {{ news.publishedAt }}
+                        </div>
+                      </div>
+
+                      <span
+                        class="invisible ml-2 hidden animate-zigzag text-indigo-600 group-hover:visible md:inline"
+                      >
+                        <svg
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="h-4 w-4"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                          />
+                        </svg>
+                      </span>
+                    </li>
+
+                    <li class="group relative py-2 px-3">
+                      <a
+                        :href="`https://cryptopanic.com/news/${cryptocurrency.currency.symbol}`"
+                        target="_blank"
+                      >
                         <span class="absolute inset-0"></span>
                       </a>
 
-                      <div class="text-sm leading-6">
-                        {{ news.title }}
-                      </div>
-
-                      <div class="text-xs text-gray-400">
-                        {{ news.publishedAt }}
+                      <div
+                        class="text-center text-sm group-hover:text-indigo-600 group-hover:underline"
+                      >
+                        {{ $t('pages.cryptocurrency.detail.news.showMore') }}
                       </div>
                     </li>
                   </ul>
@@ -412,7 +519,6 @@
 
 <script setup lang="ts">
 import {
-  computed,
   ref,
   useAsync,
   useContext,
@@ -436,14 +542,6 @@ const data = useAsync<CryptocurrencyShowResponse>(async () => {
     .show(id)
     .then((response) => response.data)
 }, `cryptocurrency-${id}`)
-
-const cmcLink = computed<string>(() => {
-  if (!cryptocurrency.value) {
-    return ''
-  }
-
-  return `https://coinmarketcap.com/currencies/${cryptocurrency.value.currency.meta.slug}/`
-})
 
 watch(
   () => data.value,

@@ -313,6 +313,25 @@
       "empty": "No search results for \"{query}\". Try changing the search query."
     },
     "cryptocurrency": {
+      "detail": {
+        "info": {
+          "title": "General information",
+          "cmc": "View on CoinMarketCap",
+          "web": "Web",
+          "twitter": "Twitter",
+          "sourceCode": "Source code"
+        },
+        "whaleAlerts": {
+          "title": "Recent whale alerts",
+          "notSupported": "This cryptocurrency does not support whale alerts.",
+          "empty": "There are no recent whale alerts regarding this cryptocurrency."
+        },
+        "news": {
+          "title": "Recent news",
+          "empty": "There are no recent news regarding this cryptocurrency.",
+          "showMore": "Show more news"
+        }
+      },
       "list": {
         "title": "Cryptocurrencies",
         "table": {
