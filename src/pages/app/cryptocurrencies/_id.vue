@@ -382,18 +382,46 @@
                       :key="whaleAlert.id"
                       class="flex items-center justify-between space-y-2 py-2 px-3 text-sm leading-6"
                     >
-                      <div class="flex items-center gap-x-1">
-                        <span class="truncate font-medium">
-                          {{ formatCurrency(whaleAlert.amountUsd, 'USD') }}
-                        </span>
-                        <span class="text-xs text-gray-300">
-                          {{
-                            formatCryptocurrency(
-                              whaleAlert.amount,
-                              whaleAlert.currency.symbol
-                            )
-                          }}
-                        </span>
+                      <div class="flex flex-col">
+                        <div class="flex items-baseline gap-x-1">
+                          <span class="truncate font-medium">
+                            {{ formatCurrency(whaleAlert.amountUsd, 'USD') }}
+                          </span>
+                          <span class="text-xs text-gray-300">
+                            {{
+                              formatCryptocurrency(
+                                whaleAlert.amount,
+                                whaleAlert.currency.symbol
+                              )
+                            }}
+                          </span>
+                        </div>
+
+                        <div class="flex items-center text-sm">
+                          <span>
+                            {{ whaleAlert.senderName ?? $t('common.unknown') }}
+                          </span>
+
+                          <svg
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="mx-2 h-4 w-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                            />
+                          </svg>
+
+                          <span>
+                            {{
+                              whaleAlert.receiverName ?? $t('common.unknown')
+                            }}
+                          </span>
+                        </div>
                       </div>
 
                       <CommonLink
