@@ -14,7 +14,7 @@
     </div>
 
     <CommonAlert
-      type="info"
+      :type="'info'"
       :label="$t('pages.quiz.start.alert.title').toString()"
       :message="$t('pages.quiz.start.alert.message').toString()"
     />

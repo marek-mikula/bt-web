@@ -72,7 +72,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { onMounted, useContext } from '@nuxtjs/composition-api'
-import { Cryptocurrency, PaginationMeta } from '~/types/http/Entities'
+import { CryptocurrencyList, PaginationMeta } from '~/types/http/Entities'
 import { useLoading } from '~/composables/loading'
 import { useFormat } from '~/composables/format'
 import { TableConfig } from '~/types/common/Table'
@@ -137,7 +137,7 @@ const config = ref<TableConfig>({
     }
   ]
 })
-const data = ref<Cryptocurrency[] | null>(null)
+const data = ref<CryptocurrencyList[] | null>(null)
 const page = ref<number>(1)
 const pagination = ref<PaginationMeta | null>(null)
 
@@ -175,7 +175,7 @@ async function paginate(pageNumber: number): Promise<void> {
   await fetchCryptocurrencies()
 }
 
-async function redirectToDetail(item: Cryptocurrency): Promise<void> {
+async function redirectToDetail(item: CryptocurrencyList): Promise<void> {
   await redirect({ path: `/app/cryptocurrencies/${item.currency.id}` })
 }
 

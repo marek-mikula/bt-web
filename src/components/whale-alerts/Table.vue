@@ -19,28 +19,13 @@
 
     <template #body-hash="{ item }">
       <span class="flex items-center">
-        <CommonClipboard :value="item.hash">
-          {{ $_.truncate(item.hash) }}
-        </CommonClipboard>
-        <a
-          :href="getHashHref(item)"
-          target="_blank"
-          class="ml-1 hover:text-indigo-600"
-        >
-          <svg
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="h-4 w-4"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-            />
-          </svg>
-        </a>
+        <CommonLink
+          :value="item.hash"
+          :value-link="getWhaleAlertTransactionHasHref(item)"
+          copy
+          link
+          outer
+        />
       </span>
     </template>
 
@@ -68,9 +53,7 @@
       <span v-else-if="item.senderAddress === 'multiple'">
         {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
       </span>
-      <CommonClipboard v-else :value="item.senderAddress">
-        {{ $_.truncate(item.senderAddress) }}
-      </CommonClipboard>
+      <CommonLink v-else :value="item.senderAddress" copy />
     </template>
 
     <template #body-receiver="{ item }">
@@ -89,9 +72,7 @@
       <span v-else-if="item.receiverAddress === 'multiple'">
         {{ $t('pages.whaleAlerts.table.body.multipleAddresses') }}
       </span>
-      <CommonClipboard v-else :value="item.receiverAddress">
-        {{ $_.truncate(item.receiverAddress) }}
-      </CommonClipboard>
+      <CommonLink v-else :value="item.receiverAddress" copy />
     </template>
   </CommonTable>
 </template>
@@ -103,7 +84,7 @@ import { PaginationMeta, WhaleAlert } from '~/types/http/Entities'
 import { TableConfig } from '~/types/common/Table'
 import { useLoading } from '~/composables/loading'
 import { useFormat } from '~/composables/format'
-import { CURRENCY_SYMBOL } from '~/enums/common/Currency'
+import { getWhaleAlertTransactionHasHref } from '~/helpers'
 
 const { isLoading, setIsLoading } = useLoading()
 const { $repositories, $toast, i18n } = useContext()
@@ -198,19 +179,6 @@ async function fetchWhaleAlerts(): Promise<void> {
     })
   } finally {
     setIsLoading(false)
-  }
-}
-
-function getHashHref(item: WhaleAlert): string {
-  switch (item.currency.symbol) {
-    case CURRENCY_SYMBOL.BNB:
-      return `https://bscscan.com/tx/${item.hash}`
-    case CURRENCY_SYMBOL.BTC:
-      return `https://www.blockchain.com/explorer/transactions/btc/${item.hash}`
-    case CURRENCY_SYMBOL.ETH:
-      return `https://www.blockchain.com/explorer/transactions/eth/${item.hash}`
-    case CURRENCY_SYMBOL.XRP:
-      return `https://blockchair.com/ripple/transaction/${item.hash}`
   }
 }
 

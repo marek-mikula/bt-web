@@ -56,7 +56,7 @@
 
     <!-- Show user a hint when he clicked on the answer -->
     <div v-if="currentAnswer">
-      <CommonAlert type="info" :message="currentQuestion.hint" />
+      <CommonAlert :type="'info'" :message="currentQuestion.hint" />
     </div>
 
     <div class="flex items-center justify-between">

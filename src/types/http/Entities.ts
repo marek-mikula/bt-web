@@ -179,7 +179,7 @@ export interface Currency {
   symbol: CURRENCY_SYMBOL
   name: string
   isFiat: boolean
-  meta: object
+  meta: { [key: string]: any }
 }
 
 export interface SupportedAsset {
@@ -232,7 +232,22 @@ export interface Quote {
   volumeChange24h: number
 }
 
-export interface Cryptocurrency {
+export interface News {
+  id: number
+  title: string
+  url: string
+  createdAt: string
+  publishedAt: string
+}
+
+export interface CryptocurrencyList {
   currency: Currency
   quote: Quote
+}
+
+export interface CryptocurrencyDetail {
+  currency: Currency
+  quote: Quote
+  news: News[]
+  whaleAlerts: WhaleAlert[] | null // null if currency does not support whale alerts
 }
