@@ -68,14 +68,19 @@ export interface User {
   updatedAt: string
 }
 
-export interface DashboardToken {
+export interface Currency {
   id: number
+  cmcId: number
+  symbol: CURRENCY_SYMBOL
   name: string
-  symbol: string
-  slug: string
+  isFiat: boolean
+  meta: { [key: string]: any }
+}
+
+export interface DashboardToken {
+  currency: Currency
   quoteCurrency: string
   quotePrice: number
-  iconUrl: string
 }
 
 export interface DashboardMarketMetrics {
@@ -171,15 +176,6 @@ export interface Limits {
       value: number | null
     }
   }
-}
-
-export interface Currency {
-  id: number
-  cmcId: number
-  symbol: CURRENCY_SYMBOL
-  name: string
-  isFiat: boolean
-  meta: { [key: string]: any }
 }
 
 export interface SupportedAsset {
