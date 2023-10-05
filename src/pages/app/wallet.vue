@@ -127,7 +127,7 @@
                     tabindex="-1"
                     @click.prevent="
                       handleClick(redirect, {
-                        path: `/app/cryptocurrencies/${asset.currency?.cmcId}`
+                        path: `/app/cryptocurrencies/${asset.currency?.id}`
                       })
                     "
                   >
