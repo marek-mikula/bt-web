@@ -382,12 +382,12 @@
                       :key="whaleAlert.id"
                       class="flex items-center justify-between space-y-2 py-2 px-3 text-sm leading-6"
                     >
-                      <div class="flex flex-col">
+                      <div class="flex flex-col space-y-1">
                         <div class="flex items-baseline gap-x-1">
                           <span class="truncate font-medium">
                             {{ formatCurrency(whaleAlert.amountUsd, 'USD') }}
                           </span>
-                          <span class="text-xs text-gray-300">
+                          <span class="text-xs text-gray-400">
                             {{
                               formatCryptocurrency(
                                 whaleAlert.amount,
@@ -421,6 +421,10 @@
                               whaleAlert.receiverName ?? $t('common.unknown')
                             }}
                           </span>
+                        </div>
+
+                        <div class="text-xs text-gray-400">
+                          {{ whaleAlert.notifiedAt }}
                         </div>
                       </div>
 
@@ -484,7 +488,7 @@
                       :key="news.id"
                       class="group relative flex items-center py-2 px-3"
                     >
-                      <div class="flex flex-grow flex-col">
+                      <div class="flex flex-grow flex-col space-y-1">
                         <a :href="news.url" target="_blank">
                           <span class="absolute inset-0"></span>
                         </a>
