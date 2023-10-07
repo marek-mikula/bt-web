@@ -319,7 +319,8 @@
           "cmc": "View on CoinMarketCap",
           "web": "Web",
           "twitter": "Twitter",
-          "sourceCode": "Source code"
+          "sourceCode": "Source code",
+          "tradingPairs": "Trading pairs"
         },
         "whaleAlerts": {
           "title": "Recent whale alerts",
@@ -330,6 +331,9 @@
           "title": "Recent news",
           "empty": "There are no recent news regarding this cryptocurrency.",
           "showMore": "Show more news"
+        },
+        "pairs": {
+          "title": "Trading pairs"
         }
       },
       "list": {

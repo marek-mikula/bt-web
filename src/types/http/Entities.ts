@@ -77,6 +77,16 @@ export interface Currency {
   meta: { [key: string]: any }
 }
 
+export interface CurrencyWithPivot extends Currency {
+  pivot: {
+    symbol: string
+  }
+}
+
+export interface CurrencyWithQuotes extends Currency {
+  quotes: CurrencyWithPivot[]
+}
+
 export interface DashboardToken {
   currency: Currency
   quoteCurrency: string
@@ -244,7 +254,7 @@ export interface CryptocurrencyList {
 }
 
 export interface CryptocurrencyDetail {
-  currency: Currency
+  currency: CurrencyWithQuotes
   quote: Quote
   news: News[]
   whaleAlerts: WhaleAlert[] | null // null if currency does not support whale alerts

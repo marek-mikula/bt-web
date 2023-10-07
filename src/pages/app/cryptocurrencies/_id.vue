@@ -114,7 +114,7 @@
           class="mx-auto grid max-w-2xl grid-cols-1 grid-rows-1 items-start gap-x-8 gap-y-8 lg:mx-0 lg:max-w-none lg:grid-cols-3"
         >
           <!-- cryptocurrency side panel -->
-          <div class="lg:col-start-3 lg:row-end-1">
+          <div class="lg:sticky lg:top-20 lg:col-start-3 lg:row-end-1">
             <div
               class="rounded bg-white shadow-sm ring-1 ring-gray-200 md:rounded-lg"
             >
@@ -321,6 +321,60 @@
                       />
                     </dd>
                   </div>
+
+                  <div
+                    class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                  >
+                    <dt class="text-sm font-medium text-gray-900">
+                      {{ $t('pages.cryptocurrency.detail.info.tradingPairs') }}
+                    </dt>
+                    <dd
+                      class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                    >
+                      <ul
+                        role="list"
+                        class="divide-y divide-gray-100 rounded-md border border-gray-200"
+                      >
+                        <li
+                          v-for="currency in cryptocurrency.currency.quotes"
+                          :key="currency.id"
+                          class="flex items-center justify-between space-x-2 py-2 px-3 text-sm leading-6"
+                        >
+                          <span
+                            class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-200"
+                          >
+                            {{ currency.pivot.symbol }}
+                          </span>
+                          <span class="flex items-center space-x-1">
+                            <span>
+                              {{ cryptocurrency.currency.symbol }}
+                            </span>
+                            <svg
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="h-4 w-4"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                              />
+                            </svg>
+                            <span>
+                              <RouterLink
+                                :to="`/app/cryptocurrencies/${currency.id}`"
+                                class="hover:text-indigo-600 hover:underline"
+                              >
+                                {{ currency.symbol }}
+                              </RouterLink>
+                            </span>
+                          </span>
+                        </li>
+                      </ul>
+                    </dd>
+                  </div>
                 </dl>
               </div>
             </div>
@@ -380,7 +434,7 @@
                     <li
                       v-for="whaleAlert in cryptocurrency.whaleAlerts"
                       :key="whaleAlert.id"
-                      class="flex items-center justify-between space-y-2 py-2 px-3 text-sm leading-6"
+                      class="flex items-center justify-between py-2 px-3 text-sm leading-6"
                     >
                       <div class="flex flex-col space-y-1">
                         <div class="flex items-baseline gap-x-1">
