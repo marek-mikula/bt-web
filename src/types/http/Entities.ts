@@ -256,6 +256,7 @@ export interface CryptocurrencyList {
 export interface CryptocurrencyDetail {
   currency: CurrencyWithQuotes
   quote: Quote
+  userAsset: Asset | null
   news: News[]
   whaleAlerts: WhaleAlert[] | null // null if currency does not support whale alerts
 }

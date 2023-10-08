@@ -24,7 +24,7 @@ const props = withDefaults(
   defineProps<{
     label?: string | null
     size?: 1 | 2 | 3 | 4 | 5 // 1 - smallest, 5 - biggest,
-    color?: 'primary' | 'secondary'
+    color?: 'primary' | 'secondary' | 'success' | 'danger'
     rounded?: boolean
     soft?: boolean
     block?: boolean
@@ -114,6 +114,28 @@ const classList = computed<string[]>((): string[] => {
         'ring-inset',
         'ring-gray-300',
         'hover:bg-gray-50'
+      )
+      break
+    case 'success':
+      list.push(
+        'bg-green-600',
+        'text-white',
+        'hover:bg-green-500',
+        'focus-visible:outline',
+        'focus-visible:outline-2',
+        'focus-visible:outline-offset-2',
+        'focus-visible:outline-green-600'
+      )
+      break
+    case 'danger':
+      list.push(
+        'bg-red-600',
+        'text-white',
+        'hover:bg-red-500',
+        'focus-visible:outline',
+        'focus-visible:outline-2',
+        'focus-visible:outline-offset-2',
+        'focus-visible:outline-red-600'
       )
       break
   }
