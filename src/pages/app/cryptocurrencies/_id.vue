@@ -265,7 +265,7 @@
                       {{
                         cryptocurrency.quote.infiniteSupply
                           ? '&infin;'
-                          : cryptocurrency.quote.maxSupply
+                          : formatNumber(cryptocurrency.quote.maxSupply)
                       }}
                     </dd>
                   </div>
