@@ -8,12 +8,14 @@ import {
   QuizQuestion,
   User,
   SearchResult,
-  Cryptocurrency,
+  CryptocurrencyList,
   Alert,
   Limits,
   LimitsLock,
   Asset,
-  WhaleAlert
+  WhaleAlert,
+  CryptocurrencyDetail,
+  Quote
 } from '~/types/http/Entities'
 
 export interface JsonResponse {
@@ -102,7 +104,21 @@ export interface SearchResponse extends JsonResponse {
 export interface CryptocurrencyIndexResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
-    cryptocurrencies: Pagination<Cryptocurrency>
+    cryptocurrencies: Pagination<CryptocurrencyList>
+  }
+}
+
+export interface CryptocurrencyShowResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    cryptocurrency: CryptocurrencyDetail
+  }
+}
+
+export interface CryptocurrencyQuoteResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    quote: Quote
   }
 }
 

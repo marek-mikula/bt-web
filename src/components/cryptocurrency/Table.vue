@@ -34,32 +34,37 @@
     </template>
 
     <template #body-price="{ item }">
-      {{ formatCurrency(item.price, item.quoteCurrency) }}
+      {{ formatCurrency(item.quote.price, item.quote.currency) }}
     </template>
 
     <template #body-priceChange1h="{ item }">
-      <CryptocurrencyChangeBadge :value="item.priceChange1h" />
+      <CryptocurrencyChangeBadge :value="item.quote.priceChange1h" />
     </template>
 
     <template #body-priceChange24h="{ item }">
-      <CryptocurrencyChangeBadge :value="item.priceChange24h" />
+      <CryptocurrencyChangeBadge :value="item.quote.priceChange24h" />
     </template>
 
     <template #body-priceChange7d="{ item }">
-      <CryptocurrencyChangeBadge :value="item.priceChange7d" />
+      <CryptocurrencyChangeBadge :value="item.quote.priceChange7d" />
     </template>
 
     <template #body-marketCap="{ item }">
-      {{ formatCurrency(item.marketCap, item.quoteCurrency) }}
+      {{ formatCurrency(item.quote.marketCap, item.quote.currency) }}
     </template>
 
     <template #body-volume24h="{ item }">
-      {{ formatCurrency(item.volume24h, item.quoteCurrency) }}
-      <CryptocurrencyChangeBadge class="ml-1" :value="item.volumeChange24h" />
+      {{ formatCurrency(item.quote.volume24h, item.quote.currency) }}
+      <CryptocurrencyChangeBadge
+        class="ml-1"
+        :value="item.quote.volumeChange24h"
+      />
     </template>
 
     <template #body-circulatingSupply="{ item }">
-      {{ formatCryptocurrency(item.circulatingSupply, item.currency.symbol) }}
+      {{
+        formatCryptocurrency(item.quote.circulatingSupply, item.currency.symbol)
+      }}
     </template>
   </CommonTable>
 </template>
@@ -67,7 +72,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { onMounted, useContext } from '@nuxtjs/composition-api'
-import { Cryptocurrency, PaginationMeta } from '~/types/http/Entities'
+import { CryptocurrencyList, PaginationMeta } from '~/types/http/Entities'
 import { useLoading } from '~/composables/loading'
 import { useFormat } from '~/composables/format'
 import { TableConfig } from '~/types/common/Table'
@@ -79,7 +84,7 @@ const { $repositories, $toast, i18n } = useContext()
 const { formatCurrency, formatCryptocurrency } = useFormat()
 
 const config = ref<TableConfig>({
-  unique: 'id',
+  unique: 'currency.cmcId',
   emptyLabel: 'common.table.noData',
   columns: [
     {
@@ -93,37 +98,37 @@ const config = ref<TableConfig>({
     },
     {
       key: 'price',
-      attribute: 'price',
+      attribute: 'quote.price',
       label: 'pages.cryptocurrency.list.table.price'
     },
     {
       key: 'priceChange1h',
-      attribute: 'priceChange1h',
+      attribute: 'quote.priceChange1h',
       label: 'pages.cryptocurrency.list.table.1hChange'
     },
     {
       key: 'priceChange24h',
-      attribute: 'priceChange24h',
+      attribute: 'quote.priceChange24h',
       label: 'pages.cryptocurrency.list.table.24hChange'
     },
     {
       key: 'priceChange7d',
-      attribute: 'priceChange7d',
+      attribute: 'quote.priceChange7d',
       label: 'pages.cryptocurrency.list.table.7dChange'
     },
     {
       key: 'marketCap',
-      attribute: 'marketCap',
+      attribute: 'quote.marketCap',
       label: 'pages.cryptocurrency.list.table.marketCap'
     },
     {
       key: 'volume24h',
-      attribute: 'volume24h',
+      attribute: 'quote.volume24h',
       label: 'pages.cryptocurrency.list.table.volume24h'
     },
     {
       key: 'circulatingSupply',
-      attribute: 'circulatingSupply',
+      attribute: 'quote.circulatingSupply',
       label: 'pages.cryptocurrency.list.table.circulatingSupply',
       headColClass:
         'whitespace-nowrap py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-6',
@@ -132,7 +137,7 @@ const config = ref<TableConfig>({
     }
   ]
 })
-const data = ref<Cryptocurrency[] | null>(null)
+const data = ref<CryptocurrencyList[] | null>(null)
 const page = ref<number>(1)
 const pagination = ref<PaginationMeta | null>(null)
 
@@ -170,7 +175,7 @@ async function paginate(pageNumber: number): Promise<void> {
   await fetchCryptocurrencies()
 }
 
-async function redirectToDetail(item: Cryptocurrency): Promise<void> {
+async function redirectToDetail(item: CryptocurrencyList): Promise<void> {
   await redirect({ path: `/app/cryptocurrencies/${item.currency.id}` })
 }
 

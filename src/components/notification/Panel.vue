@@ -64,7 +64,7 @@
       <div v-if="error" class="flex-1 p-4 text-center sm:p-6">
         <div class="flex h-full items-center justify-center">
           <CommonAlert
-            type="danger"
+            :type="'danger'"
             :message="$t('messages.common.requestError').toString()"
           />
         </div>

@@ -68,14 +68,29 @@ export interface User {
   updatedAt: string
 }
 
-export interface DashboardToken {
+export interface Currency {
   id: number
+  cmcId: number
+  symbol: CURRENCY_SYMBOL
   name: string
-  symbol: string
-  slug: string
+  isFiat: boolean
+  meta: { [key: string]: any }
+}
+
+export interface CurrencyWithPivot extends Currency {
+  pivot: {
+    symbol: string
+  }
+}
+
+export interface CurrencyWithQuotes extends Currency {
+  quotes: CurrencyWithPivot[]
+}
+
+export interface DashboardToken {
+  currency: Currency
   quoteCurrency: string
   quotePrice: number
-  iconUrl: string
 }
 
 export interface DashboardMarketMetrics {
@@ -173,15 +188,6 @@ export interface Limits {
   }
 }
 
-export interface Currency {
-  id: number
-  cmcId: number
-  symbol: CURRENCY_SYMBOL
-  name: string
-  isFiat: boolean
-  meta: object
-}
-
 export interface SupportedAsset {
   id: number
   isSupported: true
@@ -214,9 +220,8 @@ export interface WhaleAlert {
   transactionAt: string
 }
 
-export interface Cryptocurrency {
-  currency: Currency
-  quoteCurrency: string
+export interface Quote {
+  currency: string
   infiniteSupply: boolean
   totalSupply: number
   circulatingSupply: number
@@ -231,4 +236,27 @@ export interface Cryptocurrency {
   marketCap: number
   volume24h: number
   volumeChange24h: number
+}
+
+export interface News {
+  id: number
+  title: string
+  url: string
+  createdAt: string
+  publishedAt: string
+  sourceName: string
+  sourceUrl: string
+}
+
+export interface CryptocurrencyList {
+  currency: Currency
+  quote: Quote
+}
+
+export interface CryptocurrencyDetail {
+  currency: CurrencyWithQuotes
+  quote: Quote
+  userAsset: Asset | null
+  news: News[]
+  whaleAlerts: WhaleAlert[] | null // null if currency does not support whale alerts
 }

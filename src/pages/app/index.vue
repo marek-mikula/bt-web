@@ -173,13 +173,13 @@
     >
       <div
         v-for="token in featuredTokens"
-        :key="token.id"
+        :key="token.currency.id"
         class="relative flex items-center space-x-3 rounded border border-gray-200 bg-white px-3 py-2.5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400 md:rounded-lg md:px-6 md:py-5"
       >
         <div class="flex-shrink-0">
           <img
             class="h-10 w-10 rounded-full"
-            :src="token.iconUrl"
+            :src="token.currency.meta.logo"
             alt="Cryptocurrency icon"
           />
         </div>
@@ -188,16 +188,16 @@
             href="#"
             class="focus:outline-none"
             @click.prevent="
-              redirect({ path: `/app/cryptocurrencies/${token.id}` })
+              redirect({ path: `/app/cryptocurrencies/${token.currency.id}` })
             "
           >
             <span class="absolute inset-0" aria-hidden="true"></span>
             <p class="text-sm">
               <span class="font-medium text-gray-900">
-                {{ token.name }}
+                {{ token.currency.name }}
               </span>
               <span class="ml-1 text-gray-300">
-                {{ token.symbol.toUpperCase() }}
+                {{ token.currency.symbol.toUpperCase() }}
               </span>
             </p>
             <p class="truncate text-xs text-gray-500 md:text-sm">

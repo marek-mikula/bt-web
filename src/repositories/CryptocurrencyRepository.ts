@@ -1,6 +1,10 @@
 import { AxiosResponse } from 'axios'
 import { BaseRepository } from '~/repositories/BaseRepository'
-import { CryptocurrencyIndexResponse } from '~/types/http/Responses'
+import {
+  CryptocurrencyIndexResponse,
+  CryptocurrencyQuoteResponse,
+  CryptocurrencyShowResponse
+} from '~/types/http/Responses'
 
 export default class CryptocurrencyRepository extends BaseRepository {
   index(
@@ -13,5 +17,17 @@ export default class CryptocurrencyRepository extends BaseRepository {
         perPage
       }
     })
+  }
+
+  show(id: number): Promise<AxiosResponse<CryptocurrencyShowResponse>> {
+    return this.ctx.$axios.get<CryptocurrencyShowResponse>(
+      `${this.prefix}/${id}`
+    )
+  }
+
+  quote(id: number): Promise<AxiosResponse<CryptocurrencyQuoteResponse>> {
+    return this.ctx.$axios.get<CryptocurrencyQuoteResponse>(
+      `${this.prefix}/${id}/quote`
+    )
   }
 }

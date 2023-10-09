@@ -25,7 +25,7 @@ export function useFormat() {
       i /= 100
     }
 
-    return fractionDigits > 0 ? fractionDigits : 2
+    return (fractionDigits > 0 ? fractionDigits : 2) + 2
   }
 
   function getFormatter(

@@ -39,8 +39,21 @@
         <li
           v-for="asset in assets"
           :key="asset.id"
-          class="overflow-hidden rounded-xl border-2 border-gray-200 bg-white"
+          :class="[
+            'relative overflow-hidden rounded-xl border-2 border-gray-200 bg-white',
+            {
+              'group hover:border-indigo-200':
+                asset.isSupported && asset.currency && !asset.currency.isFiat
+            }
+          ]"
         >
+          <NuxtLink
+            v-if="asset.isSupported && asset.currency && !asset.currency.isFiat"
+            :to="`/app/cryptocurrencies/${asset?.currency?.id}`"
+          >
+            <span class="absolute inset-0"></span>
+          </NuxtLink>
+
           <div
             class="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6"
           >
@@ -63,79 +76,28 @@
               </span>
             </div>
 
-            <div
-              class="flex items-center text-sm font-medium leading-6 text-gray-900"
-            >
+            <div class="flex items-center text-sm font-medium leading-6">
               <template v-if="asset.currency && !asset.currency.isFiat">
-                <span class="text-gray-900">
+                <span class="text-gray-900 group-hover:text-indigo-500">
                   {{ asset.currency.name }}
                 </span>
                 <span class="ml-1 text-gray-300">
                   {{ asset.currency?.symbol?.toUpperCase() }}
                 </span>
               </template>
+
               <template v-else-if="asset.currency && asset.currency.isFiat">
                 <span class="text-gray-900">
                   {{ asset.currency?.symbol?.toUpperCase() }}
                 </span>
               </template>
+
               <template v-else>
-                {{ asset.currencySymbol }}
+                <span class="text-gray-900">
+                  {{ asset.currencySymbol }}
+                </span>
               </template>
             </div>
-
-            <CommonDropdown
-              v-if="
-                asset.isSupported && asset.currency && !asset.currency.isFiat
-              "
-              class="relative ml-auto"
-              :identifier="`asset-dropdown-${asset.id}`"
-              horizontal="right"
-              vertical="bottom"
-            >
-              <template #button="{ toggle, identifier, state }">
-                <button
-                  :id="identifier"
-                  type="button"
-                  class="-m-2.5 block p-2.5 text-gray-400 hover:text-gray-500"
-                  :aria-expanded="state ? 'true' : 'false'"
-                  aria-haspopup="true"
-                  @click.prevent="toggle(true)"
-                >
-                  <span class="sr-only">
-                    {{ $t('common.buttons.openOptions') }}
-                  </span>
-                  <svg
-                    class="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM8.5 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM15.5 8.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
-                    />
-                  </svg>
-                </button>
-              </template>
-              <template #list="{ identifier, handleClick }">
-                <div role="none" class="p-1">
-                  <a
-                    :id="`${identifier}-menu-item-0`"
-                    href="#"
-                    class="block flex items-center rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-700"
-                    role="menuitem"
-                    tabindex="-1"
-                    @click.prevent="
-                      handleClick(redirect, {
-                        path: `/app/cryptocurrencies/${asset.currency?.cmcId}`
-                      })
-                    "
-                  >
-                    {{ $t('common.buttons.show') }}
-                  </a>
-                </div>
-              </template>
-            </CommonDropdown>
           </div>
 
           <dl
@@ -171,12 +133,10 @@
 import { ref, useAsync, useContext, watch } from '@nuxtjs/composition-api'
 import { AssetIndexResponse } from '~/types/http/Responses'
 import { Asset } from '~/types/http/Entities'
-import { useRedirect } from '~/composables/redirect'
 import { useFormat } from '~/composables/format'
 import { useUser } from '~/composables/user'
 
 const { $repositories } = useContext()
-const { redirect } = useRedirect()
 const { formatCryptocurrency, formatCurrency } = useFormat()
 const { getUser } = useUser()
 
