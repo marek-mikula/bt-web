@@ -497,7 +497,11 @@
                     />
                   </svg>
                   <span>
-                    {{ $t('pages.cryptocurrency.detail.news.title') }}
+                    {{
+                      $t('pages.cryptocurrency.detail.news.title', {
+                        cryptocurrency: cryptocurrency.currency.name
+                      })
+                    }}
                   </span>
                 </h2>
 

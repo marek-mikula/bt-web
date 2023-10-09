@@ -328,7 +328,7 @@
           "empty": "There are no recent whale alerts regarding this cryptocurrency."
         },
         "news": {
-          "title": "Recent news",
+          "title": "{cryptocurrency} news",
           "empty": "There are no recent news regarding this cryptocurrency.",
           "showMore": "Show more news"
         },

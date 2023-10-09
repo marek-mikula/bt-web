@@ -42,7 +42,7 @@
           :class="[
             'relative overflow-hidden rounded-xl border-2 border-gray-200 bg-white',
             {
-              'hover:border-indigo-200':
+              'group hover:border-indigo-200':
                 asset.isSupported && asset.currency && !asset.currency.isFiat
             }
           ]"
@@ -76,24 +76,26 @@
               </span>
             </div>
 
-            <div
-              class="flex items-center text-sm font-medium leading-6 text-gray-900"
-            >
+            <div class="flex items-center text-sm font-medium leading-6">
               <template v-if="asset.currency && !asset.currency.isFiat">
-                <span class="text-gray-900">
+                <span class="text-gray-900 group-hover:text-indigo-500">
                   {{ asset.currency.name }}
                 </span>
                 <span class="ml-1 text-gray-300">
                   {{ asset.currency?.symbol?.toUpperCase() }}
                 </span>
               </template>
+
               <template v-else-if="asset.currency && asset.currency.isFiat">
                 <span class="text-gray-900">
                   {{ asset.currency?.symbol?.toUpperCase() }}
                 </span>
               </template>
+
               <template v-else>
-                {{ asset.currencySymbol }}
+                <span class="text-gray-900">
+                  {{ asset.currencySymbol }}
+                </span>
               </template>
             </div>
           </div>
