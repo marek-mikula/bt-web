@@ -349,7 +349,8 @@
           "7dChange": "7d %",
           "marketCap": "Market cap",
           "volume24h": "Volume (24h)",
-          "circulatingSupply": "Circulating supply"
+          "circulatingSupply": "Circulating supply",
+          "maxSupply": "Max supply"
         }
       }
     }

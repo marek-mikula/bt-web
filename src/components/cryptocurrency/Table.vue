@@ -61,6 +61,16 @@
       />
     </template>
 
+    <template #body-maxSupply="{ item }">
+      {{
+        item.quote.infiniteSupply
+          ? '&infin;'
+          : item.quote.maxSupply > 0
+          ? formatNumber(item.quote.maxSupply)
+          : '-'
+      }}
+    </template>
+
     <template #body-circulatingSupply="{ item }">
       {{
         formatCryptocurrency(item.quote.circulatingSupply, item.currency.symbol)
@@ -81,7 +91,7 @@ import { useRedirect } from '~/composables/redirect'
 const { redirect } = useRedirect()
 const { isLoading, setIsLoading } = useLoading()
 const { $repositories, $toast, i18n } = useContext()
-const { formatCurrency, formatCryptocurrency } = useFormat()
+const { formatCurrency, formatCryptocurrency, formatNumber } = useFormat()
 
 const config = ref<TableConfig>({
   unique: 'currency.cmcId',
@@ -125,6 +135,11 @@ const config = ref<TableConfig>({
       key: 'volume24h',
       attribute: 'quote.volume24h',
       label: 'pages.cryptocurrency.list.table.volume24h'
+    },
+    {
+      key: 'maxSupply',
+      attribute: 'quote.maxSupply',
+      label: 'pages.cryptocurrency.list.table.maxSupply'
     },
     {
       key: 'circulatingSupply',
