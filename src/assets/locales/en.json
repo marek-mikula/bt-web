@@ -320,7 +320,10 @@
           "web": "Web",
           "twitter": "Twitter",
           "sourceCode": "Source code",
-          "tradingPairs": "Trading pairs"
+          "tradingPairs": "Trading pairs",
+          "circulatingSupply": "Circulating supply",
+          "totalSupply": "Total supply",
+          "maxSupply": "Max supply"
         },
         "whaleAlerts": {
           "title": "Recent whale alerts",

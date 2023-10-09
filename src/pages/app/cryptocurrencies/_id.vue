@@ -229,6 +229,51 @@
                     class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                   >
                     <dt class="text-sm font-medium text-gray-900">
+                      {{
+                        $t('pages.cryptocurrency.detail.info.circulatingSupply')
+                      }}
+                    </dt>
+                    <dd
+                      class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                    >
+                      {{ formatNumber(cryptocurrency.quote.circulatingSupply) }}
+                    </dd>
+                  </div>
+
+                  <div
+                    class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                  >
+                    <dt class="text-sm font-medium text-gray-900">
+                      {{ $t('pages.cryptocurrency.detail.info.totalSupply') }}
+                    </dt>
+                    <dd
+                      class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                    >
+                      {{ formatNumber(cryptocurrency.quote.totalSupply) }}
+                    </dd>
+                  </div>
+
+                  <div
+                    class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                  >
+                    <dt class="text-sm font-medium text-gray-900">
+                      {{ $t('pages.cryptocurrency.detail.info.maxSupply') }}
+                    </dt>
+                    <dd
+                      class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                    >
+                      {{
+                        cryptocurrency.quote.infiniteSupply
+                          ? '&infin;'
+                          : cryptocurrency.quote.maxSupply
+                      }}
+                    </dd>
+                  </div>
+
+                  <div
+                    class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                  >
+                    <dt class="text-sm font-medium text-gray-900">
                       {{ $t('pages.cryptocurrency.detail.info.cmc') }}
                     </dt>
                     <dd
@@ -604,7 +649,7 @@ import { useFormat } from '~/composables/format'
 
 type PriceColor = -1 | 0 | 1
 
-const { formatCurrency, formatCryptocurrency } = useFormat()
+const { formatCurrency, formatCryptocurrency, formatNumber } = useFormat()
 const { $repositories, $toast, i18n } = useContext()
 const route = useRoute()
 

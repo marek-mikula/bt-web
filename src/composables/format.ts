@@ -95,9 +95,14 @@ export function useFormat() {
     )
   }
 
+  function formatNumber(value: number): string {
+    return getNumberFormatter(getFractionDigits(value)).format(value)
+  }
+
   return {
     formatCurrency,
     formatPercent,
-    formatCryptocurrency
+    formatCryptocurrency,
+    formatNumber
   }
 }
