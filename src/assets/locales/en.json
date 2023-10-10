@@ -40,6 +40,8 @@
       "dismiss": "Dismiss",
       "close": "Close",
       "copy": "Copy",
+      "buy": "Buy",
+      "sell": "Sell",
       "openOptions": "Open options",
       "understand": "I understand"
     },
@@ -57,7 +59,8 @@
         "mail": "Mail",
         "database": "In-app notification"
       }
-    }
+    },
+    "for": "For"
   },
   "forms": {
     "login": {
@@ -313,6 +316,17 @@
       "empty": "No search results for \"{query}\". Try changing the search query."
     },
     "cryptocurrency": {
+      "buy": {
+        "title": "Buy {cryptocurrency}"
+      },
+      "sell": {
+        "title": "Sell {cryptocurrency}"
+      },
+      "trade": {
+        "currency": "Currency",
+        "price": "Price",
+        "quantity": "Quantity"
+      },
       "detail": {
         "info": {
           "title": "General information",

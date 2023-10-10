@@ -15,7 +15,8 @@ import {
   Asset,
   WhaleAlert,
   CryptocurrencyDetail,
-  Quote
+  Quote,
+  CurrencyWithQuotes
 } from '~/types/http/Entities'
 
 export interface JsonResponse {
@@ -119,6 +120,20 @@ export interface CryptocurrencyQuoteResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
     quote: Quote
+  }
+}
+
+export interface CryptocurrencyTradeResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    cryptocurrency: CurrencyWithQuotes
+  }
+}
+
+export interface CryptocurrencySymbolPriceResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    price: number
   }
 }
 

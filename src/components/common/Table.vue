@@ -214,12 +214,13 @@ const { trans } = useTranslation()
 const props = withDefaults(
   defineProps<{
     config: TableConfig
-    data: object[] | null
+    data?: object[] | null
     pagination?: PaginationMeta | null
     isLoading?: boolean
     clickable?: boolean
   }>(),
   {
+    data: null,
     pagination: null,
     isLoading: false,
     clickable: false

@@ -174,18 +174,28 @@
                 class="mt-6 flex space-x-2 border-t border-gray-200 px-6 py-6"
               >
                 <CommonButton
-                  :label="'BUY'"
+                  :label="$t('common.buttons.buy').toString().toUpperCase()"
                   :type="'button'"
                   :color="'success'"
                   block
+                  @click="
+                    redirect(
+                      `/app/cryptocurrencies/buy/${cryptocurrency.currency.id}`
+                    )
+                  "
                 />
 
                 <CommonButton
-                  :label="'SELL'"
+                  :label="$t('common.buttons.sell').toString().toUpperCase()"
                   :type="'button'"
                   :color="'danger'"
                   :disabled="!cryptocurrency.userAsset"
                   block
+                  @click="
+                    redirect(
+                      `/app/cryptocurrencies/sell/${cryptocurrency.currency.id}`
+                    )
+                  "
                 />
               </div>
             </div>
@@ -646,12 +656,14 @@ import { CryptocurrencyDetail } from '~/types/http/Entities'
 import { CryptocurrencyShowResponse } from '~/types/http/Responses'
 import { getWhaleAlertTransactionHasHref } from '~/helpers'
 import { useFormat } from '~/composables/format'
+import { useRedirect } from '~/composables/redirect'
 
 type PriceColor = -1 | 0 | 1
 
 const { formatCurrency, formatCryptocurrency, formatNumber } = useFormat()
 const { $repositories, $toast, i18n } = useContext()
 const route = useRoute()
+const { redirect } = useRedirect()
 
 const cryptocurrency = ref<null | CryptocurrencyDetail>(null)
 const id = parseInt(route.value.params.id)
@@ -660,14 +672,14 @@ const price = ref<number | null>(null)
 const priceColor = ref<PriceColor>(0)
 const priceInterval = ref<number | null>(null)
 
-const data = useAsync<CryptocurrencyShowResponse>(async () => {
+const response = useAsync<CryptocurrencyShowResponse>(async () => {
   return await $repositories.cryptocurrency
     .show(id)
     .then((response) => response.data)
 }, `cryptocurrency-${id}`)
 
 watch(
-  () => data.value,
+  () => response.value,
   function (val: CryptocurrencyShowResponse | null): void {
     cryptocurrency.value = val?.data?.cryptocurrency || null
     price.value = val?.data?.cryptocurrency?.quote?.price || null
