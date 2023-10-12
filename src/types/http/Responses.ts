@@ -16,7 +16,8 @@ import {
   WhaleAlert,
   CryptocurrencyDetail,
   Quote,
-  CurrencyWithQuotes
+  CurrencyWithQuotes,
+  Order
 } from '~/types/http/Entities'
 
 export interface JsonResponse {
@@ -185,5 +186,12 @@ export interface WhaleAlertIndexResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
     whaleAlerts: Pagination<WhaleAlert>
+  }
+}
+
+export interface OrderResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    order: Order
   }
 }

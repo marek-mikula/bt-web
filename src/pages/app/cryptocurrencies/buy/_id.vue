@@ -8,7 +8,9 @@
     </div>
 
     <div v-else class="overflow-hidden bg-white sm:rounded-lg sm:shadow">
-      <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+      <div
+        class="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-5 sm:px-6"
+      >
         <h3 class="text-base font-semibold leading-6 text-gray-900">
           {{
             $t('pages.cryptocurrency.buy.title', {
@@ -16,16 +18,26 @@
             })
           }}
         </h3>
+
+        <NuxtLink
+          :to="`/app/cryptocurrencies/${cryptocurrency?.id}`"
+          class="flex inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        >
+          {{ $t('common.buttons.back') }}
+        </NuxtLink>
       </div>
 
       <div class="px-4 py-4 sm:px-6">
-        <form class="space-y-6" action="#" method="POST">
+        <form class="space-y-6" action="#" method="POST" @submit.prevent="buy">
+          <CommonAlertForm :errors="fetchErrors('common')" />
+
           <div>
             <FormSelect
               v-model="form.data.symbol"
               :name="'symbol'"
               :options="selectValues"
               :label="$t('pages.cryptocurrency.trade.currency').toString()"
+              :error="fieldError('symbol')"
               add-empty-option
               required
             />
@@ -42,10 +54,13 @@
             <div>
               <FormInput
                 v-model="form.data.quantity"
-                :step="0.001"
                 :label="$t('pages.cryptocurrency.trade.quantity').toString()"
                 :name="'quantity'"
                 :type="'number'"
+                :error="fieldError('quantity')"
+                :max="selectedCurrency?.pivot?.maxQuantity"
+                :min="selectedCurrency?.pivot?.minQuantity"
+                :step="selectedCurrency?.pivot?.stepSize"
                 required
               >
                 <template #prepend>
@@ -68,11 +83,13 @@
 
             <div>
               <FormInput
-                v-model="form.data.price"
-                :step="0.001"
+                v-model="pricePreview"
                 :label="$t('pages.cryptocurrency.trade.price').toString()"
                 :name="'price'"
                 :type="'number'"
+                :error="fieldError('price')"
+                readonly
+                required
               >
                 <template #prepend>
                   <span
@@ -119,26 +136,35 @@ import {
   useRoute,
   watch
 } from '@nuxtjs/composition-api'
-import { CryptocurrencyTradeResponse } from '~/types/http/Responses'
+import { AxiosResponse } from 'axios'
+import {
+  CryptocurrencyTradeResponse,
+  InvalidContentResponse,
+  JsonResponse
+} from '~/types/http/Responses'
 import { CurrencyWithPivot, CurrencyWithQuotes } from '~/types/http/Entities'
 import { FormSelectOption } from '~/types/common/Form'
-import { useFormData } from '~/composables/forms/form'
-import { CryptocurrencyBuyForm } from '~/types/forms/Cryptocurrency'
+import { useForm, useFormData } from '~/composables/forms/form'
 import { useLoading } from '~/composables/loading'
+import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
+import { OrderForm } from '~/types/forms/Order'
+import { useRedirect } from '~/composables/redirect'
 
 const { $repositories, $toast, i18n, $_ } = useContext()
 const route = useRoute()
 const { createForm } = useFormData()
 const { isLoading, setIsLoading } = useLoading()
+const { fieldError, parseErrors, clearErrors, fetchErrors } = useForm()
+const { redirect } = useRedirect()
 
-const form = createForm<CryptocurrencyBuyForm>({
+const form = createForm<OrderForm>({
   symbol: null,
-  quantity: 0,
-  price: 0
+  quantity: 0
 })
 
 const interval = ref<number | null>(null)
 
+const pricePreview = ref<number>(0)
 const price = ref<number | null>(null)
 const cryptocurrency = ref<CurrencyWithQuotes | null>(null)
 const id = parseInt(route.value.params.id)
@@ -176,9 +202,6 @@ const selectedCurrency = computed<CurrencyWithPivot | null>(
     ) ?? null
 )
 
-let changingQuantity = false
-let changingPrice = false
-
 watch(
   () => form.data.symbol,
   async (symbol: string | null) => {
@@ -199,63 +222,19 @@ watch(
   }
 )
 
-watch(
-  () => form.data.quantity,
-  $_.debounce((val: number | null) => {
-    if (changingQuantity) {
-      changingQuantity = false
-      return
-    }
-
-    if (!val || !price.value) {
-      form.data.price = 0
-      return
-    }
-
-    changingPrice = true
-
-    form.data.price = price.value * val
-  }, 500)
-)
-
-watch(
-  () => form.data.price,
-  $_.debounce((val: number | null) => {
-    if (changingPrice) {
-      changingPrice = false
-      return
-    }
-
-    if (!val || !price.value) {
-      form.data.quantity = 0
-      return
-    }
-
-    changingQuantity = true
-
-    form.data.quantity = val / price.value
-  }, 500)
-)
-
 function recalculateValues(): void {
-  if (form.data.quantity && price.value) {
-    changingPrice = true
-    form.data.price = price.value * form.data.quantity
-    return
-  }
-
-  if (form.data.price && price.value) {
-    changingQuantity = true
-    form.data.quantity = form.data.price / price.value
-  }
+  pricePreview.value = (price.value ?? 0) * (form.data.quantity ?? 0)
 }
+
+watch(() => form.data.quantity, $_.debounce(recalculateValues, 500))
 
 async function loadPrice(symbol: string): Promise<void> {
   setIsLoading(true)
 
   try {
-    const response = await $repositories.cryptocurrency.symbolPrice(symbol)
-    price.value = response.data.data.price
+    price.value = await $repositories.cryptocurrency
+      .symbolPrice(symbol)
+      .then((response) => response.data.data.price)
   } catch (e: any) {
     $toast.error({
       title: i18n.t('toasts.common.somethingWentWrong').toString()
@@ -289,6 +268,44 @@ function stopInterval(): void {
   }
 
   window.clearInterval(interval.value)
+}
+
+async function buy(): Promise<void> {
+  setIsLoading(true)
+
+  try {
+    await $repositories.order.buy(form.data)
+
+    clearErrors()
+
+    $toast.success({
+      title: i18n.t('toasts.order.buy.success').toString()
+    })
+
+    await redirect({
+      path: `/app/cryptocurrencies/${cryptocurrency.value?.id}`
+    })
+  } catch (e: any) {
+    const response: AxiosResponse<JsonResponse> = e.response
+
+    if (response.data.code === RESPONSE_CODE.INVALID_CONTENT) {
+      parseErrors(response.data as InvalidContentResponse)
+
+      $toast.error({
+        title: i18n.t('toasts.common.formErrors').toString()
+      })
+
+      return
+    }
+
+    clearErrors()
+
+    $toast.error({
+      title: i18n.t('toasts.common.somethingWentWrong').toString()
+    })
+  } finally {
+    setIsLoading(false)
+  }
 }
 
 onBeforeUnmount((): void => {

@@ -9,6 +9,9 @@
     }
   },
   "common": {
+    "form": {
+      "otherErrors": "There are other errors in the form."
+    },
     "select": {
       "emptyOption": "Select an option"
     },
@@ -42,6 +45,7 @@
       "copy": "Copy",
       "buy": "Buy",
       "sell": "Sell",
+      "back": "Back",
       "openOptions": "Open options",
       "understand": "I understand"
     },
@@ -370,6 +374,11 @@
     }
   },
   "toasts": {
+    "order": {
+      "buy": {
+        "success": "You have successfully placed your order!"
+      }
+    },
     "common": {
       "clipboard": "Value has been copied to clipboard!",
       "formErrors": "There are some errors in the form.",

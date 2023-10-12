@@ -3,6 +3,8 @@ import { NOTIFICATION_TYPE } from '~/enums/notifications/NotificationType'
 import { NOTIFICATION_DOMAIN } from '~/enums/notifications/NotificationDomain'
 import { LIMITS_NOTIFICATION_PERIOD } from '~/enums/settings/LimitsNotificationPeriodEnum'
 import { CURRENCY_SYMBOL } from '~/enums/common/Currency'
+import { ORDER_TYPE } from '~/enums/order/OrderType'
+import { ORDER_STATUS } from '~/enums/order/OrderStatus'
 
 export interface PaginationMeta {
   currentPage: number
@@ -80,6 +82,9 @@ export interface Currency {
 export interface CurrencyWithPivot extends Currency {
   pivot: {
     symbol: string
+    minQuantity: number | null
+    maxQuantity: number | null
+    stepSize: number | null
   }
 }
 
@@ -259,4 +264,22 @@ export interface CryptocurrencyDetail {
   userAsset: Asset | null
   news: News[]
   whaleAlerts: WhaleAlert[] | null // null if currency does not support whale alerts
+}
+
+export interface CurrencyPair {
+  id: number
+  symbol: string
+  baseCurrency?: Currency
+  quoteCurrency?: Currency
+}
+
+export interface Order {
+  id: number
+  binanceId: string
+  userId: number
+  pairId: number
+  type: ORDER_TYPE
+  status: ORDER_STATUS
+  quantity: number
+  pair?: CurrencyPair
 }

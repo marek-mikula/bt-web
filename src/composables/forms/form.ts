@@ -40,12 +40,17 @@ export function useForm() {
     fieldErrors.value = response.data.errors
   }
 
+  function fetchErrors(...fields: string[]): string[] {
+    return fields.map(fieldError).filter((error) => !!error) as string[]
+  }
+
   return {
     errors,
     fieldErrors,
     fieldError,
     clearErrors,
-    parseErrors
+    parseErrors,
+    fetchErrors
   }
 }
 
