@@ -27,9 +27,10 @@
     >
       <FormInput
         v-model="search"
-        :label="'Search currency'"
+        :label="$t('pages.wallet.search').toString()"
         :type="'search'"
         :name="'search'"
+        :placeholder="'BTC'"
       />
     </div>
 

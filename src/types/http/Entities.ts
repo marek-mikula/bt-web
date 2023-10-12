@@ -258,6 +258,7 @@ export interface News {
 export interface CryptocurrencyList {
   currency: Currency
   quote: Quote
+  userAsset: SupportedAsset | null
 }
 
 export interface CryptocurrencyDetail {

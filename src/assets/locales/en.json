@@ -224,7 +224,8 @@
       "unsupportedAssetsAlert": "Unsupported assets are shown in wallet only for information purposes. They are not counted in the process of limits evaluation and other application processes.",
       "asset": {
         "balance": "Balance"
-      }
+      },
+      "search": "Search currency"
     },
     "user": {
       "settings": {
@@ -375,6 +376,7 @@
       "list": {
         "title": "Cryptocurrencies",
         "table": {
+          "owned": "Owned",
           "name": "Name",
           "price": "Price",
           "1hChange": "1h %",
