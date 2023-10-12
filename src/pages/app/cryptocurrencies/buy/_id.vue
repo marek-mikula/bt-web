@@ -32,6 +32,19 @@
           <CommonAlertForm :errors="fetchErrors('common')" />
 
           <div>
+            <FormCheckbox
+              :id="'ignore-limits-validation'"
+              v-model="form.data.ignoreLimitsValidation"
+              :name="'ignoreLimitsValidation'"
+              :label="
+                $t(
+                  'pages.cryptocurrency.trade.ignoreLimitsValidation'
+                ).toString()
+              "
+            />
+          </div>
+
+          <div>
             <FormSelect
               v-model="form.data.symbol"
               :name="'symbol'"
@@ -159,7 +172,8 @@ const { redirect } = useRedirect()
 
 const form = createForm<OrderForm>({
   symbol: null,
-  quantity: 0
+  quantity: 0,
+  ignoreLimitsValidation: false
 })
 
 const interval = ref<number | null>(null)

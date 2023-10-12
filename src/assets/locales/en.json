@@ -340,6 +340,7 @@
         "title": "Sell {cryptocurrency}"
       },
       "trade": {
+        "ignoreLimitsValidation": "Ignore limits validation",
         "currency": "Currency",
         "price": "Price",
         "quantity": "Quantity"
