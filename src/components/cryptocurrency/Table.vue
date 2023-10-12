@@ -50,7 +50,14 @@
     </template>
 
     <template #body-marketCap="{ item }">
-      {{ formatCurrency(item.quote.marketCap, item.quote.currency) }}
+      <div class="flex items-center">
+        {{ formatCurrency(item.quote.marketCap, item.quote.currency) }}
+        <CryptocurrencyMarketCapCategoryBadge
+          v-if="item.currency.marketCapCategory"
+          class="ml-2"
+          :category="item.currency.marketCapCategory"
+        />
+      </div>
     </template>
 
     <template #body-volume24h="{ item }">

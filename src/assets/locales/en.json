@@ -6,6 +6,24 @@
         "weekly": "Weekly",
         "monthly": "Monthly"
       }
+    },
+    "currency": {
+      "marketCapCategory": {
+        "long": {
+          "micro": "Micro market cap (< 250m $)",
+          "small": "Small market cap (>= 250m $ and < 2b $)",
+          "mid": "Mid market cap (>= 2b $ and < 10b $)",
+          "large": "Large market cap (>= 10b and < 200b $)",
+          "mega": "Mega market cap (>= 200b $)"
+        },
+        "short": {
+          "micro": "Micro",
+          "small": "Small",
+          "mid": "Mid",
+          "large": "Large",
+          "mega": "Mega"
+        }
+      }
     }
   },
   "common": {
@@ -143,11 +161,6 @@
               "label": "Safety margin",
               "hint": "Safety margin represents a value that indicates the range in which the real value of the given group must occur. If the value of the margin is 5% and the resulting weight of the group in the portfolio is 15%, then the real value must be in the range of 10% - 20%. This gives us more safe space to trigger warnings in your portfolio. Min. value is {min}%."
             },
-            "micro": "Micro market cap (< 250m $)",
-            "small": "Small market cap (>= 250m $ and < 2b $)",
-            "mid": "Mid market cap (>= 2b $ and < 10b $)",
-            "large": "Large market cap (>= 10b and < 200b $)",
-            "mega": "Mega market cap (>= 200b $)",
             "sliderHint": "The monitored value will have to be in the range between {min} % and {max} %."
           },
           "period": {
@@ -341,7 +354,8 @@
           "tradingPairs": "Trading pairs",
           "circulatingSupply": "Circulating supply",
           "totalSupply": "Total supply",
-          "maxSupply": "Max supply"
+          "maxSupply": "Max supply",
+          "marketCap": "Market cap"
         },
         "whaleAlerts": {
           "title": "Recent whale alerts",

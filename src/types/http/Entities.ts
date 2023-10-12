@@ -5,6 +5,7 @@ import { LIMITS_NOTIFICATION_PERIOD } from '~/enums/settings/LimitsNotificationP
 import { CURRENCY_SYMBOL } from '~/enums/common/Currency'
 import { ORDER_TYPE } from '~/enums/order/OrderType'
 import { ORDER_STATUS } from '~/enums/order/OrderStatus'
+import { MARKET_CAP_CATEGORY } from '~/enums/currency/MarketCapCategory'
 
 export interface PaginationMeta {
   currentPage: number
@@ -76,6 +77,7 @@ export interface Currency {
   symbol: CURRENCY_SYMBOL
   name: string
   isFiat: boolean
+  marketCapCategory: MARKET_CAP_CATEGORY | null
   meta: { [key: string]: any }
 }
 
