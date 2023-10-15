@@ -255,20 +255,6 @@ export interface News {
   sourceUrl: string
 }
 
-export interface CryptocurrencyList {
-  currency: Currency
-  quote: Quote
-  userAsset: SupportedAsset | null
-}
-
-export interface CryptocurrencyDetail {
-  currency: CurrencyWithQuotes
-  quote: Quote
-  userAsset: Asset | null
-  news: News[]
-  whaleAlerts: WhaleAlert[] | null // null if currency does not support whale alerts
-}
-
 export interface CurrencyPair {
   id: number
   symbol: string
@@ -290,4 +276,19 @@ export interface Order {
   pair?: CurrencyPair
   createdAt: string
   updatedAt: string
+}
+
+export interface CryptocurrencyList {
+  currency: Currency
+  quote: Quote
+  userAsset: SupportedAsset | null
+}
+
+export interface CryptocurrencyDetail {
+  currency: CurrencyWithQuotes
+  quote: Quote
+  userAsset: Asset | null
+  news: News[]
+  orders: Order[]
+  whaleAlerts: WhaleAlert[] | null // null if currency does not support whale alerts
 }

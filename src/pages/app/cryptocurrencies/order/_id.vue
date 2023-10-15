@@ -80,7 +80,7 @@
                   <span
                     class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 px-3 text-gray-500 sm:text-sm"
                   >
-                    {{ $t('common.buttons.buy').toString().toUpperCase() }}
+                    {{ $t('models.order.side.buy').toString().toUpperCase() }}
                   </span>
                 </template>
 
@@ -124,7 +124,7 @@
 
             <div>
               <CommonButton
-                :label="$t('common.buttons.buy').toString()"
+                :label="$t('models.order.side.buy').toString()"
                 :type="'submit'"
                 :color="'success'"
                 :size="4"
@@ -291,12 +291,12 @@ async function buy(): Promise<void> {
   setIsLoading(true)
 
   try {
-    await $repositories.order.place(form.data)
+    await $repositories.order.create(form.data)
 
     clearErrors()
 
     $toast.success({
-      title: i18n.t('toasts.order.buy.success').toString()
+      title: i18n.t('toasts.order.success').toString()
     })
 
     await redirect({

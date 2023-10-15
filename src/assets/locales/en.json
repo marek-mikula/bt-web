@@ -1,5 +1,11 @@
 {
   "models": {
+    "order": {
+      "side": {
+        "buy": "Buy",
+        "sell": "Sell"
+      }
+    },
     "limits": {
       "period": {
         "daily": "Daily",
@@ -42,7 +48,8 @@
         "previous": "Previous"
       },
       "head": {
-        "id": "ID"
+        "id": "ID",
+        "createdAt": "Created at"
       },
       "noData": "No data"
     },
@@ -61,8 +68,6 @@
       "dismiss": "Dismiss",
       "close": "Close",
       "copy": "Copy",
-      "buy": "Buy",
-      "sell": "Sell",
       "back": "Back",
       "openOptions": "Open options",
       "understand": "I understand"
@@ -198,6 +203,17 @@
     }
   },
   "pages": {
+    "orders": {
+      "title": "Orders",
+      "table": {
+        "side": "Side",
+        "status": "Status",
+        "baseQuantity": "Base quantity",
+        "quoteQuantity": "Quote quantity",
+        "price": "Price",
+        "pair": "Pair"
+      }
+    },
     "whaleAlerts": {
       "title": "Whale alerts",
       "table": {
@@ -312,6 +328,7 @@
       }
     },
     "dashboard": {
+      "title": "Dashboard",
       "coldWalletAlert": {
         "title": "Are you using a cold wallet?",
         "message": "Please make sure you are using a cold wallet for you tokens and coins. It is one of the safest places for your crypto. Your crypto is never safe when it lays in your exchange's pocket. One of the key players is the <b>Trezor</b> company. Make sure you check out their website using the button below.",
@@ -369,6 +386,10 @@
           "empty": "There are no recent news regarding this cryptocurrency.",
           "showMore": "Show more news"
         },
+        "orders": {
+          "title": "{cryptocurrency} orders",
+          "empty": "There are no recent orders regarding this cryptocurrency."
+        },
         "pairs": {
           "title": "Trading pairs"
         }
@@ -392,9 +413,7 @@
   },
   "toasts": {
     "order": {
-      "buy": {
-        "success": "You have successfully placed your order!"
-      }
+      "success": "You have successfully placed your order!"
     },
     "common": {
       "clipboard": "Value has been copied to clipboard!",

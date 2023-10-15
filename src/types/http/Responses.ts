@@ -189,7 +189,14 @@ export interface WhaleAlertIndexResponse extends JsonResponse {
   }
 }
 
-export interface PlaceOrderResponse extends JsonResponse {
+export interface OrderIndexResponse extends JsonResponse {
+  code: RESPONSE_CODE.OK
+  data: {
+    orders: Pagination<Order>
+  }
+}
+
+export interface OrderCreateResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
     order: Order

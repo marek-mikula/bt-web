@@ -34,7 +34,7 @@
                     d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
                   />
                 </svg>
-                Dashboard
+                {{ $t('pages.dashboard.title') }}
               </NuxtLink>
             </li>
             <li>
@@ -68,7 +68,7 @@
                     d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                Cryptocurrencies
+                {{ $t('pages.cryptocurrency.list.title') }}
               </NuxtLink>
             </li>
             <li>
@@ -96,7 +96,6 @@
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="h-6 w-6"
                 >
                   <path
                     stroke-linecap="round"
@@ -104,7 +103,42 @@
                     d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
                   />
                 </svg>
-                Whale alerts
+                {{ $t('pages.whaleAlerts.title') }}
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink
+                to="/app/orders"
+                :class="
+                  getClass(
+                    '/app/orders',
+                    activeLinkClass,
+                    defaultLinkClass,
+                    true
+                  )
+                "
+              >
+                <svg
+                  :class="
+                    getClass(
+                      '/app/orders',
+                      activeSvgClass,
+                      defaultSvgClass,
+                      true
+                    )
+                  "
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122"
+                  />
+                </svg>
+                {{ $t('pages.orders.title') }}
               </NuxtLink>
             </li>
           </ul>
@@ -141,7 +175,7 @@
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
               />
             </svg>
-            Settings
+            {{ $t('pages.user.settings.title') }}
           </NuxtLink>
         </li>
       </ul>
