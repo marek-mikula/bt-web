@@ -178,11 +178,7 @@
                   :type="'button'"
                   :color="'success'"
                   block
-                  @click="
-                    redirect(
-                      `/app/cryptocurrencies/buy/${cryptocurrency.currency.id}`
-                    )
-                  "
+                  @click="redirectToBuy"
                 />
 
                 <CommonButton
@@ -191,11 +187,7 @@
                   :color="'danger'"
                   :disabled="!cryptocurrency.userAsset"
                   block
-                  @click="
-                    redirect(
-                      `/app/cryptocurrencies/sell/${cryptocurrency.currency.id}`
-                    )
-                  "
+                  @click="redirectToSell"
                 />
               </div>
             </div>
@@ -680,6 +672,7 @@ import { CryptocurrencyShowResponse } from '~/types/http/Responses'
 import { getWhaleAlertTransactionHasHref } from '~/helpers'
 import { useFormat } from '~/composables/format'
 import { useRedirect } from '~/composables/redirect'
+import { ORDER_SIDE } from '~/enums/order/OrderSide'
 
 type PriceColor = -1 | 0 | 1
 
@@ -739,6 +732,32 @@ async function updatePrice(): Promise<void> {
       title: i18n.t('toasts.common.somethingWentWrong').toString()
     })
   }
+}
+
+async function redirectToBuy(): Promise<void> {
+  if (!cryptocurrency.value) {
+    return
+  }
+
+  await redirect({
+    path: `/app/cryptocurrencies/order/${cryptocurrency.value.currency.id}`,
+    query: {
+      side: ORDER_SIDE.BUY
+    }
+  })
+}
+
+async function redirectToSell(): Promise<void> {
+  if (!cryptocurrency.value) {
+    return
+  }
+
+  await redirect({
+    path: `/app/cryptocurrencies/order/${cryptocurrency.value.currency.id}`,
+    query: {
+      side: ORDER_SIDE.SELL
+    }
+  })
 }
 
 onMounted(() => {

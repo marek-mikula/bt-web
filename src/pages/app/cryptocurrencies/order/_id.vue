@@ -13,7 +13,7 @@
       >
         <h3 class="text-base font-semibold leading-6 text-gray-900">
           {{
-            $t('pages.cryptocurrency.buy.title', {
+            $t(`pages.cryptocurrency.${form.data.side.toLowerCase()}.title`, {
               cryptocurrency: cryptocurrency.name
             })
           }}
@@ -171,19 +171,20 @@ const { isLoading, setIsLoading } = useLoading()
 const { fieldError, parseErrors, clearErrors, fetchErrors } = useForm()
 const { redirect } = useRedirect()
 
+const id = parseInt(route.value.params.id)
+const side = route.value.query.side
+
 const form = createForm<OrderForm>({
   symbol: null,
   quantity: 0,
-  side: ORDER_SIDE.BUY,
+  side: side === ORDER_SIDE.BUY ? ORDER_SIDE.BUY : ORDER_SIDE.SELL,
   ignoreLimitsValidation: false
 })
 
 const interval = ref<number | null>(null)
-
 const pricePreview = ref<number>(0)
 const price = ref<number | null>(null)
 const cryptocurrency = ref<CurrencyWithQuotes | null>(null)
-const id = parseInt(route.value.params.id)
 
 const response = useAsync<CryptocurrencyTradeResponse>(async () => {
   return await $repositories.cryptocurrency
@@ -331,7 +332,7 @@ onBeforeUnmount((): void => {
 
 <script lang="ts">
 export default {
-  name: 'AppCryptocurrenciesBuyPage',
+  name: 'AppCryptocurrenciesOrderPage',
   layout: 'app'
 }
 </script>
