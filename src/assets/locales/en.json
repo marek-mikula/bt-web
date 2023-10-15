@@ -1,14 +1,41 @@
 {
   "models": {
+    "order": {
+      "side": {
+        "buy": "Buy",
+        "sell": "Sell"
+      }
+    },
     "limits": {
       "period": {
         "daily": "Daily",
         "weekly": "Weekly",
         "monthly": "Monthly"
       }
+    },
+    "currency": {
+      "marketCapCategory": {
+        "long": {
+          "micro": "Micro market cap (< 250m $)",
+          "small": "Small market cap (>= 250m $ and < 2b $)",
+          "mid": "Mid market cap (>= 2b $ and < 10b $)",
+          "large": "Large market cap (>= 10b and < 200b $)",
+          "mega": "Mega market cap (>= 200b $)"
+        },
+        "short": {
+          "micro": "Micro",
+          "small": "Small",
+          "mid": "Mid",
+          "large": "Large",
+          "mega": "Mega"
+        }
+      }
     }
   },
   "common": {
+    "form": {
+      "otherErrors": "There are other errors in the form."
+    },
     "select": {
       "emptyOption": "Select an option"
     },
@@ -21,7 +48,8 @@
         "previous": "Previous"
       },
       "head": {
-        "id": "ID"
+        "id": "ID",
+        "createdAt": "Created at"
       },
       "noData": "No data"
     },
@@ -40,6 +68,7 @@
       "dismiss": "Dismiss",
       "close": "Close",
       "copy": "Copy",
+      "back": "Back",
       "openOptions": "Open options",
       "understand": "I understand"
     },
@@ -57,7 +86,8 @@
         "mail": "Mail",
         "database": "In-app notification"
       }
-    }
+    },
+    "for": "For"
   },
   "forms": {
     "login": {
@@ -136,11 +166,6 @@
               "label": "Safety margin",
               "hint": "Safety margin represents a value that indicates the range in which the real value of the given group must occur. If the value of the margin is 5% and the resulting weight of the group in the portfolio is 15%, then the real value must be in the range of 10% - 20%. This gives us more safe space to trigger warnings in your portfolio. Min. value is {min}%."
             },
-            "micro": "Micro market cap (< 250m $)",
-            "small": "Small market cap (>= 250m $ and < 2b $)",
-            "mid": "Mid market cap (>= 2b $ and < 10b $)",
-            "large": "Large market cap (>= 10b and < 200b $)",
-            "mega": "Mega market cap (>= 200b $)",
             "sliderHint": "The monitored value will have to be in the range between {min} % and {max} %."
           },
           "period": {
@@ -178,6 +203,17 @@
     }
   },
   "pages": {
+    "orders": {
+      "title": "Orders",
+      "table": {
+        "side": "Side",
+        "status": "Status",
+        "baseQuantity": "Base quantity",
+        "quoteQuantity": "Quote quantity",
+        "price": "Price",
+        "pair": "Pair"
+      }
+    },
     "whaleAlerts": {
       "title": "Whale alerts",
       "table": {
@@ -204,7 +240,8 @@
       "unsupportedAssetsAlert": "Unsupported assets are shown in wallet only for information purposes. They are not counted in the process of limits evaluation and other application processes.",
       "asset": {
         "balance": "Balance"
-      }
+      },
+      "search": "Search currency"
     },
     "user": {
       "settings": {
@@ -291,6 +328,7 @@
       }
     },
     "dashboard": {
+      "title": "Dashboard",
       "coldWalletAlert": {
         "title": "Are you using a cold wallet?",
         "message": "Please make sure you are using a cold wallet for you tokens and coins. It is one of the safest places for your crypto. Your crypto is never safe when it lays in your exchange's pocket. One of the key players is the <b>Trezor</b> company. Make sure you check out their website using the button below.",
@@ -313,6 +351,18 @@
       "empty": "No search results for \"{query}\". Try changing the search query."
     },
     "cryptocurrency": {
+      "buy": {
+        "title": "Buy {cryptocurrency}"
+      },
+      "sell": {
+        "title": "Sell {cryptocurrency}"
+      },
+      "trade": {
+        "ignoreLimitsValidation": "Ignore limits validation",
+        "currency": "Currency",
+        "price": "Price",
+        "quantity": "Quantity"
+      },
       "detail": {
         "info": {
           "title": "General information",
@@ -323,7 +373,8 @@
           "tradingPairs": "Trading pairs",
           "circulatingSupply": "Circulating supply",
           "totalSupply": "Total supply",
-          "maxSupply": "Max supply"
+          "maxSupply": "Max supply",
+          "marketCap": "Market cap"
         },
         "whaleAlerts": {
           "title": "Recent whale alerts",
@@ -335,6 +386,10 @@
           "empty": "There are no recent news regarding this cryptocurrency.",
           "showMore": "Show more news"
         },
+        "orders": {
+          "title": "{cryptocurrency} orders",
+          "empty": "There are no recent orders regarding this cryptocurrency."
+        },
         "pairs": {
           "title": "Trading pairs"
         }
@@ -342,6 +397,7 @@
       "list": {
         "title": "Cryptocurrencies",
         "table": {
+          "owned": "Owned",
           "name": "Name",
           "price": "Price",
           "1hChange": "1h %",
@@ -356,6 +412,9 @@
     }
   },
   "toasts": {
+    "order": {
+      "success": "You have successfully placed your order!"
+    },
     "common": {
       "clipboard": "Value has been copied to clipboard!",
       "formErrors": "There are some errors in the form.",

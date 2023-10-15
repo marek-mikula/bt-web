@@ -233,12 +233,12 @@ const { formatCurrency, formatPercent } = useFormat()
 const marketMetrics = ref<null | DashboardMarketMetrics>(null)
 const featuredTokens = ref<null | DashboardToken[]>(null)
 
-const data = useAsync<DashboardIndexResponse>(async () => {
+const response = useAsync<DashboardIndexResponse>(async () => {
   return await $repositories.dashboard.index().then((response) => response.data)
 }, 'dashboard')
 
 watch(
-  () => data.value,
+  () => response.value,
   function (val: DashboardIndexResponse | null): void {
     marketMetrics.value = val?.data?.marketMetrics || null
     featuredTokens.value = val?.data?.topCrypto || null

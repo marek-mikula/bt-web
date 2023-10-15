@@ -174,18 +174,20 @@
                 class="mt-6 flex space-x-2 border-t border-gray-200 px-6 py-6"
               >
                 <CommonButton
-                  :label="'BUY'"
+                  :label="$t('models.order.side.buy').toString().toUpperCase()"
                   :type="'button'"
                   :color="'success'"
                   block
+                  @click="redirectToBuy"
                 />
 
                 <CommonButton
-                  :label="'SELL'"
+                  :label="$t('models.order.side.sell').toString().toUpperCase()"
                   :type="'button'"
                   :color="'danger'"
                   :disabled="!cryptocurrency.userAsset"
                   block
+                  @click="redirectToSell"
                 />
               </div>
             </div>
@@ -267,6 +269,29 @@
                           ? '&infin;'
                           : formatNumber(cryptocurrency.quote.maxSupply)
                       }}
+                    </dd>
+                  </div>
+
+                  <div
+                    class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                  >
+                    <dt class="text-sm font-medium text-gray-900">
+                      {{ $t('pages.cryptocurrency.detail.info.marketCap') }}
+                    </dt>
+                    <dd
+                      class="mt-1 flex items-center text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                    >
+                      {{
+                        formatCurrency(
+                          cryptocurrency.quote.marketCap,
+                          cryptocurrency.quote.currency
+                        )
+                      }}
+                      <CryptocurrencyMarketCapCategoryBadge
+                        v-if="cryptocurrency.currency.marketCapCategory"
+                        class="ml-2"
+                        :category="cryptocurrency.currency.marketCapCategory"
+                      />
                     </dd>
                   </div>
 
@@ -363,11 +388,7 @@
                           :key="currency.id"
                           class="flex items-center justify-between space-x-2 py-2 px-3 text-sm leading-6"
                         >
-                          <span
-                            class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-200"
-                          >
-                            {{ currency.pivot.symbol }}
-                          </span>
+                          <PairBadge :symbol="currency.pivot.symbol" />
                           <span class="flex items-center space-x-1">
                             <span>
                               {{ cryptocurrency.currency.symbol }}
@@ -520,6 +541,102 @@
               </div>
             </div>
 
+            <!-- orders -->
+            <div
+              class="overflow-hidden rounded bg-white shadow-sm shadow ring-1 ring-gray-200 sm:rounded-lg md:rounded-lg"
+            >
+              <div class="px-4 py-6 sm:px-6">
+                <h2
+                  class="mb-4 flex items-center text-base font-semibold leading-7 text-gray-900"
+                >
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="mr-2 h-5 w-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122"
+                    />
+                  </svg>
+                  <span>
+                    {{
+                      $t('pages.cryptocurrency.detail.orders.title', {
+                        cryptocurrency: cryptocurrency.currency.name
+                      })
+                    }}
+                  </span>
+                </h2>
+
+                <div>
+                  <CommonAlert
+                    v-if="cryptocurrency.orders.length < 1"
+                    :type="'info'"
+                    :message="
+                      $t('pages.cryptocurrency.detail.orders.empty').toString()
+                    "
+                  />
+
+                  <ul
+                    v-else
+                    role="list"
+                    class="divide-y divide-gray-100 rounded-md border border-gray-200"
+                  >
+                    <li
+                      v-for="order in cryptocurrency.orders"
+                      :key="order.id"
+                      class="flex items-center space-x-2 py-2 px-3"
+                    >
+                      <div>
+                        <OrderSideBadge :side="order.side" />
+                      </div>
+
+                      <div>
+                        <PairBadge :symbol="order.pair.symbol" />
+                      </div>
+
+                      <div class="flex items-center space-x-1 text-sm">
+                        <span>
+                          {{
+                            formatCryptocurrency(
+                              order.quoteQuantity,
+                              order.pair.quoteCurrency.symbol
+                            )
+                          }}
+                        </span>
+                        <span>
+                          <svg
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="h-4 w-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                            />
+                          </svg>
+                        </span>
+                        <span>
+                          {{
+                            formatCryptocurrency(
+                              order.baseQuantity,
+                              order.pair.baseCurrency.symbol
+                            )
+                          }}
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <!-- news -->
             <div
               class="overflow-hidden rounded bg-white shadow-sm shadow ring-1 ring-gray-200 sm:rounded-lg md:rounded-lg"
@@ -646,12 +763,15 @@ import { CryptocurrencyDetail } from '~/types/http/Entities'
 import { CryptocurrencyShowResponse } from '~/types/http/Responses'
 import { getWhaleAlertTransactionHasHref } from '~/helpers'
 import { useFormat } from '~/composables/format'
+import { useRedirect } from '~/composables/redirect'
+import { ORDER_SIDE } from '~/enums/order/OrderSide'
 
 type PriceColor = -1 | 0 | 1
 
 const { formatCurrency, formatCryptocurrency, formatNumber } = useFormat()
 const { $repositories, $toast, i18n } = useContext()
 const route = useRoute()
+const { redirect } = useRedirect()
 
 const cryptocurrency = ref<null | CryptocurrencyDetail>(null)
 const id = parseInt(route.value.params.id)
@@ -660,14 +780,14 @@ const price = ref<number | null>(null)
 const priceColor = ref<PriceColor>(0)
 const priceInterval = ref<number | null>(null)
 
-const data = useAsync<CryptocurrencyShowResponse>(async () => {
+const response = useAsync<CryptocurrencyShowResponse>(async () => {
   return await $repositories.cryptocurrency
     .show(id)
     .then((response) => response.data)
 }, `cryptocurrency-${id}`)
 
 watch(
-  () => data.value,
+  () => response.value,
   function (val: CryptocurrencyShowResponse | null): void {
     cryptocurrency.value = val?.data?.cryptocurrency || null
     price.value = val?.data?.cryptocurrency?.quote?.price || null
@@ -704,6 +824,32 @@ async function updatePrice(): Promise<void> {
       title: i18n.t('toasts.common.somethingWentWrong').toString()
     })
   }
+}
+
+async function redirectToBuy(): Promise<void> {
+  if (!cryptocurrency.value) {
+    return
+  }
+
+  await redirect({
+    path: `/app/cryptocurrencies/order/${cryptocurrency.value.currency.id}`,
+    query: {
+      side: ORDER_SIDE.BUY
+    }
+  })
+}
+
+async function redirectToSell(): Promise<void> {
+  if (!cryptocurrency.value) {
+    return
+  }
+
+  await redirect({
+    path: `/app/cryptocurrencies/order/${cryptocurrency.value.currency.id}`,
+    query: {
+      side: ORDER_SIDE.SELL
+    }
+  })
 }
 
 onMounted(() => {

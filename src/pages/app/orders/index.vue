@@ -5,11 +5,11 @@
       <h2
         class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight"
       >
-        {{ $t('pages.whaleAlerts.title') }}
+        {{ $t('pages.orders.title') }}
       </h2>
     </div>
 
-    <WhaleAlertTable />
+    <OrderTable />
   </div>
 </template>
 
@@ -17,7 +17,7 @@
 
 <script lang="ts">
 export default {
-  name: 'AppWhaleAlertsPage',
+  name: 'AppOrdersPagePage',
   layout: 'app'
 }
 </script>

@@ -226,7 +226,9 @@
                   v-model="form.data.marketCap.microEnabled"
                   :name="'marketCap[microEnabled]'"
                   :label="
-                    $t('forms.user.settings.limits.marketCap.micro').toString()
+                    $t(
+                      'models.currency.marketCapCategory.long.micro'
+                    ).toString()
                   "
                   :disabled="lock && !lock.enabled"
                   :error="fieldError('marketCap.microEnabled')"
@@ -237,7 +239,7 @@
                 v-model="form.data.marketCap.micro"
                 :name="'marketCap[micro]'"
                 :label="
-                  $t('forms.user.settings.limits.marketCap.micro').toString()
+                  $t('models.currency.marketCapCategory.long.micro').toString()
                 "
                 :min="0"
                 :max="100"
@@ -265,7 +267,9 @@
                   v-model="form.data.marketCap.smallEnabled"
                   :name="'marketCap[smallEnabled]'"
                   :label="
-                    $t('forms.user.settings.limits.marketCap.small').toString()
+                    $t(
+                      'models.currency.marketCapCategory.long.small'
+                    ).toString()
                   "
                   :disabled="lock && !lock.enabled"
                   :error="fieldError('marketCap.smallEnabled')"
@@ -276,7 +280,7 @@
                 v-model="form.data.marketCap.small"
                 :name="'marketCap[small]'"
                 :label="
-                  $t('forms.user.settings.limits.marketCap.small').toString()
+                  $t('models.currency.marketCapCategory.long.small').toString()
                 "
                 :min="0"
                 :max="100"
@@ -304,7 +308,7 @@
                   v-model="form.data.marketCap.midEnabled"
                   :name="'marketCap[midEnabled]'"
                   :label="
-                    $t('forms.user.settings.limits.marketCap.mid').toString()
+                    $t('models.currency.marketCapCategory.long.mid').toString()
                   "
                   :disabled="lock && !lock.enabled"
                   :error="fieldError('marketCap.midEnabled')"
@@ -315,7 +319,7 @@
                 v-model="form.data.marketCap.mid"
                 :name="'marketCap[mid]'"
                 :label="
-                  $t('forms.user.settings.limits.marketCap.mid').toString()
+                  $t('models.currency.marketCapCategory.long.mid').toString()
                 "
                 :min="0"
                 :max="100"
@@ -343,7 +347,9 @@
                   v-model="form.data.marketCap.largeEnabled"
                   :name="'marketCap[largeEnabled]'"
                   :label="
-                    $t('forms.user.settings.limits.marketCap.large').toString()
+                    $t(
+                      'models.currency.marketCapCategory.long.large'
+                    ).toString()
                   "
                   :disabled="lock && !lock.enabled"
                   :error="fieldError('marketCap.largeEnabled')"
@@ -354,7 +360,7 @@
                 v-model="form.data.marketCap.large"
                 :name="'marketCap[large]'"
                 :label="
-                  $t('forms.user.settings.limits.marketCap.large').toString()
+                  $t('models.currency.marketCapCategory.long.large').toString()
                 "
                 :min="0"
                 :max="100"
@@ -382,7 +388,7 @@
                   v-model="form.data.marketCap.megaEnabled"
                   :name="'marketCap[megaEnabled]'"
                   :label="
-                    $t('forms.user.settings.limits.marketCap.mega').toString()
+                    $t('models.currency.marketCapCategory.long.mega').toString()
                   "
                   :disabled="lock && !lock.enabled"
                   :error="fieldError('marketCap.megaEnabled')"
@@ -393,7 +399,7 @@
                 v-model="form.data.marketCap.mega"
                 :name="'marketCap[mega]'"
                 :label="
-                  $t('forms.user.settings.limits.marketCap.mega').toString()
+                  $t('models.currency.marketCapCategory.long.mega').toString()
                 "
                 :min="0"
                 :max="100"

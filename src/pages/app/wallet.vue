@@ -22,10 +22,22 @@
       :message="$t('pages.wallet.unsupportedAssetsAlert').toString()"
     />
 
+    <div
+      class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8"
+    >
+      <FormInput
+        v-model="search"
+        :label="$t('pages.wallet.search').toString()"
+        :type="'search'"
+        :name="'search'"
+        :placeholder="'BTC'"
+      />
+    </div>
+
     <div>
       <!-- loading spinner -->
       <div
-        v-if="assets === null"
+        v-if="visibleAssets === null"
         class="flex items-center justify-center rounded border-2 border-dashed border-indigo-50 p-5 md:rounded-lg"
       >
         <CommonSpinner :type="'primary'" :size="10" />
@@ -37,7 +49,7 @@
         class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8"
       >
         <li
-          v-for="asset in assets"
+          v-for="asset in visibleAssets"
           :key="asset.id"
           :class="[
             'relative overflow-hidden rounded-xl border-2 border-gray-200 bg-white',
@@ -130,7 +142,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useAsync, useContext, watch } from '@nuxtjs/composition-api'
+import {
+  computed,
+  ref,
+  useAsync,
+  useContext,
+  watch
+} from '@nuxtjs/composition-api'
 import { AssetIndexResponse } from '~/types/http/Responses'
 import { Asset } from '~/types/http/Entities'
 import { useFormat } from '~/composables/format'
@@ -141,7 +159,39 @@ const { formatCryptocurrency, formatCurrency } = useFormat()
 const { getUser } = useUser()
 
 const user = getUser()
+const search = ref<string | null>(null)
 const assets = ref<Asset[] | null>(null)
+
+const visibleAssets = computed<Asset[] | null>(() => {
+  if (!assets.value) {
+    return null
+  }
+
+  if (!search.value) {
+    return assets.value
+  }
+
+  return assets.value.filter((asset) => {
+    if (asset.currencySymbol) {
+      return asset.currencySymbol
+        .toLowerCase()
+        .includes((search.value as string).toLowerCase())
+    }
+
+    if (asset.currency) {
+      return (
+        asset.currency.symbol
+          .toLowerCase()
+          .includes((search.value as string).toLowerCase()) ||
+        asset.currency.name
+          .toLowerCase()
+          .includes((search.value as string).toLowerCase())
+      )
+    }
+
+    return true
+  })
+})
 
 const response = useAsync<AssetIndexResponse>(async () => {
   return await $repositories.userAsset.index().then((response) => response.data)

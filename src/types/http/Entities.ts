@@ -3,6 +3,9 @@ import { NOTIFICATION_TYPE } from '~/enums/notifications/NotificationType'
 import { NOTIFICATION_DOMAIN } from '~/enums/notifications/NotificationDomain'
 import { LIMITS_NOTIFICATION_PERIOD } from '~/enums/settings/LimitsNotificationPeriodEnum'
 import { CURRENCY_SYMBOL } from '~/enums/common/Currency'
+import { ORDER_SIDE } from '~/enums/order/OrderSide'
+import { ORDER_STATUS } from '~/enums/order/OrderStatus'
+import { MARKET_CAP_CATEGORY } from '~/enums/currency/MarketCapCategory'
 
 export interface PaginationMeta {
   currentPage: number
@@ -74,12 +77,16 @@ export interface Currency {
   symbol: CURRENCY_SYMBOL
   name: string
   isFiat: boolean
+  marketCapCategory: MARKET_CAP_CATEGORY | null
   meta: { [key: string]: any }
 }
 
 export interface CurrencyWithPivot extends Currency {
   pivot: {
     symbol: string
+    minQuantity: number | null
+    maxQuantity: number | null
+    stepSize: number | null
   }
 }
 
@@ -248,9 +255,33 @@ export interface News {
   sourceUrl: string
 }
 
+export interface CurrencyPair {
+  id: number
+  symbol: string
+  baseCurrency?: Currency
+  quoteCurrency?: Currency
+}
+
+export interface Order {
+  id: number
+  binanceUuid: string
+  binanceId: number
+  userId: number
+  pairId: number
+  side: ORDER_SIDE
+  status: ORDER_STATUS
+  baseQuantity: number
+  quoteQuantity: number
+  price: number
+  pair?: CurrencyPair
+  createdAt: string
+  updatedAt: string
+}
+
 export interface CryptocurrencyList {
   currency: Currency
   quote: Quote
+  userAsset: SupportedAsset | null
 }
 
 export interface CryptocurrencyDetail {
@@ -258,5 +289,6 @@ export interface CryptocurrencyDetail {
   quote: Quote
   userAsset: Asset | null
   news: News[]
+  orders: Order[]
   whaleAlerts: WhaleAlert[] | null // null if currency does not support whale alerts
 }

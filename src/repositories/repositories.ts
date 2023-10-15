@@ -10,6 +10,7 @@ import CryptocurrencyRepository from '~/repositories/CryptocurrencyRepository'
 import UserSettingsRepository from '~/repositories/UserSettingsRepository'
 import UserAssetRepository from '~/repositories/UserAssetRepository'
 import WhaleAlertRepository from '~/repositories/WhaleAlertRepository'
+import OrderRepository from '~/repositories/OrderRepository'
 
 export interface Repositories {
   auth: AuthRepository
@@ -23,6 +24,7 @@ export interface Repositories {
   search: SearchRepository
   cryptocurrency: CryptocurrencyRepository
   whaleAlert: WhaleAlertRepository
+  order: OrderRepository
 }
 
 export function createRepositories(ctx: Context): Repositories {
@@ -40,6 +42,7 @@ export function createRepositories(ctx: Context): Repositories {
     dashboard: new DashboardRepository(ctx, '/api/dashboard'),
     search: new SearchRepository(ctx, '/api/search'),
     cryptocurrency: new CryptocurrencyRepository(ctx, '/api/cryptocurrencies'),
-    whaleAlert: new WhaleAlertRepository(ctx, '/api/whale-alerts')
+    whaleAlert: new WhaleAlertRepository(ctx, '/api/whale-alerts'),
+    order: new OrderRepository(ctx, '/api/orders')
   }
 }

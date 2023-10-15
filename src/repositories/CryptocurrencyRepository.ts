@@ -3,7 +3,9 @@ import { BaseRepository } from '~/repositories/BaseRepository'
 import {
   CryptocurrencyIndexResponse,
   CryptocurrencyQuoteResponse,
-  CryptocurrencyShowResponse
+  CryptocurrencyTradeResponse,
+  CryptocurrencyShowResponse,
+  CryptocurrencySymbolPriceResponse
 } from '~/types/http/Responses'
 
 export default class CryptocurrencyRepository extends BaseRepository {
@@ -28,6 +30,20 @@ export default class CryptocurrencyRepository extends BaseRepository {
   quote(id: number): Promise<AxiosResponse<CryptocurrencyQuoteResponse>> {
     return this.ctx.$axios.get<CryptocurrencyQuoteResponse>(
       `${this.prefix}/${id}/quote`
+    )
+  }
+
+  trade(id: number): Promise<AxiosResponse<CryptocurrencyTradeResponse>> {
+    return this.ctx.$axios.get<CryptocurrencyTradeResponse>(
+      `${this.prefix}/${id}/trade`
+    )
+  }
+
+  symbolPrice(
+    symbol: string
+  ): Promise<AxiosResponse<CryptocurrencySymbolPriceResponse>> {
+    return this.ctx.$axios.get<CryptocurrencySymbolPriceResponse>(
+      `${this.prefix}/${symbol}/price`
     )
   }
 }

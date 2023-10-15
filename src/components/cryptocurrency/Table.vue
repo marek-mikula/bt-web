@@ -33,6 +33,12 @@
       </div>
     </template>
 
+    <template #body-owned="{ item }">
+      {{
+        formatCryptocurrency(item.userAsset?.balance ?? 0, item.currency.symbol)
+      }}
+    </template>
+
     <template #body-price="{ item }">
       {{ formatCurrency(item.quote.price, item.quote.currency) }}
     </template>
@@ -50,7 +56,14 @@
     </template>
 
     <template #body-marketCap="{ item }">
-      {{ formatCurrency(item.quote.marketCap, item.quote.currency) }}
+      <div class="flex items-center">
+        {{ formatCurrency(item.quote.marketCap, item.quote.currency) }}
+        <CryptocurrencyMarketCapCategoryBadge
+          v-if="item.currency.marketCapCategory"
+          class="ml-2"
+          :category="item.currency.marketCapCategory"
+        />
+      </div>
     </template>
 
     <template #body-volume24h="{ item }">
@@ -105,6 +118,11 @@ const config = ref<TableConfig>({
         'whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6',
       bodyColClass:
         'whitespace-nowrap text-left py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6'
+    },
+    {
+      key: 'owned',
+      attribute: 'userAsset.balance',
+      label: 'pages.cryptocurrency.list.table.owned'
     },
     {
       key: 'price',
