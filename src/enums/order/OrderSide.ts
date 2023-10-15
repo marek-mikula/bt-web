@@ -1,4 +1,4 @@
-export enum ORDER_TYPE {
+export enum ORDER_SIDE {
   BUY = 'BUY',
   SELL = 'SELL'
 }

@@ -3,7 +3,7 @@ import { NOTIFICATION_TYPE } from '~/enums/notifications/NotificationType'
 import { NOTIFICATION_DOMAIN } from '~/enums/notifications/NotificationDomain'
 import { LIMITS_NOTIFICATION_PERIOD } from '~/enums/settings/LimitsNotificationPeriodEnum'
 import { CURRENCY_SYMBOL } from '~/enums/common/Currency'
-import { ORDER_TYPE } from '~/enums/order/OrderType'
+import { ORDER_SIDE } from '~/enums/order/OrderSide'
 import { ORDER_STATUS } from '~/enums/order/OrderStatus'
 import { MARKET_CAP_CATEGORY } from '~/enums/currency/MarketCapCategory'
 
@@ -278,11 +278,16 @@ export interface CurrencyPair {
 
 export interface Order {
   id: number
-  binanceId: string
+  binanceUuid: string
+  binanceId: number
   userId: number
   pairId: number
-  type: ORDER_TYPE
+  side: ORDER_SIDE
   status: ORDER_STATUS
-  quantity: number
+  baseQuantity: number
+  quoteQuantity: number
+  price: number
   pair?: CurrencyPair
+  createdAt: string
+  updatedAt: string
 }

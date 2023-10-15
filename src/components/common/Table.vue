@@ -104,12 +104,8 @@
         </button>
       </div>
       <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
-          <i18n
-            path="common.table.results"
-            tag="p"
-            class="text-sm text-gray-700"
-          >
+        <div class="text-sm text-gray-700">
+          <i18n v-if="pagination.total > 0" path="common.table.results" tag="p">
             <template #from>
               <span class="font-semibold">
                 {{ pagination.from }}

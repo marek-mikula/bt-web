@@ -162,6 +162,7 @@ import { useLoading } from '~/composables/loading'
 import { RESPONSE_CODE } from '~/enums/http/responses/ResponseCode'
 import { OrderForm } from '~/types/forms/Order'
 import { useRedirect } from '~/composables/redirect'
+import { ORDER_SIDE } from '~/enums/order/OrderSide'
 
 const { $repositories, $toast, i18n, $_ } = useContext()
 const route = useRoute()
@@ -173,6 +174,7 @@ const { redirect } = useRedirect()
 const form = createForm<OrderForm>({
   symbol: null,
   quantity: 0,
+  side: ORDER_SIDE.BUY,
   ignoreLimitsValidation: false
 })
 
@@ -288,7 +290,7 @@ async function buy(): Promise<void> {
   setIsLoading(true)
 
   try {
-    await $repositories.order.buy(form.data)
+    await $repositories.order.place(form.data)
 
     clearErrors()
 
