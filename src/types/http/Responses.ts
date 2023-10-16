@@ -131,7 +131,7 @@ export interface CryptocurrencyTradeResponse extends JsonResponse {
   }
 }
 
-export interface CryptocurrencySymbolPriceResponse extends JsonResponse {
+export interface PairPriceResponse extends JsonResponse {
   code: RESPONSE_CODE.OK
   data: {
     price: number

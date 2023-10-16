@@ -11,6 +11,7 @@ import UserSettingsRepository from '~/repositories/UserSettingsRepository'
 import UserAssetRepository from '~/repositories/UserAssetRepository'
 import WhaleAlertRepository from '~/repositories/WhaleAlertRepository'
 import OrderRepository from '~/repositories/OrderRepository'
+import PairRepository from '~/repositories/PairRepository'
 
 export interface Repositories {
   auth: AuthRepository
@@ -23,6 +24,7 @@ export interface Repositories {
   dashboard: DashboardRepository
   search: SearchRepository
   cryptocurrency: CryptocurrencyRepository
+  pair: PairRepository
   whaleAlert: WhaleAlertRepository
   order: OrderRepository
 }
@@ -31,17 +33,21 @@ export function createRepositories(ctx: Context): Repositories {
   return {
     auth: new AuthRepository(ctx, '/api/auth'),
     mfa: new MfaRepository(ctx, '/api/mfa'),
-    passwordReset: new PasswordResetRepository(ctx, '/api/password-reset'),
+    passwordReset: new PasswordResetRepository(ctx, '/api/password-resets'),
     quiz: new QuizRepository(ctx, '/api/quiz'),
     userNotification: new UserNotificationRepository(
       ctx,
-      '/api/user/notifications'
+      '/api/users/notifications'
     ),
-    userSettings: new UserSettingsRepository(ctx, '/api/user/settings'),
-    userAsset: new UserAssetRepository(ctx, '/api/user/assets'),
+    userSettings: new UserSettingsRepository(ctx, '/api/users/settings'),
+    userAsset: new UserAssetRepository(ctx, '/api/users/assets'),
     dashboard: new DashboardRepository(ctx, '/api/dashboard'),
     search: new SearchRepository(ctx, '/api/search'),
-    cryptocurrency: new CryptocurrencyRepository(ctx, '/api/cryptocurrencies'),
+    cryptocurrency: new CryptocurrencyRepository(
+      ctx,
+      '/api/currencies/cryptocurrencies'
+    ),
+    pair: new PairRepository(ctx, '/api/currencies/pairs'),
     whaleAlert: new WhaleAlertRepository(ctx, '/api/whale-alerts'),
     order: new OrderRepository(ctx, '/api/orders')
   }

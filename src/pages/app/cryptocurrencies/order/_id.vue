@@ -249,8 +249,8 @@ async function loadPrice(symbol: string): Promise<void> {
   setIsLoading(true)
 
   try {
-    price.value = await $repositories.cryptocurrency
-      .symbolPrice(symbol)
+    price.value = await $repositories.pair
+      .price(symbol)
       .then((response) => response.data.data.price)
   } catch (e: any) {
     $toast.error({
