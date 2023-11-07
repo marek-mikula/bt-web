@@ -26,12 +26,19 @@ export function useUser() {
     )
   }
 
-  async function logout(): Promise<void> {
-    await $repositories.auth.logout()
+  async function logout(
+    withRequest: boolean = true,
+    withMessage: boolean = true
+  ): Promise<void> {
+    if (withRequest) {
+      await $repositories.auth.logout()
+    }
 
-    $toast.success({
-      title: i18n.t('toasts.logout.success').toString()
-    })
+    if (withMessage) {
+      $toast.success({
+        title: i18n.t('toasts.logout.success').toString()
+      })
+    }
 
     // clear data from store
     await store.dispatch('auth/clear')

@@ -12,12 +12,14 @@ import UserAssetRepository from '~/repositories/UserAssetRepository'
 import WhaleAlertRepository from '~/repositories/WhaleAlertRepository'
 import OrderRepository from '~/repositories/OrderRepository'
 import PairRepository from '~/repositories/PairRepository'
+import UserRepository from '~/repositories/UserRepository'
 
 export interface Repositories {
   auth: AuthRepository
   mfa: MfaRepository
   passwordReset: PasswordResetRepository
   quiz: QuizRepository
+  user: UserRepository
   userNotification: UserNotificationRepository
   userSettings: UserSettingsRepository
   userAsset: UserAssetRepository
@@ -35,6 +37,7 @@ export function createRepositories(ctx: Context): Repositories {
     mfa: new MfaRepository(ctx, '/api/mfa'),
     passwordReset: new PasswordResetRepository(ctx, '/api/password-resets'),
     quiz: new QuizRepository(ctx, '/api/quiz'),
+    user: new UserRepository(ctx, '/api/users'),
     userNotification: new UserNotificationRepository(
       ctx,
       '/api/users/notifications'

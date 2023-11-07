@@ -205,6 +205,51 @@
           </div>
         </form>
       </div>
+
+      <div class="grid grid-cols-1 gap-x-8 gap-y-4 pt-10 md:grid-cols-4">
+        <div>
+          <h2 class="text-base font-semibold leading-7 text-gray-900">
+            {{ $t('pages.user.settings.account.deleteAccount') }}
+          </h2>
+        </div>
+
+        <form
+          method="POST"
+          class="rounded-md bg-white shadow-sm shadow-sm ring-1 ring-gray-200 md:col-span-3"
+          @submit.prevent="deleteAccount"
+        >
+          <div class="px-4 py-6 sm:p-8">
+            <div
+              class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
+            >
+              <FormInput
+                v-model="deleteAccountForm.data.password"
+                :name="'password'"
+                :type="'password'"
+                :label="
+                  $t(
+                    'forms.user.settings.account.deleteAccount.password'
+                  ).toString()
+                "
+                :error="fieldError('deleteAccount', 'password')"
+                class="col-span-full"
+                required
+              />
+            </div>
+          </div>
+          <div
+            class="flex items-center justify-end gap-x-2 border-t border-gray-200 px-4 py-4 sm:px-8 lg:justify-start"
+          >
+            <CommonButton
+              :label="$t('common.buttons.delete').toString()"
+              :type="'submit'"
+              :size="4"
+              :color="'danger'"
+              :is-loading="isLoading.deleteAccount"
+            />
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -214,6 +259,7 @@ import { useContext } from '@nuxtjs/composition-api'
 import { AxiosResponse } from 'axios'
 import { useDomainForm, useFormData } from '~/composables/forms/form'
 import {
+  DeleteAccountForm,
   SettingsAccountKeysForm,
   SettingsAccountPasswordForm,
   SettingsAccountPersonalForm
@@ -227,8 +273,8 @@ const context = useContext()
 const { $repositories, $toast, i18n, store } = context
 
 const { fieldError, clearErrors, parseErrors } = useDomainForm<
-  ['personal', 'password', 'keys']
->(['personal', 'password', 'keys'])
+  ['personal', 'password', 'keys', 'deleteAccount']
+>(['personal', 'password', 'keys', 'deleteAccount'])
 
 const { createForm } = useFormData()
 
@@ -236,13 +282,15 @@ const { isLoading, setIsLoading } = useDomainLoading<{
   personal: boolean
   password: boolean
   keys: boolean
+  deleteAccount: boolean
 }>({
   personal: false,
   password: false,
-  keys: false
+  keys: false,
+  deleteAccount: false
 })
 
-const { getUser } = useUser()
+const { getUser, logout } = useUser()
 const user = getUser()
 
 const personalForm = createForm<SettingsAccountPersonalForm>({
@@ -260,6 +308,10 @@ const passwordForm = createForm<SettingsAccountPasswordForm>({
 const keysForm = createForm<SettingsAccountKeysForm>({
   publicKey: null,
   secretKey: null
+})
+
+const deleteAccountForm = createForm<DeleteAccountForm>({
+  password: null
 })
 
 async function savePersonalForm(): Promise<void> {
@@ -367,6 +419,46 @@ async function saveKeysForm(): Promise<void> {
     })
   } finally {
     setIsLoading('keys', false)
+  }
+}
+
+async function deleteAccount(): Promise<void> {
+  setIsLoading('deleteAccount', true)
+
+  try {
+    await $repositories.user.delete(deleteAccountForm.data)
+
+    clearErrors('deleteAccount')
+
+    $toast.success({
+      title: i18n
+        .t('toasts.user.settings.account.deleteAccount.success')
+        .toString()
+    })
+
+    deleteAccountForm.reset()
+
+    await logout(false, false)
+  } catch (e: any) {
+    const response: AxiosResponse<JsonResponse> = e.response
+
+    if (response.data.code === RESPONSE_CODE.INVALID_CONTENT) {
+      parseErrors('deleteAccount', response.data as InvalidContentResponse)
+
+      $toast.error({
+        title: i18n.t('toasts.common.formErrors').toString()
+      })
+
+      return
+    }
+
+    clearErrors('deleteAccount')
+
+    $toast.error({
+      title: i18n.t('toasts.common.somethingWentWrong').toString()
+    })
+  } finally {
+    setIsLoading('deleteAccount', false)
   }
 }
 </script>

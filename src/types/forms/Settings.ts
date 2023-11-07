@@ -14,3 +14,7 @@ export interface SettingsAccountKeysForm {
   publicKey: string | null
   secretKey: string | null
 }
+
+export interface DeleteAccountForm {
+  password: string | null
+}
